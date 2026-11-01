@@ -1,11 +1,11 @@
 {
   "identity": {
     "nama": "Sayid Abdul Aziz",
-    "nim": "2425050522",
+    "nim": "242505022",
     "profesi": "Information Systems Student",
-    "kampus": "Universitas Ma'soem (2023 – Sekarang)",
+    "kampus": "S1 Sistem Informasi, Fakultas Komputer • Universitas Ma'soem",
     "lokasi": "Rancaekek, Kabupaten Bandung, Jawa Barat",
-    "lokasiSingkat": "Rancaekek, Kab. Bandung",
+    "lokasiSingkat": "Rancaekek, Bandung",
     "email": "sayidaziz35@gmail.com",
     "telepon": "0812-1370-6230",
     "foto": "assets/profile.jpg",
@@ -15,24 +15,96 @@
   "quickStats": [
     {
       "id": "stat-projects",
-      "value": "4+",
+      "value": "6+",
       "label": "Projects",
       "subtext": "Web, Desktop & Mobile",
       "icon": "code-slash-outline"
     },
     {
-      "id": "stat-experiences",
-      "value": "4",
-      "label": "Experiences",
-      "subtext": "Kerja & Volunteer",
-      "icon": "briefcase-outline"
+      "id": "stat-research",
+      "value": "1",
+      "label": "Journal",
+      "subtext": "Publikasi & Riset",
+      "icon": "document-text-outline"
     },
     {
       "id": "stat-achievement",
       "value": "7 Juz",
-      "label": "Achievement",
-      "subtext": "Tahfidz Al-Qur'an",
+      "label": "Tahfidz",
+      "subtext": "Hafalan Al-Qur'an",
       "icon": "book-outline"
+    }
+  ],
+  "competencies": [
+    {
+      "id": "comp-web",
+      "title": "Web Development",
+      "icon": "globe-outline",
+      "description": "Pengembangan portal informasi dan sistem berbasis web responsif menggunakan HTML & CSS, PHP & Laravel, FilamentPHP, serta MySQL."
+    },
+    {
+      "id": "comp-desktop-mobile",
+      "title": "Desktop, Database & Mobile Dev",
+      "icon": "laptop-outline",
+      "description": "Pengembangan aplikasi desktop berbasis Java Swing (OOP) + Oracle PL/SQL dan VB.NET + Crystal Report, serta mobile React Native (Expo)."
+    },
+    {
+      "id": "comp-sys-media",
+      "title": "System Analysis, Testing & Media",
+      "icon": "analytics-outline",
+      "description": "Pemodelan proses bisnis BPMN 2.0, UML, DFD & ERD, pengujian Black Box & UAT, serta desain publikasi dengan Canva dan Figma."
+    }
+  ],
+  "currentWork": {
+    "id": "work-simts",
+    "label": "🚀 CURRENTLY WORKING ON (OKTOBER 2026)",
+    "status": "On-Progress",
+    "title": "SIMTS — Sistem Informasi Manajemen Tahfidz Al-Qur'an Berbasis Web",
+    "client": "Rumah Qur'an Qurtuba",
+    "roleContext": "MK Testing & Implementasi SI — Universitas Ma'soem | Kelompok 1 (Lead: Sayid Abdul Aziz)",
+    "summary": "Pengembangan sistem web mobile-friendly untuk memantau setoran Al-Qur'an, hadis/kitab, >20 butir mutaba'ah harian, presensi halaqah, poin kedisiplinan, dan rapor daring wali santri bagi ~30 santri beasiswa & ~15 pengajar.",
+    "techStack": [
+      "Web Responsive",
+      "BPMN 2.0",
+      "UML (Use Case & Class)",
+      "Black Box & UAT",
+      "Parallel Operation"
+    ]
+  },
+  "publications": [
+    {
+      "id": "pub-sipeda",
+      "badge": "Journal & Research",
+      "actionLabel": "Baca Abstrak",
+      "title": "Rancang Bangun Sistem Informasi Penjualan dan Pembelian pada Warung Bu Dada (SIPEDA)",
+      "author": "Sayid Abdul Aziz (NIM 242505022)",
+      "affiliation": "S1 Sistem Informasi, Fakultas Komputer, Universitas Ma'soem",
+      "methodLabel": "Metode",
+      "method": "SDLC Waterfall (Analisis, Desain DFD & ERD, Implementasi, Black Box Testing)",
+      "techStack": ["Visual Basic .NET", "MySQL", "ODBC", "Crystal Report"],
+      "abstract": "Merancang dan membangun aplikasi desktop SIPEDA untuk mengatasi kendala pencatatan manual pada Warung Bu Dada, mencakup manajemen stok barang otomatis, transaksi jual-beli, penomoran nota otomatis, serta pelaporan periodik (per nota, harian, mingguan, bulanan)."
+    },
+    {
+      "id": "pub-quranku",
+      "badge": "Final Project • Oracle PL/SQL",
+      "actionLabel": "Lihat Detail",
+      "title": "Aplikasi Manajemen Progres Tahfidz Al-Qur'an (Quran ku)",
+      "author": "Sayid Abdul Aziz (NIM 242505022)",
+      "affiliation": "MK Pemrograman Database (PL/SQL) — Dosen: Utami Aryanti, S.T., M.Kom",
+      "methodLabel": "Arsitektur",
+      "method": "Java GUI (Swing OOP), JDBC, Oracle Database & PL/SQL Stored Procedure",
+      "techStack": [
+        "Java GUI",
+        "JDBC",
+        "Oracle Database",
+        "PL/SQL Stored Procedure"
+      ],
+      "abstract": "Final Project Mata Kuliah Pemrograman Database (PL/SQL) di Universitas Ma'soem yang mendigitalisasi pencatatan setoran Ziyadah, Murajaah, presensi, dan target hafalan santri menggunakan GUI Java Swing berbasis OOP yang terhubung ke Oracle Database (localhost:1521/FREE).",
+      "highlights": [
+        "6 Tabel Berelasi Oracle: SANTRI, USTADZ, SURAH (114 Surah), ZIYADAH, MURAJAAH, dan PRESENSI.",
+        "3 PL/SQL Stored Procedures: INPUT_ZIYADAH (SYSDATE & COMMIT atomik), UPDATE_TARGET_SANTRI, dan HAPUS_SETORAN.",
+        "Dashboard statistik real-time, proteksi Primary Key (GENERATED AS IDENTITY), validasi JComboBox, dan cetak laporan."
+      ]
     }
   ],
   "education": [
@@ -45,7 +117,7 @@
     {
       "id": "edu-2",
       "title": "Universitas Ma'soem",
-      "subtitle": "S1 Sistem Informasi",
+      "subtitle": "S1 Sistem Informasi — Fakultas Komputer",
       "period": "2023 – Sekarang"
     },
     {

@@ -1,64 +1,295 @@
 {
   "projects": [
     {
+      "id": "proj-simts",
+      "featured": true,
+      "status": "On-Progress",
+      "title": "SIMTS — Sistem Informasi Manajemen Tahfidz Al-Qur'an Berbasis Web",
+      "client": "Rumah Qur'an Qurtuba",
+      "category": "Web & System Analysis",
+      "context": "Proyek Mata Kuliah Testing dan Implementasi Sistem Informasi — Fakultas Komputer, Universitas Ma'soem (Oktober 2026) | Kelompok 1 (Lead: Sayid Abdul Aziz)",
+      "shortDescription": "Sistem informasi manajemen dan monitoring berbasis web mobile-friendly untuk memantau setoran hafalan Al-Qur'an, hadis/kitab, >20 butir mutaba'ah harian, presensi halaqah, poin kedisiplinan, serta akses rapor daring bagi wali santri.",
+      "fullDescription": "Sistem informasi manajemen dan monitoring berbasis web mobile-friendly pada Rumah Qur'an Qurtuba untuk memantau setoran hafalan Al-Qur'an, hadis/kitab, >20 butir mutaba'ah harian, presensi halaqah, poin kedisiplinan, serta akses rapor daring bagi wali santri.",
+      "techStack": [
+        "Web Responsive",
+        "BPMN 2.0",
+        "UML (Use Case & Class)",
+        "Black Box & UAT",
+        "System Implementation"
+      ],
+      "caseStudy": {
+        "client": "Rumah Qur'an Qurtuba",
+        "projectContext": "Proyek Mata Kuliah Testing dan Implementasi Sistem Informasi — Fakultas Komputer, Universitas Ma'soem (Oktober 2026) | Kelompok 1 (Lead: Sayid Abdul Aziz)",
+        "backgroundScale": "Rumah Qur'an Qurtuba membina ~30 santri beasiswa penuh dengan ~15 pengajar/pengurus (program 3 tahun: Tahsin & Tahfidz, 6–7 sesi halaqah/hari, serta ujian tertutup/imtihan tiap kelipatan 5 juz). Sistem ini menggantikan pencatatan buku fisik & kertas mutaba'ah yang rawan terselip.",
+        "requirementsTitle": "Pemodelan Proses Bisnis (BPMN) & UML",
+        "functionalRequirements": [
+          {
+            "code": "BPMN Pencatatan Setoran & Penilaian Hafalan",
+            "detail": "Validasi hak akses pengajar, input presensi halaqah, pencatatan setoran harian atau nilai ujian tasmi, kalkulasi progres juz otomatis, hingga akses laporan oleh Wali Santri."
+          },
+          {
+            "code": "BPMN Pencatatan Pelanggaran hingga Rapor Semester",
+            "detail": "Input pelanggaran santri, kalkulasi bobot poin & penetapan sanksi otomatis jika melampaui batas, serta rekapitulasi rapor semester untuk Admin dan Wali Santri."
+          },
+          {
+            "code": "UML Design",
+            "detail": "Pemetaan interaksi 3 aktor utama (Admin, Pengajar/Musyrif, Wali Santri) dalam Use Case Diagram dan struktur objek dalam Class Diagram."
+          }
+        ],
+        "implementationPlanTitle": "Rencana Testing & Implementasi (Sedang Berjalan)",
+        "implementationPlan": [
+          {
+            "code": "Testing",
+            "detail": "Fungsional (Black Box), User Acceptance Test (UAT), Kompatibilitas Perangkat Seluler (khusus akses Wali Santri), dan Keamanan Dasar."
+          },
+          {
+            "code": "Strategi Implementasi",
+            "detail": "Persiapan infrastruktur, migrasi data awal, pelatihan pengurus/asatidz, dan strategi transisi Operasi Paralel (kertas & digital)."
+          }
+        ]
+      }
+    },
+    {
+      "id": "proj-quranku",
+      "featured": true,
+      "status": "Completed",
+      "title": "Quran ku — Aplikasi Manajemen Progres Tahfidz Al-Qur'an",
+      "category": "Desktop & Database",
+      "context": "Final Project Mata Kuliah Pemrograman Database (PL/SQL) - Universitas Ma'soem (Dosen: Utami Aryanti, S.T., M.Kom)",
+      "shortDescription": "Aplikasi desktop manajemen halaqah tahfidz terintegrasi database Oracle dan PL/SQL Stored Procedure untuk mendigitalisasi pencatatan setoran Ziyadah, Murajaah, presensi, dan pemantauan target hafalan santri.",
+      "fullDescription": "Aplikasi desktop manajemen halaqah tahfidz yang dikembangkan sebagai Final Project Mata Kuliah Pemrograman Database (PL/SQL) di Fakultas Komputer Universitas Ma'soem untuk mendigitalisasi pencatatan setoran Ziyadah, Murajaah, presensi kehadiran, dan pemantauan target hafalan santri secara terintegrasi.",
+      "techStack": [
+        "Java Swing (OOP)",
+        "Oracle Database",
+        "PL/SQL",
+        "JDBC",
+        "Stored Procedure"
+      ],
+      "caseStudy": {
+        "projectContext": "Final Project Mata Kuliah Pemrograman Database (PL/SQL) - Universitas Ma'soem (Dosen: Utami Aryanti, S.T., M.Kom)",
+        "architecture": "Menggunakan konsep Object-Oriented Programming (OOP) dengan GUI Java Swing modern yang terhubung ke Oracle Database (localhost:1521/FREE) melalui driver JDBC (DatabaseConnection).",
+        "databaseTitle": "Perancangan Database Oracle (6 Tabel Berelasi)",
+        "databaseTables": [
+          {
+            "name": "SANTRI",
+            "detail": "ID Santri, Nama, Angkatan, Target Setoran Halaman"
+          },
+          {
+            "name": "USTADZ",
+            "detail": "Data pengajar/penguji & autentikasi"
+          },
+          {
+            "name": "SURAH",
+            "detail": "Referensi 114 Surah Al-Qur'an beserta jumlah ayat untuk validasi"
+          },
+          {
+            "name": "ZIYADAH",
+            "detail": "Transaksi setoran hafalan baru: Juz, Halaman, Ayat, Tanggal otomatis SYSDATE, Kualitas Bacaan"
+          },
+          {
+            "name": "MURAJAAH",
+            "detail": "Riwayat pengulangan hafalan & status kelancaran"
+          },
+          {
+            "name": "PRESENSI",
+            "detail": "Kehadiran santri: Hadir, Izin, Sakit, Alpha"
+          }
+        ],
+        "storedProceduresTitle": "Implementasi PL/SQL Stored Procedures",
+        "storedProcedures": [
+          {
+            "name": "INPUT_ZIYADAH",
+            "detail": "Mencatat setoran hafalan baru secara atomik dengan SYSDATE dan COMMIT."
+          },
+          {
+            "name": "UPDATE_TARGET_SANTRI",
+            "detail": "Memperbarui target halaman setoran santri berdasarkan parameter ID."
+          },
+          {
+            "name": "HAPUS_SETORAN",
+            "detail": "Menghapus riwayat setoran secara aman melalui parameter kunci."
+          }
+        ],
+        "requirementsTitle": "Fitur Utama Antarmuka",
+        "functionalRequirements": [
+          {
+            "code": "Dashboard Statistik Real-Time",
+            "detail": "Menampilkan ringkasan Total Santri, Setoran Baru, dan Rata-rata Target Hafalan secara langsung."
+          },
+          {
+            "code": "CRUD Data Santri Terproteksi",
+            "detail": "Pengelolaan data santri dengan proteksi Primary Key otomatis (GENERATED AS IDENTITY)."
+          },
+          {
+            "code": "Pencatatan Ziyadah & Murajaah",
+            "detail": "Input setoran baru dan pengulangan hafalan dilengkapi validasi surah menggunakan JComboBox."
+          },
+          {
+            "code": "Pelaporan Progres Tahfidz",
+            "detail": "Rekapitulasi riwayat setoran, presensi kehadiran halaqah, dan pencetakan laporan capaian santri."
+          }
+        ]
+      }
+    },
+    {
+      "id": "proj-sipeda",
+      "featured": true,
+      "status": "Completed",
+      "title": "SIPEDA — Sistem Informasi Penjualan & Pembelian Warung Bu Dada",
+      "client": "Warung Bu Dada",
+      "category": "Desktop & System Analysis",
+      "context": "Publikasi Jurnal Ilmiah — S1 Sistem Informasi, Universitas Ma'soem",
+      "shortDescription": "Aplikasi desktop terintegrasi untuk manajemen data master, transaksi penjualan & pembelian, kontrol stok otomatis, dan pencetakan laporan periodik.",
+      "fullDescription": "Merancang dan membangun aplikasi desktop SIPEDA untuk mengatasi kendala pencatatan manual pada Warung Bu Dada, mencakup manajemen stok barang otomatis, transaksi jual-beli, penomoran nota otomatis, serta pelaporan periodik (per nota, harian, mingguan, bulanan).",
+      "techStack": [
+        "Visual Basic .NET",
+        "MySQL",
+        "ODBC",
+        "Crystal Report",
+        "DFD & ERD"
+      ],
+      "caseStudy": {
+        "client": "Warung Bu Dada",
+        "sdlcMethod": "Waterfall (Requirements Analysis, System Design, Implementation, Black Box Testing).",
+        "systemModeling": "Flowmap prosedur bisnis, Diagram Konteks, DFD Level 0 & Level 1 (Proses Master, Transaksi, Laporan), ERD, dan Struktur Chart berjenjang.",
+        "databaseTitle": "Arsitektur Database MySQL (8 Tabel)",
+        "databaseTables": [
+          "tbl_admin",
+          "tbl_barang",
+          "tbl_pelanggan",
+          "tbl_supplier",
+          "tbl_jual",
+          "tbl_detailjual",
+          "tbl_beli",
+          "tbl_detailbeli"
+        ],
+        "requirementsTitle": "15 Kebutuhan Fungsional Utama",
+        "functionalRequirements": [
+          {
+            "code": "Master Data (DM-1.0)",
+            "detail": "Kelola Admin, Barang, Pelanggan, dan Supplier."
+          },
+          {
+            "code": "Transaksi (DT-2.0)",
+            "detail": "Penjualan & Pembelian dengan keranjang belanja, hitung subtotal/kembalian otomatis, penomoran nota otomatis, dan pembaruan stok real-time."
+          },
+          {
+            "code": "Laporan Crystal Report (DL-3.0)",
+            "detail": "Cetak struk/nota, Laporan Harian, Mingguan, dan Bulanan."
+          },
+          {
+            "code": "Utility (DU-4.0)",
+            "detail": "Keamanan Login multi-level dan Ganti Password Admin."
+          }
+        ],
+        "testingResult": "Lulus 11 skenario pengujian Black Box Testing (100% Valid)."
+      }
+    },
+    {
       "id": "proj-1",
+      "featured": true,
+      "status": "Completed",
       "title": "Web Profil & Admisi Miftahul Falah Ash-Shiddiqie",
+      "client": "Miftahul Falah Ash-Shiddiqie",
       "category": "Web Development",
       "shortDescription": "Portal informasi dan pendaftaran santri/siswa baru berbasis web.",
       "fullDescription": "Portal web profil lembaga pendidikan Miftahul Falah Ash-Shiddiqie yang terintegrasi dengan sistem admisi pendaftaran santri dan siswa baru secara daring serta panel pengelolaan data menggunakan FilamentPHP.",
-      "techStack": ["Laravel", "FilamentPHP", "Tailwind CSS"]
-    },
-    {
-      "id": "proj-2",
-      "title": "SIPEDA (Sistem Informasi Penjualan & Pembelian)",
-      "category": "Desktop App",
-      "shortDescription": "Aplikasi desktop pencatatan transaksi dan laporan stok Warung Bu Dada.",
-      "fullDescription": "Aplikasi desktop berbasis Visual Basic .NET dan database MySQL untuk membantu pengelolaan transaksi penjualan, pembelian barang, pemantauan stok, serta pencetakan laporan menggunakan Crystal Report pada Warung Bu Dada.",
-      "techStack": ["VB.NET", "MySQL", "Crystal Report"]
+      "techStack": ["Laravel", "FilamentPHP", "Tailwind CSS"],
+      "caseStudy": {
+        "client": "Miftahul Falah Ash-Shiddiqie",
+        "sdlcMethod": "Pengembangan web terstruktur berbasis framework MVC Laravel & panel admin FilamentPHP.",
+        "functionalRequirements": [
+          {
+            "code": "Profil Lembaga",
+            "detail": "Menampilkan informasi profil, program pendidikan, dan pengumuman kegiatan secara responsif."
+          },
+          {
+            "code": "Admisi Santri/Siswa Baru",
+            "detail": "Formulir pendaftaran daring terstruktur dan pengelolaan data pendaftar melalui dashboard FilamentPHP."
+          }
+        ]
+      }
     },
     {
       "id": "proj-3",
+      "status": "Completed",
       "title": "Aplikasi E-Commerce Mainan Edukasi",
       "category": "Mobile App",
       "shortDescription": "Katalog belanja permainan edukatif anak dengan database real-time.",
       "fullDescription": "Aplikasi mobile katalog belanja berbagai permainan edukatif anak yang dibangun menggunakan Kodular dan terhubung ke Firebase Realtime Database untuk sinkronisasi produk serta pesanan.",
-      "techStack": ["Kodular", "Firebase"]
+      "techStack": ["Kodular", "Firebase"],
+      "caseStudy": {
+        "sdlcMethod": "Rapid Prototyping berbasis blok visual Kodular dengan integrasi cloud real-time.",
+        "functionalRequirements": [
+          {
+            "code": "Katalog Produk Real-Time",
+            "detail": "Menampilkan daftar mainan edukatif anak beserta detail harga dan deskripsi langsung dari Firebase."
+          },
+          {
+            "code": "Pencatatan Pesanan",
+            "detail": "Pemilihan produk dan sinkronisasi data transaksi secara langsung ke database."
+          }
+        ]
+      }
     },
     {
       "id": "proj-4",
+      "status": "Completed",
       "title": "Personal CV & Academic Score App",
       "category": "Mobile App",
       "shortDescription": "Aplikasi portofolio digital mahasiswa dan pantauan capaian akademik.",
-      "fullDescription": "Aplikasi mobile lintas platform berbasis React Native dan Expo Router dengan desain Clean Dark Minimalist yang menyajikan data CV terstruktur dari JSON lokal, pantauan nilai akademik, serta penyimpanan pesan lokal.",
-      "techStack": ["React Native", "Expo", "JSON"]
+      "fullDescription": "Aplikasi mobile lintas platform berbasis React Native dan Expo Router dengan desain Clean Dark Minimalist yang menyajikan data CV terstruktur dari JSON lokal, publikasi riset, pantauan nilai akademik, serta penyimpanan pesan lokal.",
+      "techStack": ["React Native", "Expo", "JSON"],
+      "caseStudy": {
+        "sdlcMethod": "Modular Component Architecture dengan pemisahan data JSON, custom hooks, dan pengujian Jest.",
+        "functionalRequirements": [
+          {
+            "code": "CV & Research Showcase",
+            "detail": "Menampilkan profil, proyek aktif SIMTS, publikasi jurnal SIPEDA, Final Project Quran ku, dan keahlian teknis."
+          },
+          {
+            "code": "Academic Score & Local Persistence",
+            "detail": "Dashboard capaian nilai Pemrograman Mobile 2 serta penyimpanan pesan menggunakan AsyncStorage."
+          }
+        ],
+        "testingResult": "Seluruh unit test validasi form dan kalkulasi nilai lulus pengujian otomatis Jest."
+      }
     }
   ],
   "skillGroups": [
     {
-      "id": "grp-web-software",
-      "category": "Web & Software",
+      "id": "grp-db-programming",
+      "category": "Database & Programming",
       "skills": [
-        "HTML & CSS",
-        "PHP & MySQL",
-        "Laravel & FilamentPHP",
+        "Java (OOP & Swing)",
+        "Oracle Database & PL/SQL",
         "Visual Basic .NET",
-        "React Native (Expo)"
+        "PHP & Laravel",
+        "MySQL",
+        "React Native (Expo)",
+        "FilamentPHP & HTML/CSS",
+        "ODBC & Crystal Report"
       ]
     },
     {
-      "id": "grp-media-office",
-      "category": "Media & Office",
+      "id": "grp-sys-testing",
+      "category": "System Analysis & Testing",
+      "skills": [
+        "BPMN 2.0",
+        "UML (Use Case & Class)",
+        "DFD & ERD Modeling",
+        "Black Box Testing & UAT",
+        "System Implementation"
+      ]
+    },
+    {
+      "id": "grp-media-soft",
+      "category": "Media, Office & Soft Skills",
       "skills": [
         "Microsoft Office",
         "Canva Design",
         "Figma",
-        "Media Operator"
-      ]
-    },
-    {
-      "id": "grp-soft-skills",
-      "category": "Soft Skills",
-      "skills": [
+        "Media Operator",
         "Kerja Sama Tim",
         "Public Event Support",
         "Disiplin & Manajemen Waktu"

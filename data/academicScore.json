@@ -1,10 +1,11 @@
 {
   "academicSummary": {
     "studentName": "Sayid Abdul Aziz",
-    "nim": "2425050522",
+    "nim": "242505022",
     "programStudi": "S1 Sistem Informasi",
+    "fakultas": "Fakultas Komputer",
     "university": "Universitas Ma'soem",
-    "programCampus": "S1 Sistem Informasi • Universitas Ma'soem",
+    "programCampus": "S1 Sistem Informasi • Fakultas Komputer, Universitas Ma'soem",
     "role": "Information Systems Student",
     "courseName": "Pemrograman Mobile 2",
     "courseCode": "SI502",

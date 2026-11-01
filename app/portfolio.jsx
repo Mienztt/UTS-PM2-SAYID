@@ -42,11 +42,35 @@ export default function PortfolioScreen() {
     if (!normalizedQuery) return list;
 
     return list.filter((item) => {
+      const dbTexts = (item.caseStudy?.databaseTables || []).map((t) =>
+        typeof t === 'string' ? t : `${t.name} ${t.detail}`
+      );
+      const spTexts = (item.caseStudy?.storedProcedures || []).map(
+        (sp) => `${sp.name} ${sp.detail}`
+      );
+      const reqTexts = (item.caseStudy?.functionalRequirements || []).map(
+        (r) => `${r.code} ${r.detail}`
+      );
+      const planTexts = (item.caseStudy?.implementationPlan || []).map(
+        (p) => `${p.code} ${p.detail}`
+      );
+
       const haystack = [
         item.title,
+        item.client || '',
+        item.status || '',
         item.category,
+        item.context || '',
         item.shortDescription,
+        item.caseStudy?.backgroundScale || '',
+        item.caseStudy?.architecture || '',
+        item.caseStudy?.sdlcMethod || '',
+        item.caseStudy?.systemModeling || '',
         ...(item.techStack || []),
+        ...dbTexts,
+        ...spTexts,
+        ...reqTexts,
+        ...planTexts,
       ]
         .join(' ')
         .toLowerCase();
@@ -133,8 +157,8 @@ export default function PortfolioScreen() {
           onBlur={() => setSearchFocused(false)}
           placeholder={
             activeTab === 'projects'
-              ? 'Cari proyek atau teknologi (Laravel, VB.NET, Expo)...'
-              : 'Cari keahlian (PHP, Figma, Kerja Sama Tim)...'
+              ? 'Cari proyek atau teknologi (SIMTS, Oracle, VB.NET, Laravel)...'
+              : 'Cari keahlian (BPMN 2.0, PL/SQL, Figma, Kerja Sama Tim)...'
           }
           placeholderTextColor={colors.textMuted}
           style={[styles.searchInput, { color: colors.text }]}

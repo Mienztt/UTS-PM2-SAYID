@@ -7,9 +7,9 @@ Aplikasi mobile portofolio **Clean Dark Minimalist** dan dashboard capaian akade
 ## 1. Identitas Mahasiswa & CV Asli
 
 - **Nama Lengkap**: Sayid Abdul Aziz
-- **NIM**: `2425050522`
+- **NIM**: `242505022`
 - **Profesi**: Information Systems Student
-- **Kampus**: Universitas Ma'soem (`2023 – Sekarang`)
+- **Kampus**: S1 Sistem Informasi, Fakultas Komputer — Universitas Ma'soem (`2023 – Sekarang`)
 - **Lokasi**: Rancaekek, Kabupaten Bandung, Jawa Barat
 - **Email**: `sayidaziz35@gmail.com`
 - **Telepon / WhatsApp**: `0812-1370-6230`
@@ -39,15 +39,15 @@ personal-cv-app/
 │   └── profile.jpg          # Foto profil formal (ganti dengan foto CV asli Anda)
 ├── app/
 │   ├── _layout.jsx          # Header SayidDev. + Theme Toggle + Bottom Tabs
-│   ├── index.jsx            # Home: Hero CV, 3 StatCard, Timeline Education & Experience, Hobbies
+│   ├── index.jsx            # Home: Hero CV, Quick Stats, What I Do, Currently Working On (SIMTS), Research, Education & Experience
 │   ├── portfolio.jsx        # Portfolio: Search bar + 2 Tab bersih (Projects & Skills)
 │   ├── score.jsx            # My Score: Kartu identitas & nilai Level 8 minimalis + Learning Progress
 │   └── contact.jsx          # Contact: Info kontak asli + Form Kirim Pesan + Daftar Pesan Tersimpan
 ├── components/
 │   ├── ProfileHeader.jsx    # Hero profil minimalis 96x96 + bio + 2 tombol bersih
-│   ├── StatCard.jsx         # Kartu statistik ringkas (Projects, Experiences, Achievement)
+│   ├── StatCard.jsx         # Kartu statistik ringkas (6+ Projects, 1 Journal, 7 Juz Tahfidz)
 │   ├── TimelineItem.jsx     # Timeline vertikal minimalis untuk Education & Experience
-│   ├── ProjectCard.jsx      # Kartu proyek tipografi rapi + tag teknologi ungu muda
+│   ├── ProjectCard.jsx      # Kartu proyek + Status Badge (On-Progress / Completed) + Modal "Case Study Detail"
 │   ├── SkillBadge.jsx       # Pill/Badge keahlian minimalis
 │   ├── ScoreProgressBar.jsx # Progress bar satu warna aksen (#8B5CF6)
 │   ├── EmptyState.jsx       # Kondisi kosong minimalis
@@ -55,8 +55,8 @@ personal-cv-app/
 ├── context/
 │   └── ThemeContext.jsx     # Palet Clean Dark Minimalist (#090A0F / #12141D / #8B5CF6)
 ├── data/
-│   ├── profile.json         # Data CV asli Sayid Abdul Aziz
-│   ├── portfolio.json       # Data 4 proyek & 3 kategori keahlian asli
+│   ├── profile.json         # Data CV asli Sayid Abdul Aziz + Currently Working On (SIMTS) + Publikasi Riset
+│   ├── portfolio.json       # Data 6 proyek (SIMTS On-Progress, Quran ku, SIPEDA, dll) & 3 grup keahlian
 │   └── academicScore.json   # Data nilai Pemrograman Mobile 2 (Level 8)
 ├── hooks/
 │   └── useSimulatedFetch.js # Custom hook pengambilan data JSON asinkron
