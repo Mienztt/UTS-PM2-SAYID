@@ -1,7 +1,6 @@
 /**
  * Utility module untuk validasi form interaktif & kalkulasi nilai akademik.
- * Dipisahkan secara murni (pure functions) untuk memenuhi arsitektur Clean Code (Level 9)
- * dan mendukung pengujian unit otomatis menggunakan Jest (Level 10).
+ * Dipisahkan secara murni (pure functions) untuk arsitektur bersih dan pengujian unit Jest.
  */
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -28,15 +27,14 @@ export function isValidEmail(email) {
 }
 
 /**
- * Validasi input Contact Form (Nama, Email, Subjek, Pesan).
- * @param {{ name?: string, email?: string, subject?: string, message?: string }} payload
+ * Validasi input Contact Form (Nama, Email, Pesan).
+ * @param {{ name?: string, email?: string, message?: string }} payload
  * @returns {{ isValid: boolean, errors: Record<string, string> }}
  */
 export function validateContactForm(payload = {}) {
   const errors = {};
   const name = sanitizeText(payload.name);
   const email = sanitizeText(payload.email);
-  const subject = sanitizeText(payload.subject);
   const message = sanitizeText(payload.message);
 
   if (!name) {
@@ -50,58 +48,15 @@ export function validateContactForm(payload = {}) {
   if (!email) {
     errors.email = 'Alamat email wajib diisi.';
   } else if (!isValidEmail(email)) {
-    errors.email = 'Format email tidak valid (contoh: nama@domain.com).';
-  }
-
-  if (!subject) {
-    errors.subject = 'Subjek pesan wajib diisi.';
-  } else if (subject.length < 3) {
-    errors.subject = 'Subjek minimal terdiri dari 3 karakter.';
+    errors.email = 'Format email tidak valid (contoh: nama@email.com).';
   }
 
   if (!message) {
     errors.message = 'Isi pesan tidak boleh kosong.';
-  } else if (message.length < 10) {
-    errors.message = 'Pesan minimal terdiri dari 10 karakter agar jelas.';
+  } else if (message.length < 8) {
+    errors.message = 'Pesan minimal terdiri dari 8 karakter.';
   } else if (message.length > 500) {
     errors.message = 'Pesan maksimal 500 karakter.';
-  }
-
-  return {
-    isValid: Object.keys(errors).length === 0,
-    errors,
-  };
-}
-
-/**
- * Validasi input Live Guestbook / Komentar lokal (Level 4 & 10).
- * @param {{ author?: string, role?: string, comment?: string, rating?: number }} payload
- * @returns {{ isValid: boolean, errors: Record<string, string> }}
- */
-export function validateGuestbookForm(payload = {}) {
-  const errors = {};
-  const author = sanitizeText(payload.author);
-  const comment = sanitizeText(payload.comment);
-  const rating = payload.rating === undefined ? 5 : Number(payload.rating);
-
-  if (!author) {
-    errors.author = 'Nama pengirim wajib diisi.';
-  } else if (author.length < 2) {
-    errors.author = 'Nama pengirim minimal 2 karakter.';
-  } else if (author.length > 60) {
-    errors.author = 'Nama pengirim maksimal 60 karakter.';
-  }
-
-  if (!comment) {
-    errors.comment = 'Komentar guestbook tidak boleh kosong.';
-  } else if (comment.length < 5) {
-    errors.comment = 'Komentar minimal 5 karakter.';
-  } else if (comment.length > 280) {
-    errors.comment = 'Komentar maksimal 280 karakter.';
-  }
-
-  if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
-    errors.rating = 'Rating harus berupa angka bulat antara 1 hingga 5.';
   }
 
   return {

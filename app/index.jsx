@@ -1,24 +1,22 @@
-import React, { useState } from "react";
+import React from 'react';
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
   RefreshControl,
-  Linking,
-} from "react-native";
-import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+} from 'react-native';
+import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
-import { useTheme } from "../context/ThemeContext";
-import { useSimulatedFetch } from "../hooks/useSimulatedFetch";
-import profileJson from "../data/profile.json";
+import { useTheme } from '../context/ThemeContext';
+import { useSimulatedFetch } from '../hooks/useSimulatedFetch';
+import profileJson from '../data/profile.json';
 
-import ProfileHeader from "../components/ProfileHeader";
-import StatCard from "../components/StatCard";
-import TimelineItem from "../components/TimelineItem";
-import LoadingState from "../components/LoadingState";
+import ProfileHeader from '../components/ProfileHeader';
+import StatCard from '../components/StatCard';
+import TimelineItem from '../components/TimelineItem';
+import LoadingState from '../components/LoadingState';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -31,23 +29,7 @@ export default function HomeScreen() {
     error,
     retry,
     refresh,
-    simulateError,
-  } = useSimulatedFetch(() => profileJson, { delay: 380 });
-
-  const [timelineTab, setTimelineTab] = useState("all"); // 'all' | 'experience' | 'education'
-  const [activeTrackId, setActiveTrackId] = useState("track-1");
-
-  const openSpotifyTrack = async (url) => {
-    if (!url) return;
-    try {
-      const supported = await Linking.canOpenURL(url);
-      if (supported) {
-        await Linking.openURL(url);
-      }
-    } catch {
-      // Abaikan apabila gagal membuka URL eksternal
-    }
-  };
+  } = useSimulatedFetch(() => profileJson, { delay: 260 });
 
   if (loading || error || !profile) {
     return (
@@ -59,21 +41,16 @@ export default function HomeScreen() {
           loading={loading}
           error={error}
           onRetry={retry}
-          loadingText="Memuat profil developer & timeline..."
+          loadingText="Memuat profil & riwayat CV..."
           skeletonCount={3}
         />
       </ScrollView>
     );
   }
 
-  const timelineItems =
-    timelineTab === "experience"
-      ? profile.experience || []
-      : timelineTab === "education"
-        ? profile.education || []
-        : [...(profile.experience || []), ...(profile.education || [])];
-
-  const tracks = profile.spotifyRotation?.tracks || [];
+  const educationList = profile.education || [];
+  const experienceList = profile.experience || [];
+  const hobbiesList = profile.hobbies || [];
 
   return (
     <ScrollView
@@ -89,334 +66,127 @@ export default function HomeScreen() {
         />
       }
     >
-      {/* 1. Hero & Identity Card (Props-driven) */}
-      <ProfileHeader
-        identity={profile.identity}
-        socials={profile.socials}
-        onExplorePortfolio={() => router.push("/portfolio")}
-        onContactMe={() => router.push("/contact")}
-      />
-
-      {/* 2. Quick Stats Grid */}
-      <View style={styles.sectionHeader}>
-        <View style={styles.sectionTitleRow}>
-          <Ionicons name="flash-outline" size={18} color={colors.primary} />
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
-            Quick Highlights
-          </Text>
-        </View>
-        <Text style={[styles.sectionSubtitle, { color: colors.textSecondary }]}>
-          Ringkasan kontribusi & pencapaian akademik
-        </Text>
+      {/* 1. Hero Profile */}
+      <View style={styles.section}>
+        <ProfileHeader
+          identity={profile.identity}
+          onExplorePortfolio={() => router.push('/portfolio')}
+          onContactMe={() => router.push('/contact')}
+        />
       </View>
 
-      <View style={styles.statsGrid}>
-        {(profile.quickStats || []).map((stat) => (
-          <StatCard
-            key={stat.id}
-            icon={stat.icon}
-            value={stat.value}
-            label={stat.label}
-            subtext={stat.subtext}
-            accent={stat.accent}
-          />
-        ))}
-      </View>
-
-      {/* 3. About Me Card */}
-      <View
-        style={[
-          styles.sectionCard,
-          {
-            backgroundColor: colors.surface,
-            borderColor: colors.border,
-          },
-        ]}
-      >
-        <View style={styles.sectionTitleRow}>
-          <Ionicons
-            name="person-circle-outline"
-            size={20}
-            color={colors.secondary}
-          />
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
-            {profile.about?.greeting || "Tentang Saya"}
-          </Text>
-        </View>
-
-        <Text style={[styles.aboutText, { color: colors.textSecondary }]}>
-          {profile.about?.description}
-        </Text>
-
-        <View style={styles.focusList}>
-          {(profile.about?.focusAreas || []).map((area) => (
-            <View
-              key={area}
-              style={[
-                styles.focusPill,
-                {
-                  backgroundColor: colors.surfaceElevated,
-                  borderColor: colors.border,
-                },
-              ]}
-            >
-              <Ionicons
-                name="checkmark-done"
-                size={14}
-                color={colors.primary}
-              />
-              <Text style={[styles.focusPillText, { color: colors.text }]}>
-                {area}
-              </Text>
-            </View>
+      {/* 2. Quick Stats (3 Kartu Ringkas) */}
+      <View style={styles.section}>
+        <View style={styles.statsRow}>
+          {(profile.quickStats || []).map((stat) => (
+            <StatCard
+              key={stat.id}
+              icon={stat.icon}
+              value={stat.value}
+              label={stat.label}
+              subtext={stat.subtext}
+            />
           ))}
         </View>
       </View>
 
-      {/* 4. Education & Experience Timeline */}
-      <View style={styles.sectionHeader}>
-        <View style={styles.sectionTitleRow}>
-          <Ionicons
-            name="git-network-outline"
-            size={18}
-            color={colors.primary}
-          />
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
-            Education & Experience
-          </Text>
-        </View>
-        <Text style={[styles.sectionSubtitle, { color: colors.textSecondary }]}>
-          Perjalanan akademik, organisasi, dan pengembangan perangkat lunak
+      {/* 3. Timeline Education */}
+      <View style={styles.section}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>
+          Education
         </Text>
-      </View>
-
-      <View
-        style={[
-          styles.segmentedControl,
-          {
-            backgroundColor: colors.surface,
-            borderColor: colors.border,
-          },
-        ]}
-      >
-        {[
-          { key: "all", label: "Semua" },
-          { key: "experience", label: "Experience" },
-          { key: "education", label: "Education" },
-        ].map((tab) => {
-          const isActive = timelineTab === tab.key;
-          return (
-            <TouchableOpacity
-              key={tab.key}
-              activeOpacity={0.8}
-              onPress={() => setTimelineTab(tab.key)}
-              style={[
-                styles.segmentBtn,
-                isActive && { backgroundColor: colors.primary },
-              ]}
-            >
-              <Text
-                style={[
-                  styles.segmentBtnText,
-                  { color: isActive ? "#0B0F19" : colors.textSecondary },
-                ]}
-              >
-                {tab.label}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-
-      <View style={styles.timelineWrap}>
-        {timelineItems.map((item, idx) => (
-          <TimelineItem
-            key={item.id}
-            item={item}
-            isLast={idx === timelineItems.length - 1}
-          />
-        ))}
-      </View>
-
-      {/* 5. Hobbies & Creative Interests */}
-      <View style={styles.sectionHeader}>
-        <View style={styles.sectionTitleRow}>
-          <Ionicons
-            name="sparkles-outline"
-            size={18}
-            color={colors.secondary}
-          />
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
-            Hobbies & Interests
-          </Text>
+        <View>
+          {educationList.map((item, idx) => (
+            <TimelineItem
+              key={item.id}
+              item={item}
+              isLast={idx === educationList.length - 1}
+            />
+          ))}
         </View>
       </View>
 
-      <View style={styles.hobbiesGrid}>
-        {(profile.hobbies || []).map((hobby) => (
+      {/* 4. Timeline Work Experience */}
+      <View style={styles.section}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>
+          Work Experience
+        </Text>
+        <View>
+          {experienceList.map((item, idx) => (
+            <TimelineItem
+              key={item.id}
+              item={item}
+              isLast={idx === experienceList.length - 1}
+            />
+          ))}
+        </View>
+      </View>
+
+      {/* 5. Seksi Kecil Hobi (Badminton & Lari) di Paling Bawah */}
+      {hobbiesList.length > 0 && (
+        <View style={styles.bottomSection}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>
+            Hobbies
+          </Text>
           <View
-            key={hobby.id}
             style={[
-              styles.hobbyCard,
+              styles.hobbiesCard,
               {
                 backgroundColor: colors.surface,
                 borderColor: colors.border,
               },
             ]}
           >
-            <View
-              style={[
-                styles.hobbyIconWrap,
-                { backgroundColor: colors.secondarySoft },
-              ]}
-            >
-              <Ionicons name={hobby.icon} size={18} color={colors.secondary} />
-            </View>
-            <Text style={[styles.hobbyName, { color: colors.text }]}>
-              {hobby.name}
-            </Text>
-            <Text style={[styles.hobbyDesc, { color: colors.textSecondary }]}>
-              {hobby.description}
-            </Text>
-          </View>
-        ))}
-      </View>
-
-      {/* 6. Daily Music / Spotify Coding Rotation (Inspired by alfari.my.id) */}
-      <View
-        style={[
-          styles.spotifyCard,
-          {
-            backgroundColor: colors.surface,
-            borderColor: colors.border,
-          },
-        ]}
-      >
-        <View style={styles.spotifyHeader}>
-          <View style={styles.spotifyTitleGroup}>
-            <View
-              style={[
-                styles.spotifyBadgeIcon,
-                { backgroundColor: colors.successSoft },
-              ]}
-            >
-              <Ionicons name="musical-notes" size={20} color={colors.success} />
-            </View>
-            <View style={styles.spotifyTitleCol}>
-              <Text style={[styles.sectionTitle, { color: colors.text }]}>
-                {profile.spotifyRotation?.playlistName ||
-                  "Daily Music Rotation"}
-              </Text>
-              <Text
-                style={[
-                  styles.spotifySubtitle,
-                  { color: colors.textSecondary },
-                ]}
-              >
-                {profile.spotifyRotation?.subtitle}
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        {tracks.map((track, idx) => {
-          const isPlaying = activeTrackId === track.id;
-          return (
-            <TouchableOpacity
-              key={track.id}
-              activeOpacity={0.82}
-              onPress={() => setActiveTrackId(track.id)}
-              style={[
-                styles.trackRow,
-                {
-                  backgroundColor: isPlaying
-                    ? colors.primarySoft
-                    : colors.surfaceElevated,
-                  borderColor: isPlaying ? colors.primary : colors.border,
-                },
-              ]}
-            >
-              <View style={styles.trackLeft}>
-                <View
-                  style={[
-                    styles.trackIndexCircle,
-                    {
-                      backgroundColor: isPlaying
-                        ? colors.primary
-                        : colors.surface,
-                    },
-                  ]}
-                >
-                  {isPlaying ? (
-                    <Ionicons name="volume-high" size={14} color="#0B0F19" />
-                  ) : (
-                    <Text
+            {hobbiesList.map((hobby, idx) => {
+              const isLast = idx === hobbiesList.length - 1;
+              return (
+                <View key={hobby.id}>
+                  <View style={styles.hobbyRow}>
+                    <View
                       style={[
-                        styles.trackIndexText,
-                        { color: colors.textSecondary },
+                        styles.hobbyIconBox,
+                        {
+                          backgroundColor: colors.accentSoft,
+                          borderColor: colors.accentBorder,
+                        },
                       ]}
                     >
-                      {idx + 1}
-                    </Text>
+                      <Ionicons
+                        name={hobby.icon || 'fitness-outline'}
+                        size={15}
+                        color={colors.primary}
+                      />
+                    </View>
+                    <View style={styles.hobbyTextCol}>
+                      <Text style={[styles.hobbyName, { color: colors.text }]}>
+                        {hobby.name}
+                      </Text>
+                      {hobby.detail ? (
+                        <Text
+                          style={[
+                            styles.hobbyDetail,
+                            { color: colors.textSecondary },
+                          ]}
+                        >
+                          {hobby.detail}
+                        </Text>
+                      ) : null}
+                    </View>
+                  </View>
+                  {!isLast && (
+                    <View
+                      style={[
+                        styles.hobbyDivider,
+                        { backgroundColor: colors.border },
+                      ]}
+                    />
                   )}
                 </View>
-
-                <View style={styles.trackInfo}>
-                  <Text style={[styles.trackTitle, { color: colors.text }]}>
-                    {track.title}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.trackArtist,
-                      { color: colors.textSecondary },
-                    ]}
-                  >
-                    {track.artist} • {track.vibe}
-                  </Text>
-                </View>
-              </View>
-
-              <View style={styles.trackRight}>
-                <Text
-                  style={[styles.trackDuration, { color: colors.textMuted }]}
-                >
-                  {track.duration}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => openSpotifyTrack(track.spotifyUrl)}
-                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                >
-                  <Ionicons
-                    name="open-outline"
-                    size={16}
-                    color={isPlaying ? colors.primary : colors.textSecondary}
-                  />
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-
-      {/* Level 10 Resilience Demo Utility */}
-      <View style={styles.demoFooter}>
-        <TouchableOpacity
-          activeOpacity={0.75}
-          onPress={simulateError}
-          style={[
-            styles.demoBtn,
-            {
-              backgroundColor: colors.surface,
-              borderColor: colors.border,
-            },
-          ]}
-        >
-          <Ionicons name="bug-outline" size={14} color={colors.textMuted} />
-          <Text style={[styles.demoBtnText, { color: colors.textMuted }]}>
-            Uji Error State & Tombol Retry (Level 10)
-          </Text>
-        </TouchableOpacity>
-      </View>
+              );
+            })}
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 }
@@ -426,210 +196,57 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    padding: 16,
-    paddingBottom: 32,
+    padding: 18,
+    paddingBottom: 36,
   },
-  sectionHeader: {
-    marginBottom: 12,
-    marginTop: 6,
+  section: {
+    marginBottom: 28,
   },
-  sectionTitleRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
+  bottomSection: {
+    marginBottom: 8,
   },
   sectionTitle: {
     fontSize: 17,
-    fontWeight: "800",
-    flexShrink: 1,
-  },
-  sectionSubtitle: {
-    fontSize: 12.5,
-    marginTop: 3,
-    lineHeight: 18,
-  },
-  statsGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 10,
-    marginBottom: 20,
-  },
-  sectionCard: {
-    borderRadius: 18,
-    borderWidth: 1,
-    padding: 16,
-    marginBottom: 20,
-  },
-  aboutText: {
-    fontSize: 13.5,
-    lineHeight: 21,
-    marginTop: 10,
+    fontWeight: '700',
+    letterSpacing: -0.2,
     marginBottom: 14,
   },
-  focusList: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8,
-  },
-  focusPill: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 11,
-    paddingVertical: 7,
-    borderRadius: 10,
-    borderWidth: 1,
-  },
-  focusPillText: {
-    fontSize: 12,
-    fontWeight: "600",
-    flexShrink: 1,
-  },
-  segmentedControl: {
-    flexDirection: "row",
-    borderRadius: 12,
-    borderWidth: 1,
-    padding: 4,
-    marginBottom: 14,
-  },
-  segmentBtn: {
-    flex: 1,
-    paddingVertical: 8,
-    borderRadius: 9,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  segmentBtnText: {
-    fontSize: 12.5,
-    fontWeight: "700",
-  },
-  timelineWrap: {
-    marginBottom: 18,
-  },
-  hobbiesGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+  statsRow: {
+    flexDirection: 'row',
     gap: 10,
-    marginBottom: 22,
   },
-  hobbyCard: {
-    flexGrow: 1,
-    flexBasis: "46%",
-    minWidth: 145,
+  hobbiesCard: {
     borderRadius: 16,
     borderWidth: 1,
-    padding: 14,
+    padding: 18,
   },
-  hobbyIconWrap: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 9,
+  hobbyRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  hobbyIconBox: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  hobbyTextCol: {
+    flex: 1,
   },
   hobbyName: {
     fontSize: 14,
-    fontWeight: "700",
-    marginBottom: 4,
+    fontWeight: '600',
   },
-  hobbyDesc: {
-    fontSize: 12,
-    lineHeight: 17.5,
+  hobbyDetail: {
+    fontSize: 12.5,
+    lineHeight: 19,
+    marginTop: 1,
   },
-  spotifyCard: {
-    borderRadius: 18,
-    borderWidth: 1,
-    padding: 16,
-    marginBottom: 18,
-  },
-  spotifyHeader: {
-    marginBottom: 14,
-  },
-  spotifyTitleGroup: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  spotifyBadgeIcon: {
-    width: 42,
-    height: 42,
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  spotifyTitleCol: {
-    flex: 1,
-    flexShrink: 1,
-  },
-  spotifySubtitle: {
-    fontSize: 12,
-    marginTop: 2,
-    lineHeight: 17,
-  },
-  trackRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 11,
-    borderRadius: 12,
-    borderWidth: 1,
-    marginBottom: 8,
-    gap: 10,
-  },
-  trackLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    flex: 1,
-  },
-  trackIndexCircle: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  trackIndexText: {
-    fontSize: 12,
-    fontWeight: "700",
-  },
-  trackInfo: {
-    flex: 1,
-    flexShrink: 1,
-  },
-  trackTitle: {
-    fontSize: 13.5,
-    fontWeight: "700",
-  },
-  trackArtist: {
-    fontSize: 11.5,
-    marginTop: 2,
-  },
-  trackRight: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 9,
-  },
-  trackDuration: {
-    fontSize: 11.5,
-    fontWeight: "600",
-  },
-  demoFooter: {
-    alignItems: "center",
-    marginTop: 4,
-  },
-  demoBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 13,
-    paddingVertical: 8,
-    borderRadius: 999,
-    borderWidth: 1,
-  },
-  demoBtnText: {
-    fontSize: 11.5,
-    fontWeight: "600",
+  hobbyDivider: {
+    height: 1,
+    marginVertical: 12,
   },
 });

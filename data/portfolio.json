@@ -1,146 +1,68 @@
 {
-  "projectCategories": ["Semua", "Mobile", "Full-Stack", "Web", "Media & UI"],
   "projects": [
     {
       "id": "proj-1",
-      "title": "Personal CV & Academic Score App",
-      "category": "Mobile",
-      "year": "2026",
-      "status": "UTS Mobile 2 • Level 10",
-      "featured": true,
-      "bannerIcon": "phone-portrait-outline",
-      "bannerGradient": ["#4F46E5", "#9333EA", "#EC4899"],
-      "shortDescription": "Aplikasi mobile portofolio Cyber-Glassmorphism & evaluasi akademik S1 Sistem Informasi Universitas Ma'soem berbasis Expo Router.",
-      "fullDescription": "Proyek Ujian Tengah Semester mata kuliah Pemrograman Mobile 2 (Dosen: Ibu Iin, M.Kom) dengan pencapaian penuh Level 1–10. Mengusung estetika Cyber-Glassmorphism terinspirasi alfari.my.id, lengkap dengan LinearGradient, AsyncStorage Guestbook, dan Jest Unit Testing.",
-      "keyFeatures": [
-        "Cyber-Glassmorphism UI (#030014) + Persistent Dark/Light Mode",
-        "Expo Router Bottom Tabs dengan Header Brand SayidDev.",
-        "Dashboard Nilai Pemrograman Mobile 2 (92/A • 12375 LP) & 4 Neon Progress Bars",
-        "Spotify Daily Rotation NgodingTime & Live Guestbook AsyncStorage",
-        "Clean Architecture + Custom Async Hook + 10/10 Jest Unit Tests"
-      ],
-      "techStack": ["React Native", "Expo Router", "LinearGradient", "AsyncStorage", "Jest"],
-      "repoUrl": "https://github.com/",
-      "demoUrl": "https://www.alfari.my.id/"
+      "title": "Web Profil & Admisi Miftahul Falah Ash-Shiddiqie",
+      "category": "Web Development",
+      "shortDescription": "Portal informasi dan pendaftaran santri/siswa baru berbasis web.",
+      "fullDescription": "Portal web profil lembaga pendidikan Miftahul Falah Ash-Shiddiqie yang terintegrasi dengan sistem admisi pendaftaran santri dan siswa baru secara daring serta panel pengelolaan data menggunakan FilamentPHP.",
+      "techStack": ["Laravel", "FilamentPHP", "Tailwind CSS"]
     },
     {
       "id": "proj-2",
-      "title": "SIMTS — Sistem Informasi Akademik Terpadu",
-      "category": "Full-Stack",
-      "year": "2026",
-      "status": "Full-Stack App",
-      "featured": true,
-      "bannerIcon": "server-outline",
-      "bannerGradient": ["#1E1B4B", "#4F46E5", "#38BDF8"],
-      "shortDescription": "Platform web manajemen akademik mahasiswa untuk pemantauan KRS, rekapitulasi nilai, dan analitik capaian pembelajaran.",
-      "fullDescription": "Dirancang sebagai studi kasus pengembangan Sistem Informasi modern dengan antarmuka responsif, manajemen autentikasi pengguna, serta perhitungan metrik akademik secara otomatis.",
-      "keyFeatures": [
-        "Dashboard analitik nilai & progres SKS mahasiswa",
-        "Arsitektur RESTful API terstruktur dengan validasi data ketat",
-        "Pencarian instan mata kuliah & filter per semester",
-        "Antarmuka gelap modern nyaman digunakan jangka panjang"
-      ],
-      "techStack": ["React.js", "Next.js", "Node.js", "PostgreSQL", "Tailwind CSS"],
-      "repoUrl": "https://github.com/",
-      "demoUrl": "https://www.alfari.my.id/"
+      "title": "SIPEDA (Sistem Informasi Penjualan & Pembelian)",
+      "category": "Desktop App",
+      "shortDescription": "Aplikasi desktop pencatatan transaksi dan laporan stok Warung Bu Dada.",
+      "fullDescription": "Aplikasi desktop berbasis Visual Basic .NET dan database MySQL untuk membantu pengelolaan transaksi penjualan, pembelian barang, pemantauan stok, serta pencetakan laporan menggunakan Crystal Report pada Warung Bu Dada.",
+      "techStack": ["VB.NET", "MySQL", "Crystal Report"]
     },
     {
       "id": "proj-3",
-      "title": "SayidDev Cyber-Glass Web Portfolio",
-      "category": "Web",
-      "year": "2025",
-      "status": "Live Showcase",
-      "featured": false,
-      "bannerIcon": "planet-outline",
-      "bannerGradient": ["#311042", "#7E22CE", "#6366F1"],
-      "shortDescription": "Website portofolio interaktif bernuansa Deep Space dengan showcase projek, sertifikasi, dan playlist musik harian.",
-      "fullDescription": "Mengadaptasi tren desain developer modern dengan efek kaca transparan (backdrop blur), tipografi berani, dan tata letak Bento Grid yang adaptif di berbagai ukuran layar.",
-      "keyFeatures": [
-        "Hero section dengan glowing badge & cincin avatar bergradasi",
-        "Segmented tabs untuk Projects, Tech Stack, dan Achievements",
-        "Integrasi rotasi lagu favorit peneman coding",
-        "Formulir kontak cepat & tautan sosial media terpadu"
-      ],
-      "techStack": ["React.js", "Tailwind CSS", "Framer Motion", "Vite"],
-      "repoUrl": "https://github.com/",
-      "demoUrl": "https://www.alfari.my.id/"
+      "title": "Aplikasi E-Commerce Mainan Edukasi",
+      "category": "Mobile App",
+      "shortDescription": "Katalog belanja permainan edukatif anak dengan database real-time.",
+      "fullDescription": "Aplikasi mobile katalog belanja berbagai permainan edukatif anak yang dibangun menggunakan Kodular dan terhubung ke Firebase Realtime Database untuk sinkronisasi produk serta pesanan.",
+      "techStack": ["Kodular", "Firebase"]
     },
     {
       "id": "proj-4",
-      "title": "Campus Event & Media Hub — KSI Ma'soem",
-      "category": "Media & UI",
-      "year": "2025",
-      "status": "Campus Project",
-      "featured": false,
-      "bannerIcon": "camera-outline",
-      "bannerGradient": ["#0F172A", "#0284C7", "#6366F1"],
-      "shortDescription": "Portal dokumentasi digital, galeri publikasi acara, dan sistem registrasi kepanitiaan mahasiswa Universitas Ma'soem.",
-      "fullDescription": "Kolaborasi divisi Media & Dokumentasi bersama rekan Komunitas Sistem Informasi (KSI) untuk memusatkan publikasi event kampus, arsip foto kegiatan, dan pendaftaran volunteer.",
-      "keyFeatures": [
-        "Katalog dokumentasi kegiatan kampus terorganisir rapi",
-        "Sistem desain konsisten untuk branding media sosial kepanitiaan",
-        "Alur pendaftaran volunteer kepanitiaan yang ringkas di ponsel",
-        "Optimasi tampilan gambar cepat dan responsif"
-      ],
-      "techStack": ["Figma", "React.js", "UI/UX Design", "Creative Media"],
-      "repoUrl": "https://github.com/",
-      "demoUrl": "https://www.instagram.com/"
+      "title": "Personal CV & Academic Score App",
+      "category": "Mobile App",
+      "shortDescription": "Aplikasi portofolio digital mahasiswa dan pantauan capaian akademik.",
+      "fullDescription": "Aplikasi mobile lintas platform berbasis React Native dan Expo Router dengan desain Clean Dark Minimalist yang menyajikan data CV terstruktur dari JSON lokal, pantauan nilai akademik, serta penyimpanan pesan lokal.",
+      "techStack": ["React Native", "Expo", "JSON"]
     }
   ],
-  "skills": [
-    { "id": "sk-1", "name": "React Native & Expo", "category": "Mobile", "level": "Advanced", "proficiency": 92, "icon": "phone-portrait-outline" },
-    { "id": "sk-2", "name": "JavaScript (ES6+)", "category": "Frontend", "level": "Advanced", "proficiency": 93, "icon": "logo-javascript" },
-    { "id": "sk-3", "name": "TypeScript", "category": "Frontend", "level": "Intermediate", "proficiency": 86, "icon": "code-working-outline" },
-    { "id": "sk-4", "name": "React.js & Next.js", "category": "Frontend", "level": "Advanced", "proficiency": 90, "icon": "logo-react" },
-    { "id": "sk-5", "name": "Node.js & Express", "category": "Backend", "level": "Intermediate", "proficiency": 85, "icon": "server-outline" },
-    { "id": "sk-6", "name": "SQL & PostgreSQL", "category": "Backend", "level": "Advanced", "proficiency": 88, "icon": "analytics-outline" },
-    { "id": "sk-7", "name": "Tailwind CSS & StyleSheet", "category": "Frontend", "level": "Advanced", "proficiency": 94, "icon": "color-wand-outline" },
-    { "id": "sk-8", "name": "System Analysis & UML", "category": "System Info", "level": "Advanced", "proficiency": 90, "icon": "git-network-outline" },
-    { "id": "sk-9", "name": "Git & GitHub Workflow", "category": "Tools", "level": "Advanced", "proficiency": 91, "icon": "logo-github" },
-    { "id": "sk-10", "name": "Figma & Media Creative", "category": "Tools", "level": "Advanced", "proficiency": 89, "icon": "camera-outline" },
-    { "id": "sk-11", "name": "REST API & AsyncStorage", "category": "Mobile", "level": "Advanced", "proficiency": 89, "icon": "cloud-done-outline" },
-    { "id": "sk-12", "name": "Jest Unit Testing", "category": "Tools", "level": "Intermediate", "proficiency": 84, "icon": "shield-checkmark-outline" }
-  ],
-  "certificates": [
+  "skillGroups": [
     {
-      "id": "cert-1",
-      "title": "Capaian Nilai A (92) & 12.375 LP — Pemrograman Mobile 2",
-      "issuer": "Universitas Ma'soem • Ibu Iin, M.Kom",
-      "date": "Semester 5 • 2026",
-      "credentialId": "MASOEM-SI502-2425050522",
-      "category": "Academic Excellence",
-      "verifyUrl": "https://www.alfari.my.id/",
-      "skills": ["React Native", "Expo Router", "Clean Architecture"]
+      "id": "grp-web-software",
+      "category": "Web & Software",
+      "skills": [
+        "HTML & CSS",
+        "PHP & MySQL",
+        "Laravel & FilamentPHP",
+        "Visual Basic .NET",
+        "React Native (Expo)"
+      ]
     },
     {
-      "id": "cert-2",
-      "title": "Koordinator Divisi Media & Dokumentasi Kepanitiaan Kampus",
-      "issuer": "Kemahasiswaan Universitas Ma'soem",
-      "date": "2025 – 2026",
-      "credentialId": "MEDDOK-MASOEM-2025",
-      "category": "Leadership & Media",
-      "verifyUrl": "https://www.instagram.com/",
-      "skills": ["Leadership", "Creative Direction", "Event Documentation"]
+      "id": "grp-media-office",
+      "category": "Media & Office",
+      "skills": [
+        "Microsoft Office",
+        "Canva Design",
+        "Figma",
+        "Media Operator"
+      ]
     },
     {
-      "id": "cert-3",
-      "title": "Belajar Pengembangan Aplikasi Front-End & Full-Stack Web",
-      "issuer": "Dicoding Indonesia",
-      "date": "2025",
-      "credentialId": "DCD-FS-2425050522",
-      "category": "Web & Mobile Dev",
-      "verifyUrl": "https://www.dicoding.com/",
-      "skills": ["JavaScript ES6", "React", "Responsive Layout"]
-    },
-    {
-      "id": "cert-4",
-      "title": "Kontributor Aktif Komunitas Sistem Informasi (KSI) & Volunteer",
-      "issuer": "Himpunan / KSI Universitas Ma'soem",
-      "date": "2024 – 2026",
-      "credentialId": "KSI-VOL-2425050522",
-      "category": "Organization & Volunteer",
-      "verifyUrl": "https://github.com/",
-      "skills": ["Teamwork", "Information Systems", "Public Relations"]
+      "id": "grp-soft-skills",
+      "category": "Soft Skills",
+      "skills": [
+        "Kerja Sama Tim",
+        "Public Event Support",
+        "Disiplin & Manajemen Waktu"
+      ]
     }
   ]
 }

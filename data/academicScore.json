@@ -3,172 +3,41 @@
     "studentName": "Sayid Abdul Aziz",
     "nim": "2425050522",
     "programStudi": "S1 Sistem Informasi",
-    "semester": 5,
     "university": "Universitas Ma'soem",
-    "programCampus": "S1 Sistem Informasi - Semester 5 | Universitas Ma'soem",
-    "role": "Information Systems Student & Full-Stack Developer",
+    "programCampus": "S1 Sistem Informasi • Universitas Ma'soem",
+    "role": "Information Systems Student",
     "courseName": "Pemrograman Mobile 2",
     "courseCode": "SI502",
     "lecturer": "Iin, M.Kom",
     "currentScore": 92,
     "grade": "A",
     "learningPoints": 12375,
-    "learningPointsLabel": "12375 LP",
-    "utsTargetLevel": "Level 10 (Industry Standard)"
+    "learningPointsLabel": "12375 LP"
   },
   "learningProgress": [
     {
       "id": "prog-attendance",
       "label": "Attendance",
-      "subtitle": "Kehadiran kuliah & sesi praktikum penuh",
-      "percentage": 100,
-      "gradient": ["#38BDF8", "#06B6D4"]
+      "subtitle": "Kehadiran perkuliahan dan sesi praktikum",
+      "percentage": 100
     },
     {
       "id": "prog-practice",
       "label": "Practice",
-      "subtitle": "Praktik modul React Native & Expo mingguan",
-      "percentage": 87,
-      "gradient": ["#6366F1", "#A855F7"]
+      "subtitle": "Latihan mingguan pengembangan komponen mobile",
+      "percentage": 87
     },
     {
       "id": "prog-quest",
       "label": "Quest",
-      "subtitle": "Misi implementasi navigasi, state & JSON",
-      "percentage": 95,
-      "gradient": ["#A855F7", "#EC4899"]
+      "subtitle": "Penyelesaian misi navigasi, state, dan integrasi JSON",
+      "percentage": 95
     },
     {
       "id": "prog-challenge",
       "label": "Challenge",
-      "subtitle": "Proyek UTS Cyber-Glassmorphism Level 1–10",
-      "percentage": 100,
-      "gradient": ["#6366F1", "#38BDF8"]
-    }
-  ],
-  "courses": [
-    {
-      "id": "mk-1",
-      "code": "SI502",
-      "name": "Pemrograman Mobile 2",
-      "lecturer": "Iin, M.Kom",
-      "semester": 5,
-      "sks": 3,
-      "tugas": 92,
-      "uts": 92,
-      "uas": 92,
-      "finalScore": 92,
-      "category": "Mobile Dev"
-    },
-    {
-      "id": "mk-2",
-      "code": "SI504",
-      "name": "Analisis & Perancangan Sistem Informasi",
-      "lecturer": "Tim Dosen SI",
-      "semester": 5,
-      "sks": 3,
-      "tugas": 90,
-      "uts": 89,
-      "uas": 91,
-      "category": "Core IS"
-    },
-    {
-      "id": "mk-3",
-      "code": "SI507",
-      "name": "Pemrograman Web Full-Stack",
-      "lecturer": "Tim Dosen SI",
-      "semester": 5,
-      "sks": 3,
-      "tugas": 93,
-      "uts": 90,
-      "uas": 92,
-      "category": "Full-Stack"
-    },
-    {
-      "id": "mk-4",
-      "code": "SI401",
-      "name": "Pemrograman Mobile 1",
-      "lecturer": "Iin, M.Kom",
-      "semester": 4,
-      "sks": 3,
-      "tugas": 91,
-      "uts": 88,
-      "uas": 90,
-      "category": "Mobile Dev"
-    },
-    {
-      "id": "mk-5",
-      "code": "SI405",
-      "name": "Manajemen Basis Data",
-      "lecturer": "Tim Dosen SI",
-      "semester": 4,
-      "sks": 3,
-      "tugas": 88,
-      "uts": 86,
-      "uas": 89,
-      "category": "Database"
-    }
-  ],
-  "levelAchievements": [
-    {
-      "level": 1,
-      "title": "Level 1 — Identitas Asli & Komponen Dasar",
-      "percentage": 100,
-      "detail": "Menampilkan profil Sayid Abdul Aziz (NIM 2425050522 - S1 Sistem Informasi Universitas Ma'soem)."
-    },
-    {
-      "level": 2,
-      "title": "Level 2 — Cyber-Glassmorphism Styling",
-      "percentage": 100,
-      "detail": "Tema Deep Space (#030014), kartu kaca transparan, LinearGradient (#6366F1 -> #A855F7), & neon glow."
-    },
-    {
-      "level": 3,
-      "title": "Level 3 — Responsive Bento & Flexbox Layout",
-      "percentage": 100,
-      "detail": "3 Bento Stat Cards sejajar, Dual Action Buttons, dan tipografi bebas teks terpotong."
-    },
-    {
-      "level": 4,
-      "title": "Level 4 — State & Interaktivitas Penuh",
-      "percentage": 100,
-      "detail": "Spotify NgodingTime interaktif, input focus border #A855F7, simulator nilai, & modal detail proyek."
-    },
-    {
-      "level": 5,
-      "title": "Level 5 — Modular Props-Driven Components",
-      "percentage": 100,
-      "detail": "8 komponen reusable terpisah di folder components/ yang menerima konfigurasi via Props."
-    },
-    {
-      "level": 6,
-      "title": "Level 6 — Dynamic Lists & JSON Separation",
-      "percentage": 100,
-      "detail": "Pemisahan ketat data/profile.json, portfolio.json, & academicScore.json + Live Search & Filter."
-    },
-    {
-      "level": 7,
-      "title": "Level 7 — Expo Router Tabs & Theme Switcher",
-      "percentage": 100,
-      "detail": "Header brand SayidDev. dengan toggle Dark/Light Mode global via ThemeContext."
-    },
-    {
-      "level": 8,
-      "title": "Level 8 — Academic Score & Learning Progress",
-      "percentage": 100,
-      "detail": "MK Pemrograman Mobile 2 (Iin, M.Kom), Score 92 (A), 12375 LP, & 4 bar Learning Progress neon."
-    },
-    {
-      "level": 9,
-      "title": "Level 9 — Clean Architecture & Custom Hooks",
-      "percentage": 100,
-      "detail": "Arsitektur bersih memisahkan UI, business validation utils, dan custom hook useSimulatedFetch."
-    },
-    {
-      "level": 10,
-      "title": "Level 10 — Persistence, Resilience & Unit Test",
-      "percentage": 100,
-      "detail": "AsyncStorage Guestbook & Theme, Skeleton/Error Retry state, EmptyState, serta Jest Unit Test."
+      "subtitle": "Proyek aplikasi Personal CV & Academic Score",
+      "percentage": 100
     }
   ]
 }

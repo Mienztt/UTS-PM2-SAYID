@@ -11,7 +11,7 @@ function BrandLogo() {
   return (
     <View style={styles.brandWrap}>
       <Text style={[styles.brandText, { color: colors.text }]}>
-        Sayid<Text style={styles.brandAccent}>Dev.</Text>
+        Sayid<Text style={[styles.brandAccent, { color: colors.primary }]}>Dev.</Text>
       </Text>
     </View>
   );
@@ -22,24 +22,24 @@ function ThemeToggleButton() {
 
   return (
     <TouchableOpacity
-      activeOpacity={0.82}
+      activeOpacity={0.8}
       onPress={toggleTheme}
       accessibilityRole="button"
       accessibilityLabel="Toggle Dark atau Light Mode"
       style={[
         styles.themeBtn,
         {
-          backgroundColor: colors.pillBg,
-          borderColor: colors.pillBorder,
+          backgroundColor: colors.surface,
+          borderColor: colors.border,
         },
       ]}
     >
       <Ionicons
         name={isDark ? 'sunny-outline' : 'moon-outline'}
-        size={16}
-        color={isDark ? '#FBBF24' : '#9333EA'}
+        size={14}
+        color={colors.textSecondary}
       />
-      <Text style={[styles.themeBtnText, { color: colors.text }]}>
+      <Text style={[styles.themeBtnText, { color: colors.textSecondary }]}>
         {isDark ? 'Light' : 'Dark'}
       </Text>
     </TouchableOpacity>
@@ -47,7 +47,7 @@ function ThemeToggleButton() {
 }
 
 function AppTabs() {
-  const { colors, isDark } = useTheme();
+  const { colors } = useTheme();
 
   return (
     <>
@@ -71,19 +71,21 @@ function AppTabs() {
               <ThemeToggleButton />
             </View>
           ),
-          tabBarActiveTintColor: isDark ? '#A855F7' : '#6366F1',
+          tabBarActiveTintColor: colors.primary,
           tabBarInactiveTintColor: colors.textSecondary,
           tabBarStyle: {
             backgroundColor: colors.tabBar,
             borderTopColor: colors.border,
             borderTopWidth: 1,
-            height: Platform.OS === 'ios' ? 84 : 66,
+            elevation: 0,
+            shadowOpacity: 0,
+            height: Platform.OS === 'ios' ? 84 : 64,
             paddingTop: 6,
             paddingBottom: Platform.OS === 'ios' ? 24 : 10,
           },
           tabBarLabelStyle: {
-            fontSize: 11.5,
-            fontWeight: '700',
+            fontSize: 11,
+            fontWeight: '600',
           },
           sceneStyle: {
             backgroundColor: colors.background,
@@ -97,7 +99,7 @@ function AppTabs() {
             tabBarIcon: ({ color, focused }) => (
               <Ionicons
                 name={focused ? 'home' : 'home-outline'}
-                size={21}
+                size={19}
                 color={color}
               />
             ),
@@ -110,7 +112,7 @@ function AppTabs() {
             tabBarIcon: ({ color, focused }) => (
               <Ionicons
                 name={focused ? 'layers' : 'layers-outline'}
-                size={21}
+                size={19}
                 color={color}
               />
             ),
@@ -123,7 +125,7 @@ function AppTabs() {
             tabBarIcon: ({ color, focused }) => (
               <Ionicons
                 name={focused ? 'school' : 'school-outline'}
-                size={21}
+                size={19}
                 color={color}
               />
             ),
@@ -135,8 +137,8 @@ function AppTabs() {
             title: 'Contact',
             tabBarIcon: ({ color, focused }) => (
               <Ionicons
-                name={focused ? 'chatbubbles' : 'chatbubbles-outline'}
-                size={21}
+                name={focused ? 'mail' : 'mail-outline'}
+                size={19}
                 color={color}
               />
             ),
@@ -159,32 +161,32 @@ export default function RootLayout() {
 
 const styles = StyleSheet.create({
   brandWrap: {
-    marginLeft: 16,
+    marginLeft: 18,
     flexDirection: 'row',
     alignItems: 'center',
   },
   brandText: {
-    fontSize: 20,
-    fontWeight: '900',
-    letterSpacing: -0.4,
+    fontSize: 18,
+    fontWeight: '800',
+    letterSpacing: -0.3,
   },
   brandAccent: {
-    color: '#A855F7',
+    fontWeight: '800',
   },
   headerRightWrap: {
-    marginRight: 16,
+    marginRight: 18,
   },
   themeBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 12,
+    gap: 5,
+    paddingHorizontal: 11,
     paddingVertical: 6,
     borderRadius: 999,
     borderWidth: 1,
   },
   themeBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
+    fontSize: 11.5,
+    fontWeight: '600',
   },
 });

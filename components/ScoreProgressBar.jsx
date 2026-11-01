@@ -1,20 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../context/ThemeContext';
 
 /**
- * ScoreProgressBar — Indikator visual persentase Learning Progress & nilai akademik
- * menggunakan bar berujung bulat (borderRadius: 999) dengan gradasi warna neon.
+ * ScoreProgressBar — Indikator persentase Learning Progress minimalis
+ * dengan satu warna aksen konsisten (#8B5CF6) tanpa gradasi mencolok.
  */
 export default function ScoreProgressBar({
   label,
   subtitle,
   value = 0,
   maxValue = 100,
-  badgeText,
-  gradientColors,
-  showPercentage = true,
+  isLast = false,
 }) {
   const { colors } = useTheme();
 
@@ -22,17 +19,8 @@ export default function ScoreProgressBar({
   const rawPercent = (Number(value) / safeMax) * 100;
   const percentage = Math.min(100, Math.max(0, Math.round(rawPercent * 10) / 10));
 
-  const barGradient =
-    Array.isArray(gradientColors) && gradientColors.length >= 2
-      ? gradientColors
-      : percentage >= 95
-      ? ['#38BDF8', '#6366F1']
-      : percentage >= 85
-      ? ['#6366F1', '#A855F7']
-      : ['#A855F7', '#EC4899'];
-
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, !isLast && styles.spacing]}>
       <View style={styles.headerRow}>
         <View style={styles.labelWrap}>
           <Text style={[styles.label, { color: colors.text }]}>{label}</Text>
@@ -43,45 +31,28 @@ export default function ScoreProgressBar({
           ) : null}
         </View>
 
-        <View style={styles.rightMeta}>
-          {badgeText ? (
-            <View
-              style={[
-                styles.gradeBadge,
-                {
-                  backgroundColor: colors.pillBg,
-                  borderColor: colors.pillBorder,
-                },
-              ]}
-            >
-              <Text style={[styles.gradeText, { color: colors.accentCyan }]}>
-                {badgeText}
-              </Text>
-            </View>
-          ) : null}
-
-          {showPercentage && (
-            <Text style={[styles.percentText, { color: colors.accentCyan }]}>
-              {percentage}%
-            </Text>
-          )}
-        </View>
+        <Text style={[styles.percentText, { color: colors.primary }]}>
+          {percentage}%
+        </Text>
       </View>
 
       <View
         style={[
           styles.track,
           {
-            backgroundColor: colors.surfaceElevated,
+            backgroundColor: colors.tagBg,
             borderColor: colors.border,
           },
         ]}
       >
-        <LinearGradient
-          colors={barGradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={[styles.fill, { width: `${percentage}%` }]}
+        <View
+          style={[
+            styles.fill,
+            {
+              width: `${percentage}%`,
+              backgroundColor: colors.primary,
+            },
+          ]}
         />
       </View>
     </View>
@@ -90,50 +61,37 @@ export default function ScoreProgressBar({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 14,
+    width: '100%',
+  },
+  spacing: {
+    marginBottom: 16,
   },
   headerRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'space-between',
     gap: 10,
-    marginBottom: 7,
+    marginBottom: 8,
   },
   labelWrap: {
     flex: 1,
     flexShrink: 1,
   },
   label: {
-    fontSize: 13.5,
-    fontWeight: '800',
-    lineHeight: 19,
+    fontSize: 14,
+    fontWeight: '600',
   },
   subtitle: {
-    fontSize: 11.5,
+    fontSize: 12,
+    lineHeight: 18,
     marginTop: 2,
-    lineHeight: 16,
-  },
-  rightMeta: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 7,
-  },
-  gradeBadge: {
-    paddingHorizontal: 9,
-    paddingVertical: 3,
-    borderRadius: 999,
-    borderWidth: 1,
-  },
-  gradeText: {
-    fontSize: 11,
-    fontWeight: '800',
   },
   percentText: {
-    fontSize: 13,
-    fontWeight: '800',
+    fontSize: 13.5,
+    fontWeight: '700',
   },
   track: {
-    height: 10,
+    height: 7,
     borderRadius: 999,
     borderWidth: 1,
     overflow: 'hidden',

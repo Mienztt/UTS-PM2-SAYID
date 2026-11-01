@@ -1,16 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
 
 /**
- * EmptyState — Komponen kondisi kosong Cyber-Glassmorphism (Level 10).
+ * EmptyState — Komponen kondisi kosong bergaya Clean Dark Minimalist.
  */
 export default function EmptyState({
   icon = 'search-outline',
   title = 'Data Tidak Ditemukan',
-  description = 'Tidak ada item yang cocok dengan kata kunci atau filter yang dipilih.',
+  description = 'Tidak ada item yang cocok dengan pencarian Anda.',
   actionLabel,
   onAction,
 }) {
@@ -24,19 +23,18 @@ export default function EmptyState({
           backgroundColor: colors.surface,
           borderColor: colors.border,
         },
-        colors.shadowGlow,
       ]}
     >
       <View
         style={[
-          styles.iconCircle,
+          styles.iconWrap,
           {
-            backgroundColor: colors.pillBg,
-            borderColor: colors.pillBorder,
+            backgroundColor: colors.accentSoft,
+            borderColor: colors.accentBorder,
           },
         ]}
       >
-        <Ionicons name={icon} size={28} color={colors.secondary} />
+        <Ionicons name={icon} size={20} color={colors.primary} />
       </View>
 
       <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
@@ -45,16 +43,12 @@ export default function EmptyState({
       </Text>
 
       {actionLabel && onAction ? (
-        <TouchableOpacity activeOpacity={0.85} onPress={onAction}>
-          <LinearGradient
-            colors={['#6366F1', '#A855F7']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.button}
-          >
-            <Ionicons name="refresh-outline" size={16} color="#FFFFFF" />
-            <Text style={styles.buttonText}>{actionLabel}</Text>
-          </LinearGradient>
+        <TouchableOpacity
+          activeOpacity={0.85}
+          onPress={onAction}
+          style={[styles.button, { backgroundColor: colors.primary }]}
+        >
+          <Text style={styles.buttonText}>{actionLabel}</Text>
         </TouchableOpacity>
       ) : null}
     </View>
@@ -63,45 +57,40 @@ export default function EmptyState({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 20,
+    borderRadius: 16,
     borderWidth: 1,
-    paddingVertical: 30,
-    paddingHorizontal: 22,
+    padding: 24,
     alignItems: 'center',
-    marginVertical: 10,
   },
-  iconCircle: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+  iconWrap: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 14,
+    marginBottom: 12,
   },
   title: {
-    fontSize: 16.5,
-    fontWeight: '800',
+    fontSize: 15.5,
+    fontWeight: '700',
     textAlign: 'center',
     marginBottom: 6,
   },
   description: {
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 13.5,
+    lineHeight: 22,
     textAlign: 'center',
-    marginBottom: 16,
   },
   button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 18,
-    paddingVertical: 11,
-    borderRadius: 12,
+    marginTop: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 10,
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 13,
-    fontWeight: '800',
+    fontWeight: '600',
   },
 });

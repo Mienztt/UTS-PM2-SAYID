@@ -5,17 +5,16 @@ import {
   StyleSheet,
   TouchableOpacity,
   Modal,
-  ScrollView,
-  Linking,
   Pressable,
+  ScrollView,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
 
 /**
- * ProjectCard — Kartu proyek Cyber-Glassmorphism dengan visual header banner bergradasi,
- * ikon kategori, deskripsi, tag teknologi, dan tombol "Details ↗" + Modal Detail.
+ * ProjectCard — Kartu proyek minimalis tanpa gambar banner ramai.
+ * Fokus pada tipografi rapi, badge kategori tipis, deskripsi mudah dibaca (lineHeight: 22),
+ * serta tag teknologi abu-abu gelap dengan teks ungu muda.
  */
 export default function ProjectCard({ project }) {
   const { colors } = useTheme();
@@ -23,308 +22,152 @@ export default function ProjectCard({ project }) {
 
   if (!project) return null;
 
-  const bannerGradient = project.bannerGradient || ['#6366F1', '#A855F7'];
-  const bannerIcon = project.bannerIcon || 'rocket-outline';
-
-  const openExternal = async (url) => {
-    if (!url) return;
-    try {
-      const supported = await Linking.canOpenURL(url);
-      if (supported) {
-        await Linking.openURL(url);
-      }
-    } catch {
-      // Abaikan apabila perangkat gagal membuka browser
-    }
-  };
-
   return (
     <>
-      <View
+      <TouchableOpacity
+        activeOpacity={0.85}
+        onPress={() => setModalVisible(true)}
         style={[
           styles.card,
           {
             backgroundColor: colors.surface,
             borderColor: colors.border,
           },
-          colors.shadowGlow,
         ]}
       >
-        {/* Visual Header Banner Bergradasi */}
-        <LinearGradient
-          colors={bannerGradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.bannerHeader}
-        >
-          <View style={styles.bannerDecorCircle} />
-          <View style={styles.bannerTopBar}>
-            <View style={styles.bannerCategoryPill}>
-              <Text style={styles.bannerCategoryText}>{project.category}</Text>
-            </View>
-            <View style={styles.bannerYearPill}>
-              <Text style={styles.bannerYearText}>
-                {project.status || project.year}
-              </Text>
-            </View>
+        {/* Header Tipografi Rapi + Badge Kategori */}
+        <View style={styles.topRow}>
+          <View
+            style={[
+              styles.categoryBadge,
+              {
+                backgroundColor: colors.accentSoft,
+                borderColor: colors.accentBorder,
+              },
+            ]}
+          >
+            <Text style={[styles.categoryText, { color: colors.primary }]}>
+              {project.category}
+            </Text>
           </View>
 
-          <View style={styles.bannerCenterIconWrap}>
-            <View style={styles.bannerIconGlass}>
-              <Ionicons name={bannerIcon} size={30} color="#FFFFFF" />
-            </View>
-          </View>
-        </LinearGradient>
-
-        {/* Body Content */}
-        <View style={styles.body}>
-          <Text style={[styles.title, { color: colors.text }]}>
-            {project.title}
-          </Text>
-          <Text style={[styles.description, { color: colors.textSecondary }]}>
-            {project.shortDescription}
-          </Text>
-
-          {/* Tech Stack Pills */}
-          {Array.isArray(project.techStack) && project.techStack.length > 0 && (
-            <View style={styles.techWrap}>
-              {project.techStack.map((tech) => (
-                <View
-                  key={tech}
-                  style={[
-                    styles.techChip,
-                    {
-                      backgroundColor: colors.primarySoft,
-                      borderColor: 'rgba(99, 102, 241, 0.3)',
-                    },
-                  ]}
-                >
-                  <Text style={[styles.techText, { color: colors.text }]}>
-                    {tech}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          )}
-
-          {/* Footer Action Row */}
-          <View style={[styles.footerRow, { borderTopColor: colors.border }]}>
-            <View style={styles.externalLinks}>
-              {project.repoUrl ? (
-                <TouchableOpacity
-                  activeOpacity={0.78}
-                  onPress={() => openExternal(project.repoUrl)}
-                  style={[
-                    styles.iconBtn,
-                    {
-                      backgroundColor: colors.surfaceElevated,
-                      borderColor: colors.border,
-                    },
-                  ]}
-                >
-                  <Ionicons name="logo-github" size={17} color={colors.text} />
-                </TouchableOpacity>
-              ) : null}
-
-              {project.demoUrl ? (
-                <TouchableOpacity
-                  activeOpacity={0.78}
-                  onPress={() => openExternal(project.demoUrl)}
-                  style={[
-                    styles.iconBtn,
-                    {
-                      backgroundColor: colors.surfaceElevated,
-                      borderColor: colors.border,
-                    },
-                  ]}
-                >
-                  <Ionicons
-                    name="globe-outline"
-                    size={17}
-                    color={colors.accentCyan}
-                  />
-                </TouchableOpacity>
-              ) : null}
-            </View>
-
-            <TouchableOpacity
-              activeOpacity={0.85}
-              onPress={() => setModalVisible(true)}
-            >
-              <LinearGradient
-                colors={['#6366F1', '#A855F7']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.detailsBtn}
-              >
-                <Text style={styles.detailsBtnText}>Details ↗</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
+          <Ionicons
+            name="chevron-forward"
+            size={16}
+            color={colors.textMuted}
+          />
         </View>
-      </View>
 
-      {/* Cyber-Glass Project Detail Modal */}
+        <Text style={[styles.title, { color: colors.text }]}>
+          {project.title}
+        </Text>
+
+        <Text style={[styles.description, { color: colors.textSecondary }]}>
+          {project.shortDescription}
+        </Text>
+
+        {/* Tag Teknologi: Abu-abu gelap dengan teks ungu muda */}
+        {Array.isArray(project.techStack) && project.techStack.length > 0 && (
+          <View style={styles.techRow}>
+            {project.techStack.map((tech) => (
+              <View
+                key={tech}
+                style={[
+                  styles.techTag,
+                  {
+                    backgroundColor: colors.tagBg,
+                    borderColor: colors.border,
+                  },
+                ]}
+              >
+                <Text style={[styles.techTagText, { color: colors.tagText }]}>
+                  {tech}
+                </Text>
+              </View>
+            ))}
+          </View>
+        )}
+      </TouchableOpacity>
+
+      {/* Modal Detail Proyek Minimalis */}
       <Modal
         visible={modalVisible}
-        animationType="slide"
+        animationType="fade"
         transparent
         onRequestClose={() => setModalVisible(false)}
       >
         <Pressable
-          style={[styles.modalBackdrop, { backgroundColor: colors.overlay }]}
+          style={[styles.backdrop, { backgroundColor: colors.overlay }]}
           onPress={() => setModalVisible(false)}
         >
           <Pressable
             style={[
-              styles.modalSheet,
+              styles.modalCard,
               {
-                backgroundColor: colors.surfaceSolid,
-                borderColor: colors.borderStrong,
+                backgroundColor: colors.surface,
+                borderColor: colors.border,
               },
             ]}
             onPress={(e) => e.stopPropagation()}
           >
             <View style={styles.modalHeader}>
-              <View style={styles.modalBadgeWrap}>
-                <View
-                  style={[
-                    styles.modalCategoryPill,
-                    { backgroundColor: colors.primarySoft },
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.modalCategoryText,
-                      { color: colors.accentCyan },
-                    ]}
-                  >
-                    {project.category} • {project.year}
-                  </Text>
-                </View>
+              <View
+                style={[
+                  styles.categoryBadge,
+                  {
+                    backgroundColor: colors.accentSoft,
+                    borderColor: colors.accentBorder,
+                  },
+                ]}
+              >
+                <Text style={[styles.categoryText, { color: colors.primary }]}>
+                  {project.category}
+                </Text>
               </View>
 
               <TouchableOpacity
                 onPress={() => setModalVisible(false)}
                 style={[
                   styles.closeBtn,
-                  { backgroundColor: colors.surfaceElevated },
+                  {
+                    backgroundColor: colors.surfaceElevated,
+                    borderColor: colors.border,
+                  },
                 ]}
               >
-                <Ionicons name="close" size={20} color={colors.text} />
+                <Ionicons name="close" size={16} color={colors.textSecondary} />
               </TouchableOpacity>
             </View>
 
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.modalBody}
-            >
+            <ScrollView showsVerticalScrollIndicator={false}>
               <Text style={[styles.modalTitle, { color: colors.text }]}>
                 {project.title}
               </Text>
-              <Text
-                style={[styles.modalDescription, { color: colors.textSecondary }]}
-              >
+
+              <Text style={[styles.modalDesc, { color: colors.textSecondary }]}>
                 {project.fullDescription || project.shortDescription}
               </Text>
 
-              {Array.isArray(project.keyFeatures) &&
-                project.keyFeatures.length > 0 && (
-                  <View style={styles.modalSection}>
-                    <Text
-                      style={[styles.modalSectionTitle, { color: colors.text }]}
-                    >
-                      Key Features & Architecture
-                    </Text>
-                    {project.keyFeatures.map((feat, idx) => (
-                      <View
-                        key={`${project.id}-feat-${idx}`}
-                        style={styles.featureItem}
-                      >
-                        <Ionicons
-                          name="sparkles"
-                          size={15}
-                          color={colors.secondary}
-                        />
-                        <Text
-                          style={[
-                            styles.featureText,
-                            { color: colors.textSecondary },
-                          ]}
-                        >
-                          {feat}
-                        </Text>
-                      </View>
-                    ))}
-                  </View>
-                )}
-
-              <View style={styles.modalSection}>
-                <Text
-                  style={[styles.modalSectionTitle, { color: colors.text }]}
-                >
-                  Tech Stack
-                </Text>
-                <View style={styles.techWrap}>
-                  {(project.techStack || []).map((tech) => (
-                    <View
-                      key={`modal-${tech}`}
-                      style={[
-                        styles.techChip,
-                        {
-                          backgroundColor: colors.secondarySoft,
-                          borderColor: colors.borderStrong,
-                        },
-                      ]}
-                    >
-                      <Text
-                        style={[styles.techText, { color: colors.secondary }]}
-                      >
-                        {tech}
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-
-              <View style={styles.modalActionRow}>
-                {project.repoUrl ? (
-                  <TouchableOpacity
-                    activeOpacity={0.85}
-                    onPress={() => openExternal(project.repoUrl)}
+              <Text style={[styles.modalSubLabel, { color: colors.text }]}>
+                Teknologi yang Digunakan
+              </Text>
+              <View style={styles.techRow}>
+                {(project.techStack || []).map((tech) => (
+                  <View
+                    key={`m-${tech}`}
                     style={[
-                      styles.modalGhostBtn,
+                      styles.techTag,
                       {
-                        borderColor: '#6366F1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        backgroundColor: colors.tagBg,
+                        borderColor: colors.border,
                       },
                     ]}
                   >
-                    <Ionicons name="logo-github" size={17} color={colors.text} />
-                    <Text style={[styles.modalBtnText, { color: colors.text }]}>
-                      GitHub
+                    <Text style={[styles.techTagText, { color: colors.tagText }]}>
+                      {tech}
                     </Text>
-                  </TouchableOpacity>
-                ) : null}
-
-                {project.demoUrl ? (
-                  <TouchableOpacity
-                    activeOpacity={0.85}
-                    onPress={() => openExternal(project.demoUrl)}
-                    style={styles.modalGradWrap}
-                  >
-                    <LinearGradient
-                      colors={['#6366F1', '#A855F7']}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }}
-                      style={styles.modalPrimaryBtn}
-                    >
-                      <Text style={styles.modalPrimaryBtnText}>
-                        Live Demo ↗
-                      </Text>
-                    </LinearGradient>
-                  </TouchableOpacity>
-                ) : null}
+                  </View>
+                ))}
               </View>
             </ScrollView>
           </Pressable>
@@ -336,138 +179,61 @@ export default function ProjectCard({ project }) {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 20,
-    borderWidth: 1,
-    overflow: 'hidden',
-    marginBottom: 16,
-  },
-  bannerHeader: {
-    height: 126,
-    padding: 14,
-    justifyContent: 'space-between',
-    overflow: 'hidden',
-  },
-  bannerDecorCircle: {
-    position: 'absolute',
-    right: -24,
-    bottom: -28,
-    width: 110,
-    height: 110,
-    borderRadius: 55,
-    backgroundColor: 'rgba(255, 255, 255, 0.12)',
-  },
-  bannerTopBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 8,
-  },
-  bannerCategoryPill: {
-    backgroundColor: 'rgba(3, 0, 20, 0.45)',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.22)',
-  },
-  bannerCategoryText: {
-    color: '#FFFFFF',
-    fontSize: 11,
-    fontWeight: '800',
-  },
-  bannerYearPill: {
-    backgroundColor: 'rgba(255, 255, 255, 0.18)',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 999,
-  },
-  bannerYearText: {
-    color: '#F8FAFC',
-    fontSize: 10.5,
-    fontWeight: '700',
-  },
-  bannerCenterIconWrap: {
-    alignItems: 'flex-start',
-  },
-  bannerIconGlass: {
-    width: 52,
-    height: 52,
     borderRadius: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.18)',
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.32)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  body: {
-    padding: 16,
-  },
-  title: {
-    fontSize: 17.5,
-    fontWeight: '800',
-    marginBottom: 6,
-    lineHeight: 23,
-  },
-  description: {
-    fontSize: 13,
-    lineHeight: 19.5,
-    marginBottom: 12,
-  },
-  techWrap: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
+    padding: 18,
     marginBottom: 14,
   },
-  techChip: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 999,
-    borderWidth: 1,
-  },
-  techText: {
-    fontSize: 11,
-    fontWeight: '700',
-  },
-  footerRow: {
+  topRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: 12,
-    borderTopWidth: 1,
-    gap: 10,
+    marginBottom: 10,
   },
-  externalLinks: {
+  categoryBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  categoryText: {
+    fontSize: 11.5,
+    fontWeight: '600',
+  },
+  title: {
+    fontSize: 16.5,
+    fontWeight: '700',
+    lineHeight: 23,
+    marginBottom: 6,
+  },
+  description: {
+    fontSize: 13.5,
+    lineHeight: 22,
+    marginBottom: 14,
+  },
+  techRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    flexWrap: 'wrap',
     gap: 8,
   },
-  iconBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
+  techTag: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 8,
     borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
-  detailsBtn: {
-    paddingHorizontal: 16,
-    paddingVertical: 9,
-    borderRadius: 11,
+  techTagText: {
+    fontSize: 12,
+    fontWeight: '500',
   },
-  detailsBtnText: {
-    color: '#FFFFFF',
-    fontSize: 13,
-    fontWeight: '800',
-  },
-  modalBackdrop: {
+  backdrop: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+    padding: 20,
   },
-  modalSheet: {
-    maxHeight: '86%',
-    borderTopLeftRadius: 26,
-    borderTopRightRadius: 26,
+  modalCard: {
+    maxHeight: '80%',
+    borderRadius: 16,
     borderWidth: 1,
     padding: 20,
   },
@@ -476,95 +242,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 14,
-    gap: 10,
-  },
-  modalBadgeWrap: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-    flex: 1,
-  },
-  modalCategoryPill: {
-    paddingHorizontal: 11,
-    paddingVertical: 5,
-    borderRadius: 999,
-  },
-  modalCategoryText: {
-    fontSize: 11.5,
-    fontWeight: '800',
   },
   closeBtn: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  modalBody: {
-    paddingBottom: 18,
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: '800',
-    marginBottom: 8,
-    lineHeight: 26,
-  },
-  modalDescription: {
-    fontSize: 13.5,
-    lineHeight: 21,
-    marginBottom: 18,
-  },
-  modalSection: {
-    marginBottom: 18,
-  },
-  modalSectionTitle: {
-    fontSize: 14.5,
-    fontWeight: '800',
+    fontSize: 18,
+    fontWeight: '700',
+    lineHeight: 25,
     marginBottom: 10,
   },
-  featureItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 8,
-    marginBottom: 8,
+  modalDesc: {
+    fontSize: 14,
+    lineHeight: 22,
+    marginBottom: 18,
   },
-  featureText: {
-    flex: 1,
-    flexShrink: 1,
+  modalSubLabel: {
     fontSize: 13,
-    lineHeight: 19.5,
-  },
-  modalActionRow: {
-    flexDirection: 'row',
-    gap: 10,
-    marginTop: 4,
-  },
-  modalGhostBtn: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 7,
-    paddingVertical: 12,
-    borderRadius: 12,
-    borderWidth: 1.5,
-  },
-  modalBtnText: {
-    fontSize: 13.5,
-    fontWeight: '800',
-  },
-  modalGradWrap: {
-    flex: 1,
-  },
-  modalPrimaryBtn: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 13,
-    borderRadius: 12,
-  },
-  modalPrimaryBtnText: {
-    color: '#FFFFFF',
-    fontSize: 13.5,
-    fontWeight: '800',
+    fontWeight: '600',
+    marginBottom: 10,
   },
 });

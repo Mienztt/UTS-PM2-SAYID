@@ -6,179 +6,143 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
 
+const profilePhoto = require('../assets/profile.jpg');
+
 /**
- * ProfileHeader — Hero Cyber-Glassmorphism terinspirasi langsung dari alfari.my.id
- * Menampilkan Glowing Pill Badge, Avatar cincin LinearGradient (#6366F1 -> #EC4899),
- * identitas Sayid Abdul Aziz (NIM 2425050522 - Universitas Ma'soem), & Dual Action Buttons.
+ * ProfileHeader — Hero minimalis bersih (Clean Dark Minimalist).
+ * Menampilkan foto formal 96x96 bulat rapi berborder tipis #8B5CF6,
+ * identitas asli CV, bio singkat dengan lineHeight nyaman (22), dan 2 tombol bersih.
  */
 export default function ProfileHeader({
   identity,
   onExplorePortfolio,
   onContactMe,
 }) {
-  const { colors, isDark } = useTheme();
+  const { colors } = useTheme();
   const [imageError, setImageError] = useState(false);
 
   if (!identity) return null;
 
+  const fullName = identity.nama || identity.name;
+  const role = identity.profesi || identity.role;
+  const campus = identity.kampus || identity.university;
+  const location = identity.lokasiSingkat || identity.lokasi;
+  const summary = identity.deskripsi || identity.tagline;
+
   return (
     <View
       style={[
-        styles.heroCard,
+        styles.card,
         {
           backgroundColor: colors.surface,
           borderColor: colors.border,
         },
-        colors.shadowGlow,
       ]}
     >
-      {/* Ambient Cyber Glow Overlay */}
-      <LinearGradient
-        colors={colors.gradientHeroGlow}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={styles.ambientGlow}
-      />
-
-      {/* 1. Glowing Pill Badge */}
-      <View
-        style={[
-          styles.welcomePill,
-          {
-            backgroundColor: 'rgba(139, 92, 246, 0.15)',
-            borderColor: 'rgba(139, 92, 246, 0.4)',
-          },
-        ]}
-      >
-        <Text
+      {/* Top Identity Row / Centered Minimalist Avatar */}
+      <View style={styles.identityHeader}>
+        <View
           style={[
-            styles.welcomePillText,
-            { color: isDark ? '#E9D5FF' : colors.secondary },
-          ]}
-        >
-          {identity.welcomeBadge || '✨ Welcome to My Portfolio'}
-        </Text>
-      </View>
-
-      {/* 2. Circular Avatar Frame with LinearGradient Ring (#6366F1 -> #EC4899) */}
-      <View style={[styles.avatarShadowWrap, colors.shadowGlow]}>
-        <LinearGradient
-          colors={['#6366F1', '#EC4899']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.avatarGradientRing}
-        >
-          <View
-            style={[
-              styles.avatarInnerBorder,
-              { backgroundColor: colors.surfaceSolid },
-            ]}
-          >
-            {identity.avatarUrl && !imageError ? (
-              <Image
-                source={{ uri: identity.avatarUrl }}
-                style={styles.avatarImage}
-                onError={() => setImageError(true)}
-              />
-            ) : (
-              <LinearGradient
-                colors={['#1E1B4B', '#311042']}
-                style={styles.avatarFallback}
-              >
-                <Text style={styles.avatarInitials}>
-                  {identity.avatarInitials || 'SA'}
-                </Text>
-              </LinearGradient>
-            )}
-          </View>
-        </LinearGradient>
-      </View>
-
-      {/* 3. Hero Typography */}
-      <Text style={[styles.hiText, { color: colors.textSecondary }]}>
-        {identity.greetingPrefix || "Hi, I'm"}
-      </Text>
-
-      <Text style={[styles.fullName, { color: colors.text }]}>
-        {identity.name}
-      </Text>
-
-      {/* NIM & Semester Pill Badge */}
-      <View
-        style={[
-          styles.nimPill,
-          {
-            backgroundColor: colors.cyanSoft,
-            borderColor: isDark ? 'rgba(56, 189, 248, 0.35)' : colors.accentCyan,
-          },
-        ]}
-      >
-        <Ionicons name="id-card-outline" size={14} color={colors.accentCyan} />
-        <Text style={[styles.nimPillText, { color: colors.accentCyan }]}>
-          {identity.nimBadge || `NIM: ${identity.nim} • Semester ${identity.semester}`}
-        </Text>
-      </View>
-
-      {/* Campus & Role */}
-      <Text style={[styles.campusText, { color: colors.text }]}>
-        {identity.campusShort || "S1 Sistem Informasi - Universitas Ma'soem"}
-      </Text>
-
-      <Text style={[styles.roleText, { color: colors.secondary }]}>
-        {identity.role}
-      </Text>
-
-      {identity.tagline ? (
-        <Text style={[styles.tagline, { color: colors.textSecondary }]}>
-          {identity.tagline}
-        </Text>
-      ) : null}
-
-      {/* 4. Dual Action Buttons */}
-      <View style={styles.dualBtnRow}>
-        <TouchableOpacity
-          activeOpacity={0.86}
-          onPress={onExplorePortfolio}
-          style={[styles.primaryBtnWrapper, colors.shadowGlow]}
-        >
-          <LinearGradient
-            colors={['#6366F1', '#A855F7']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.gradientBtn}
-          >
-            <Text style={styles.primaryBtnText}>Lihat Projek</Text>
-            <Ionicons name="arrow-forward" size={16} color="#FFFFFF" />
-          </LinearGradient>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          activeOpacity={0.82}
-          onPress={onContactMe}
-          style={[
-            styles.ghostBtn,
+            styles.avatarFrame,
             {
-              borderColor: '#6366F1',
-              backgroundColor: 'rgba(99, 102, 241, 0.08)',
+              borderColor: colors.primary,
+              backgroundColor: colors.surfaceElevated,
             },
           ]}
         >
-          <Ionicons
-            name="chatbubble-ellipses-outline"
-            size={16}
-            color={isDark ? '#C7D2FE' : '#4F46E5'}
-          />
-          <Text
-            style={[
-              styles.ghostBtnText,
-              { color: isDark ? '#F8FAFC' : '#4F46E5' },
-            ]}
-          >
-            Hubungi Saya
+          {!imageError ? (
+            <Image
+              source={profilePhoto}
+              style={styles.avatarImage}
+              resizeMode="cover"
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <View style={styles.avatarFallback}>
+              <Text style={[styles.avatarInitials, { color: colors.text }]}>
+                {identity.inisial || 'SA'}
+              </Text>
+            </View>
+          )}
+        </View>
+
+        <Text style={[styles.nameText, { color: colors.text }]}>
+          {fullName}
+        </Text>
+
+        <Text style={[styles.roleText, { color: colors.primary }]}>
+          {role}
+        </Text>
+
+        {campus ? (
+          <Text style={[styles.campusText, { color: colors.textSecondary }]}>
+            {campus}
+          </Text>
+        ) : null}
+
+        {/* Info Ringkas: NIM & Lokasi tanpa tumpukan badge ramai */}
+        <View style={styles.metaRow}>
+          <View style={styles.metaItem}>
+            <Ionicons
+              name="id-card-outline"
+              size={14}
+              color={colors.textSecondary}
+            />
+            <Text style={[styles.metaText, { color: colors.textSecondary }]}>
+              NIM {identity.nim}
+            </Text>
+          </View>
+
+          <Text style={[styles.metaDot, { color: colors.border }]}>•</Text>
+
+          <View style={styles.metaItem}>
+            <Ionicons
+              name="location-outline"
+              size={14}
+              color={colors.textSecondary}
+            />
+            <Text style={[styles.metaText, { color: colors.textSecondary }]}>
+              {location}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={[styles.divider, { backgroundColor: colors.border }]} />
+
+      {/* Profile Summary */}
+      {summary ? (
+        <Text style={[styles.bioText, { color: colors.textSecondary }]}>
+          {summary}
+        </Text>
+      ) : null}
+
+      {/* 2 Tombol Bersih: Lihat Portofolio & Kontak */}
+      <View style={styles.buttonRow}>
+        <TouchableOpacity
+          activeOpacity={0.85}
+          onPress={onExplorePortfolio}
+          style={[styles.primaryBtn, { backgroundColor: colors.primary }]}
+        >
+          <Text style={styles.primaryBtnText}>Lihat Portofolio</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={onContactMe}
+          style={[
+            styles.secondaryBtn,
+            {
+              backgroundColor: colors.surfaceElevated,
+              borderColor: colors.border,
+            },
+          ]}
+        >
+          <Text style={[styles.secondaryBtnText, { color: colors.text }]}>
+            Kontak
           </Text>
         </TouchableOpacity>
       </View>
@@ -187,151 +151,113 @@ export default function ProfileHeader({
 }
 
 const styles = StyleSheet.create({
-  heroCard: {
-    borderRadius: 24,
+  card: {
+    borderRadius: 16,
     borderWidth: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 24,
+    padding: 18,
+  },
+  identityHeader: {
     alignItems: 'center',
+  },
+  avatarFrame: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    borderWidth: 1.5,
     overflow: 'hidden',
-    marginBottom: 18,
-  },
-  ambientGlow: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 170,
-  },
-  welcomePill: {
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 999,
-    borderWidth: 1,
-    marginBottom: 18,
-  },
-  welcomePillText: {
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 0.2,
-  },
-  avatarShadowWrap: {
-    borderRadius: 999,
     marginBottom: 14,
-  },
-  avatarGradientRing: {
-    width: 108,
-    height: 108,
-    borderRadius: 54,
-    padding: 3.5,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  avatarInnerBorder: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 51,
-    padding: 2.5,
-    overflow: 'hidden',
   },
   avatarImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 48,
   },
   avatarFallback: {
     width: '100%',
     height: '100%',
-    borderRadius: 48,
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatarInitials: {
-    color: '#F8FAFC',
-    fontSize: 30,
-    fontWeight: '800',
-    letterSpacing: 1,
-  },
-  hiText: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 2,
-  },
-  fullName: {
-    fontSize: 26,
-    fontWeight: '800',
-    textAlign: 'center',
-    letterSpacing: -0.4,
-    marginBottom: 10,
-  },
-  nimPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 13,
-    paddingVertical: 5,
-    borderRadius: 999,
-    borderWidth: 1,
-    marginBottom: 10,
-  },
-  nimPillText: {
-    fontSize: 12,
+    fontSize: 28,
     fontWeight: '700',
   },
-  campusText: {
-    fontSize: 14,
+  nameText: {
+    fontSize: 22,
     fontWeight: '700',
+    letterSpacing: -0.3,
     textAlign: 'center',
     marginBottom: 4,
   },
   roleText: {
-    fontSize: 12.5,
-    fontWeight: '700',
+    fontSize: 14,
+    fontWeight: '600',
     textAlign: 'center',
-    marginBottom: 12,
+    marginBottom: 4,
   },
-  tagline: {
+  campusText: {
     fontSize: 13,
-    lineHeight: 20,
     textAlign: 'center',
-    marginBottom: 18,
+    marginBottom: 10,
   },
-  dualBtnRow: {
+  metaRow: {
     flexDirection: 'row',
-    width: '100%',
-    gap: 10,
-  },
-  primaryBtnWrapper: {
-    flex: 1,
-    borderRadius: 14,
-  },
-  gradientBtn: {
-    flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 7,
-    paddingVertical: 12.5,
-    paddingHorizontal: 12,
-    borderRadius: 14,
+    gap: 8,
+  },
+  metaItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  metaText: {
+    fontSize: 12.5,
+  },
+  metaDot: {
+    fontSize: 13,
+  },
+  divider: {
+    height: 1,
+    width: '100%',
+    marginVertical: 16,
+  },
+  bioText: {
+    fontSize: 13.5,
+    lineHeight: 22,
+    textAlign: 'left',
+    marginBottom: 18,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  primaryBtn: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   primaryBtnText: {
     color: '#FFFFFF',
     fontSize: 13.5,
-    fontWeight: '800',
+    fontWeight: '600',
   },
-  ghostBtn: {
+  secondaryBtn: {
     flex: 1,
-    flexDirection: 'row',
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 7,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    borderRadius: 14,
-    borderWidth: 1.5,
   },
-  ghostBtnText: {
+  secondaryBtnText: {
     fontSize: 13.5,
-    fontWeight: '800',
+    fontWeight: '600',
   },
 });

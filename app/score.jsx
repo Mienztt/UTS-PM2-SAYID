@@ -4,24 +4,16 @@ import {
   Text,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
   TextInput,
   RefreshControl,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
 
 import { useTheme } from '../context/ThemeContext';
 import { useSimulatedFetch } from '../hooks/useSimulatedFetch';
 import academicScoreJson from '../data/academicScore.json';
-import {
-  calculateAcademicMetrics,
-  calculateCourseFinalScore,
-  getGradeInfo,
-} from '../utils/validation';
+import { calculateCourseFinalScore, getGradeInfo } from '../utils/validation';
 
 import ScoreProgressBar from '../components/ScoreProgressBar';
-import EmptyState from '../components/EmptyState';
 import LoadingState from '../components/LoadingState';
 
 export default function ScoreScreen() {
@@ -34,31 +26,12 @@ export default function ScoreScreen() {
     error,
     retry,
     refresh,
-    simulateError,
-  } = useSimulatedFetch(() => academicScoreJson, { delay: 380 });
+  } = useSimulatedFetch(() => academicScoreJson, { delay: 260 });
 
-  const [activeTab, setActiveTab] = useState('progress'); // 'progress' | 'levels' | 'simulator'
-  const [courseSearch, setCourseSearch] = useState('');
-  const [focusedInput, setFocusedInput] = useState(null);
-
-  // State Kalkulator Simulasi Nilai (Level 4 & Level 8)
+  const [focusedField, setFocusedField] = useState(null);
   const [simTugas, setSimTugas] = useState('92');
   const [simUts, setSimUts] = useState('92');
   const [simUas, setSimUas] = useState('92');
-
-  const overallMetrics = useMemo(() => {
-    return calculateAcademicMetrics(academicData?.courses || []);
-  }, [academicData]);
-
-  const filteredCourses = useMemo(() => {
-    const q = courseSearch.trim().toLowerCase();
-    if (!q) return overallMetrics.enrichedCourses;
-    return overallMetrics.enrichedCourses.filter((c) =>
-      `${c.code} ${c.name} ${c.lecturer || ''} ${c.grade}`
-        .toLowerCase()
-        .includes(q)
-    );
-  }, [overallMetrics.enrichedCourses, courseSearch]);
 
   const simResult = useMemo(() => {
     const finalScore = calculateCourseFinalScore({
@@ -80,7 +53,7 @@ export default function ScoreScreen() {
           loading={loading}
           error={error}
           onRetry={retry}
-          loadingText="Memuat My Score & Learning Progress..."
+          loadingText="Memuat data capaian akademik..."
           skeletonCount={3}
         />
       </ScrollView>
@@ -100,366 +73,172 @@ export default function ScoreScreen() {
         <RefreshControl
           refreshing={isRefreshing}
           onRefresh={refresh}
-          tintColor="#A855F7"
-          colors={['#6366F1', '#A855F7']}
+          tintColor={colors.primary}
+          colors={[colors.primary]}
         />
       }
     >
-      {/* 1. Kartu Identitas Akademik (Cyber-Glass Card) */}
-      <View
-        style={[
-          styles.identityCard,
-          {
-            backgroundColor: colors.surface,
-            borderColor: colors.border,
-          },
-          colors.shadowGlow,
-        ]}
-      >
-        <View style={styles.identityTopRow}>
-          <View
-            style={[
-              styles.verifiedAcademicPill,
-              {
-                backgroundColor: colors.pillBg,
-                borderColor: colors.pillBorder,
-              },
-            ]}
-          >
-            <Ionicons name="school" size={13} color={colors.secondary} />
-            <Text style={[styles.verifiedText, { color: colors.secondary }]}>
-              Academic Dashboard • Level 8
-            </Text>
-          </View>
-        </View>
-
-        <Text style={[styles.studentName, { color: colors.text }]}>
-          {summary.studentName}
-        </Text>
-
+      {/* 1. Kartu Identitas Mahasiswa & Mata Kuliah (Level 8) */}
+      <View style={styles.section}>
         <View
           style={[
-            styles.nimChip,
+            styles.card,
             {
-              backgroundColor: colors.cyanSoft,
-              borderColor: 'rgba(56, 189, 248, 0.35)',
+              backgroundColor: colors.surface,
+              borderColor: colors.border,
             },
           ]}
         >
-          <Ionicons name="id-card-outline" size={14} color={colors.accentCyan} />
-          <Text style={[styles.nimChipText, { color: colors.accentCyan }]}>
-            NIM: {summary.nim}
+          <Text style={[styles.studentName, { color: colors.text }]}>
+            {summary.studentName}
           </Text>
-        </View>
+          <Text style={[styles.nimText, { color: colors.primary }]}>
+            NIM {summary.nim}
+          </Text>
+          <Text style={[styles.campusText, { color: colors.textSecondary }]}>
+            {summary.programCampus}
+          </Text>
 
-        <Text style={[styles.campusText, { color: colors.textSecondary }]}>
-          {summary.programCampus}
-        </Text>
+          <View style={[styles.divider, { backgroundColor: colors.border }]} />
 
-        <View style={[styles.courseMetaDivider, { borderTopColor: colors.border }]}>
-          <View style={styles.courseMetaItem}>
-            <Text style={[styles.metaLabel, { color: colors.textMuted }]}>
-              Mata Kuliah
-            </Text>
-            <Text style={[styles.metaValue, { color: colors.text }]}>
-              {summary.courseName}
-            </Text>
-          </View>
+          <View style={styles.courseInfoGrid}>
+            <View style={styles.courseInfoCol}>
+              <Text style={[styles.metaLabel, { color: colors.textSecondary }]}>
+                Mata Kuliah
+              </Text>
+              <Text style={[styles.metaValue, { color: colors.text }]}>
+                {summary.courseName}
+              </Text>
+            </View>
 
-          <View style={styles.courseMetaItem}>
-            <Text style={[styles.metaLabel, { color: colors.textMuted }]}>
-              Dosen Pengampu
-            </Text>
-            <Text style={[styles.metaValue, { color: colors.accentCyan }]}>
-              {summary.lecturer}
-            </Text>
+            <View style={styles.courseInfoCol}>
+              <Text style={[styles.metaLabel, { color: colors.textSecondary }]}>
+                Dosen Pengampu
+              </Text>
+              <Text style={[styles.metaValue, { color: colors.text }]}>
+                {summary.lecturer}
+              </Text>
+            </View>
           </View>
         </View>
       </View>
 
-      {/* 2. Kartu Current Score dengan LinearGradient (#1E1B4B -> #311042) */}
-      <View style={[styles.scoreGradientWrap, colors.shadowGlow]}>
-        <LinearGradient
-          colors={['#1E1B4B', '#311042']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.scoreGradientCard}
+      {/* 2. Kartu Nilai Akhir & Learning Points Minimalis */}
+      <View style={styles.section}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>
+          Academic Score
+        </Text>
+
+        <View
+          style={[
+            styles.card,
+            {
+              backgroundColor: colors.surface,
+              borderColor: colors.border,
+            },
+          ]}
         >
-          <View style={styles.scoreDecorOrb} />
-
-          <View style={styles.scoreTopBar}>
-            <View style={styles.currentScoreTag}>
-              <Ionicons name="sparkles" size={13} color="#38BDF8" />
-              <Text style={styles.currentScoreTagText}>Current Score</Text>
-            </View>
-
-            <View style={styles.lpPill}>
-              <Ionicons name="flash" size={14} color="#FBBF24" />
-              <Text style={styles.lpPillText}>
+          <View style={styles.scoreHeaderRow}>
+            <Text style={[styles.scoreCaption, { color: colors.textSecondary }]}>
+              Current Score
+            </Text>
+            <View
+              style={[
+                styles.lpBadge,
+                {
+                  backgroundColor: colors.accentSoft,
+                  borderColor: colors.accentBorder,
+                },
+              ]}
+            >
+              <Text style={[styles.lpText, { color: colors.primary }]}>
                 {summary.learningPointsLabel || `${summary.learningPoints} LP`}
               </Text>
             </View>
           </View>
 
           <View style={styles.scoreMainRow}>
-            <View style={styles.scoreNumberBlock}>
-              <Text style={styles.bigScoreNumber}>{summary.currentScore}</Text>
-              <Text style={styles.outOfText}>/ 100 Points</Text>
-            </View>
-
-            <LinearGradient
-              colors={['#6366F1', '#A855F7']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.gradeBadgeBox}
-            >
-              <Text style={styles.gradeCaption}>GRADE</Text>
-              <Text style={styles.gradeLetter}>{summary.grade}</Text>
-            </LinearGradient>
-          </View>
-
-          <Text style={styles.scoreCourseFooter}>
-            {summary.courseName} • Dosen: {summary.lecturer}
-          </Text>
-        </LinearGradient>
-      </View>
-
-      {/* 3. Segmented Pill Switcher */}
-      <View
-        style={[
-          styles.segmentedCard,
-          {
-            backgroundColor: colors.surface,
-            borderColor: colors.border,
-          },
-        ]}
-      >
-        {[
-          { key: 'progress', label: 'Learning Progress' },
-          { key: 'levels', label: 'Level 1–10' },
-          { key: 'simulator', label: 'Simulator' },
-        ].map((tab) => {
-          const active = activeTab === tab.key;
-          return (
-            <TouchableOpacity
-              key={tab.key}
-              activeOpacity={0.85}
-              onPress={() => setActiveTab(tab.key)}
-              style={styles.tabSlot}
-            >
-              {active ? (
-                <LinearGradient
-                  colors={['#6366F1', '#A855F7']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={styles.activeTabPill}
-                >
-                  <Text style={styles.activeTabText}>{tab.label}</Text>
-                </LinearGradient>
-              ) : (
-                <View style={styles.inactiveTabPill}>
-                  <Text
-                    style={[
-                      styles.inactiveTabText,
-                      { color: colors.textSecondary },
-                    ]}
-                  >
-                    {tab.label}
-                  </Text>
-                </View>
-              )}
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-
-      {/* VIEW 1: 4 LEARNING PROGRESS BARS + COURSES */}
-      {activeTab === 'progress' && (
-        <View>
-          {/* 4 Neon Learning Progress Card */}
-          <View
-            style={[
-              styles.glassSectionCard,
-              {
-                backgroundColor: colors.surface,
-                borderColor: colors.border,
-              },
-              colors.shadowGlow,
-            ]}
-          >
-            <View style={styles.sectionTitleRow}>
-              <Ionicons
-                name="trending-up-outline"
-                size={19}
-                color={colors.accentCyan}
-              />
-              <Text style={[styles.sectionTitle, { color: colors.text }]}>
-                Learning Progress ({summary.learningPointsLabel || '12375 LP'})
+            <View style={styles.scoreNumberWrap}>
+              <Text style={[styles.scoreNumber, { color: colors.text }]}>
+                {summary.currentScore}
+              </Text>
+              <Text style={[styles.scoreMax, { color: colors.textSecondary }]}>
+                / 100
               </Text>
             </View>
 
-            {learningProgress.map((item) => (
-              <ScoreProgressBar
-                key={item.id}
-                label={item.label}
-                subtitle={item.subtitle}
-                value={item.percentage}
-                maxValue={100}
-                gradientColors={item.gradient}
-              />
-            ))}
-          </View>
-
-          {/* Riwayat Mata Kuliah Sistem Informasi */}
-          <View style={styles.subHeaderBlock}>
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>
-              Rekapitulasi Mata Kuliah & IP ({overallMetrics.gpa.toFixed(2)})
-            </Text>
-          </View>
-
-          <View
-            style={[
-              styles.searchBar,
-              {
-                backgroundColor: colors.surface,
-                borderColor:
-                  focusedInput === 'courseSearch' ? '#A855F7' : colors.border,
-              },
-            ]}
-          >
-            <Ionicons name="search-outline" size={17} color={colors.accentCyan} />
-            <TextInput
-              value={courseSearch}
-              onChangeText={setCourseSearch}
-              onFocus={() => setFocusedInput('courseSearch')}
-              onBlur={() => setFocusedInput(null)}
-              placeholder="Cari mata kuliah atau dosen..."
-              placeholderTextColor={colors.textMuted}
-              style={[styles.searchInput, { color: colors.text }]}
-            />
-            {courseSearch.length > 0 && (
-              <TouchableOpacity onPress={() => setCourseSearch('')}>
-                <Ionicons
-                  name="close-circle"
-                  size={18}
-                  color={colors.textSecondary}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
-
-          {filteredCourses.length === 0 ? (
-            <EmptyState
-              icon="document-text-outline"
-              title="Mata Kuliah Tidak Ditemukan"
-              description={`Tidak ada mata kuliah dengan kata kunci "${courseSearch}".`}
-              actionLabel="Reset Pencarian"
-              onAction={() => setCourseSearch('')}
-            />
-          ) : (
-            filteredCourses.map((course) => (
-              <View
-                key={course.id}
-                style={[
-                  styles.courseCard,
-                  {
-                    backgroundColor: colors.surface,
-                    borderColor: colors.border,
-                  },
-                ]}
-              >
-                <ScoreProgressBar
-                  label={`${course.code} • ${course.name}`}
-                  subtitle={`Semester ${course.semester} • ${course.sks} SKS${
-                    course.lecturer ? ` • ${course.lecturer}` : ''
-                  }`}
-                  value={course.finalScore}
-                  maxValue={100}
-                  badgeText={`Grade ${course.grade}`}
-                  gradientColors={['#6366F1', '#A855F7']}
-                />
-              </View>
-            ))
-          )}
-        </View>
-      )}
-
-      {/* VIEW 2: LEVEL 1-10 RUBRIC TRACKER */}
-      {activeTab === 'levels' && (
-        <View
-          style={[
-            styles.glassSectionCard,
-            {
-              backgroundColor: colors.surface,
-              borderColor: colors.border,
-            },
-            colors.shadowGlow,
-          ]}
-        >
-          <View style={styles.sectionTitleRow}>
-            <Ionicons
-              name="checkmark-done-circle"
-              size={20}
-              color={colors.success}
-            />
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>
-              Capaian Proyek UTS (Level 1 – 10)
-            </Text>
-          </View>
-
-          {(academicData.levelAchievements || []).map((lvl) => (
             <View
-              key={`lvl-${lvl.level}`}
               style={[
-                styles.levelItemBox,
+                styles.gradeBox,
                 {
-                  backgroundColor: colors.surfaceElevated,
-                  borderColor: colors.border,
+                  backgroundColor: colors.accentSoft,
+                  borderColor: colors.accentBorder,
                 },
               ]}
             >
-              <ScoreProgressBar
-                label={lvl.title}
-                subtitle={lvl.detail}
-                value={lvl.percentage}
-                maxValue={100}
-                badgeText="100%"
-                showPercentage={false}
-                gradientColors={
-                  lvl.level % 2 === 0
-                    ? ['#A855F7', '#EC4899']
-                    : ['#6366F1', '#38BDF8']
-                }
-              />
+              <Text style={[styles.gradeSmall, { color: colors.textSecondary }]}>
+                Grade
+              </Text>
+              <Text style={[styles.gradeLetter, { color: colors.primary }]}>
+                {summary.grade}
+              </Text>
             </View>
-          ))}
+          </View>
         </View>
-      )}
+      </View>
 
-      {/* VIEW 3: INTERACTIVE GRADE SIMULATOR */}
-      {activeTab === 'simulator' && (
+      {/* 3. Learning Progress (Attendance, Practice, Quest, Challenge) */}
+      <View style={styles.section}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>
+          Learning Progress
+        </Text>
+
         <View
           style={[
-            styles.glassSectionCard,
+            styles.card,
             {
               backgroundColor: colors.surface,
               borderColor: colors.border,
             },
-            colors.shadowGlow,
           ]}
         >
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
-            Kalkulator Simulasi Nilai Akhir
-          </Text>
-          <Text style={[styles.simSubtitle, { color: colors.textSecondary }]}>
-            Uji perhitungan skor otomatis (30% Tugas, 35% UTS, 35% UAS).
+          {learningProgress.map((item, idx) => (
+            <ScoreProgressBar
+              key={item.id}
+              label={item.label}
+              subtitle={item.subtitle}
+              value={item.percentage}
+              maxValue={100}
+              isLast={idx === learningProgress.length - 1}
+            />
+          ))}
+        </View>
+      </View>
+
+      {/* 4. Kalkulator Simulasi Nilai Ringkas */}
+      <View style={styles.bottomSection}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>
+          Grade Simulator
+        </Text>
+
+        <View
+          style={[
+            styles.card,
+            {
+              backgroundColor: colors.surface,
+              borderColor: colors.border,
+            },
+          ]}
+        >
+          <Text style={[styles.simDesc, { color: colors.textSecondary }]}>
+            Simulasi nilai akhir berdasarkan bobot Tugas (30%), UTS (35%), dan UAS (35%).
           </Text>
 
-          <View style={styles.simInputRow}>
+          <View style={styles.simInputsRow}>
             {[
-              { id: 'tugas', label: 'Tugas (30%)', val: simTugas, setter: setSimTugas },
-              { id: 'uts', label: 'UTS (35%)', val: simUts, setter: setSimUts },
-              { id: 'uas', label: 'UAS (35%)', val: simUas, setter: setSimUas },
+              { id: 'tugas', label: 'Tugas', val: simTugas, setter: setSimTugas },
+              { id: 'uts', label: 'UTS', val: simUts, setter: setSimUts },
+              { id: 'uas', label: 'UAS', val: simUas, setter: setSimUas },
             ].map((field) => (
               <View key={field.id} style={styles.simField}>
                 <Text style={[styles.simLabel, { color: colors.textSecondary }]}>
@@ -468,8 +247,8 @@ export default function ScoreScreen() {
                 <TextInput
                   value={field.val}
                   onChangeText={field.setter}
-                  onFocus={() => setFocusedInput(field.id)}
-                  onBlur={() => setFocusedInput(null)}
+                  onFocus={() => setFocusedField(field.id)}
+                  onBlur={() => setFocusedField(null)}
                   keyboardType="numeric"
                   maxLength={3}
                   style={[
@@ -477,7 +256,9 @@ export default function ScoreScreen() {
                     {
                       backgroundColor: colors.surfaceInput,
                       borderColor:
-                        focusedInput === field.id ? '#A855F7' : colors.border,
+                        focusedField === field.id
+                          ? colors.primary
+                          : colors.border,
                       color: colors.text,
                     },
                   ]}
@@ -486,50 +267,29 @@ export default function ScoreScreen() {
             ))}
           </View>
 
-          <LinearGradient
-            colors={['#1E1B4B', '#311042']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.simResultBox}
+          <View
+            style={[
+              styles.simResultRow,
+              {
+                backgroundColor: colors.surfaceElevated,
+                borderColor: colors.border,
+              },
+            ]}
           >
-            <View style={styles.simResultLeft}>
-              <Text style={styles.simResultCaption}>Skor Akhir Terhitung</Text>
-              <Text style={styles.simResultScore}>
-                {simResult.finalScore} / 100
+            <View>
+              <Text style={[styles.simResultLabel, { color: colors.textSecondary }]}>
+                Hasil Perhitungan
               </Text>
-              <Text style={styles.simResultPredicate}>
-                Bobot {simResult.point.toFixed(1)} • {simResult.predicate}
+              <Text style={[styles.simResultValue, { color: colors.text }]}>
+                {simResult.finalScore} / 100 • {simResult.predicate}
               </Text>
             </View>
 
-            <LinearGradient
-              colors={['#6366F1', '#A855F7']}
-              style={styles.simGradeBadge}
-            >
-              <Text style={styles.simGradeText}>{simResult.grade}</Text>
-            </LinearGradient>
-          </LinearGradient>
+            <Text style={[styles.simResultGrade, { color: colors.primary }]}>
+              {simResult.grade}
+            </Text>
+          </View>
         </View>
-      )}
-
-      {/* Resilience Testing Trigger (Level 10) */}
-      <View style={styles.demoRow}>
-        <TouchableOpacity
-          activeOpacity={0.75}
-          onPress={simulateError}
-          style={[
-            styles.demoBtn,
-            {
-              backgroundColor: colors.surface,
-              borderColor: colors.border,
-            },
-          ]}
-        >
-          <Ionicons name="pulse-outline" size={14} color={colors.textMuted} />
-          <Text style={[styles.demoBtnText, { color: colors.textMuted }]}>
-            Uji Error State & Retry Akademik (Level 10)
-          </Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -540,352 +300,161 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    padding: 16,
-    paddingBottom: 34,
+    padding: 18,
+    paddingBottom: 36,
   },
-  identityCard: {
-    borderRadius: 22,
+  section: {
+    marginBottom: 28,
+  },
+  bottomSection: {
+    marginBottom: 8,
+  },
+  sectionTitle: {
+    fontSize: 17,
+    fontWeight: '700',
+    letterSpacing: -0.2,
+    marginBottom: 14,
+  },
+  card: {
+    borderRadius: 16,
     borderWidth: 1,
     padding: 18,
-    marginBottom: 16,
-  },
-  identityTopRow: {
-    flexDirection: 'row',
-    marginBottom: 10,
-  },
-  verifiedAcademicPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 11,
-    paddingVertical: 5,
-    borderRadius: 999,
-    borderWidth: 1,
-  },
-  verifiedText: {
-    fontSize: 11.5,
-    fontWeight: '800',
   },
   studentName: {
-    fontSize: 22,
-    fontWeight: '800',
-    marginBottom: 8,
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 4,
   },
-  nimChip: {
-    alignSelf: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    borderRadius: 999,
-    borderWidth: 1,
-    marginBottom: 8,
-  },
-  nimChipText: {
-    fontSize: 12,
-    fontWeight: '800',
+  nimText: {
+    fontSize: 13.5,
+    fontWeight: '600',
+    marginBottom: 4,
   },
   campusText: {
     fontSize: 13,
-    fontWeight: '600',
-    lineHeight: 19,
-    marginBottom: 14,
+    lineHeight: 20,
   },
-  courseMetaDivider: {
+  divider: {
+    height: 1,
+    marginVertical: 16,
+  },
+  courseInfoGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 14,
-    paddingTop: 12,
-    borderTopWidth: 1,
+    gap: 16,
   },
-  courseMetaItem: {
+  courseInfoCol: {
     flex: 1,
     minWidth: 130,
   },
   metaLabel: {
-    fontSize: 11,
-    fontWeight: '600',
-    marginBottom: 2,
+    fontSize: 12,
+    marginBottom: 3,
   },
   metaValue: {
-    fontSize: 14,
-    fontWeight: '800',
+    fontSize: 14.5,
+    fontWeight: '600',
   },
-  scoreGradientWrap: {
-    borderRadius: 24,
-    marginBottom: 16,
-  },
-  scoreGradientCard: {
-    borderRadius: 24,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(168, 85, 247, 0.38)',
-    overflow: 'hidden',
-  },
-  scoreDecorOrb: {
-    position: 'absolute',
-    right: -30,
-    top: -30,
-    width: 130,
-    height: 130,
-    borderRadius: 65,
-    backgroundColor: 'rgba(168, 85, 247, 0.18)',
-  },
-  scoreTopBar: {
+  scoreHeaderRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    gap: 8,
-    marginBottom: 16,
+    marginBottom: 12,
   },
-  currentScoreTag: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: 'rgba(56, 189, 248, 0.15)',
-    borderColor: 'rgba(56, 189, 248, 0.38)',
+  scoreCaption: {
+    fontSize: 13,
+    fontWeight: '500',
+  },
+  lpBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
     borderWidth: 1,
-    paddingHorizontal: 11,
-    paddingVertical: 5,
-    borderRadius: 999,
   },
-  currentScoreTagText: {
-    color: '#38BDF8',
+  lpText: {
     fontSize: 12,
-    fontWeight: '800',
-  },
-  lpPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    backgroundColor: 'rgba(251, 191, 36, 0.16)',
-    borderColor: 'rgba(251, 191, 36, 0.4)',
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    borderRadius: 999,
-  },
-  lpPillText: {
-    color: '#FDE68A',
-    fontSize: 12.5,
-    fontWeight: '900',
+    fontWeight: '700',
   },
   scoreMainRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 14,
   },
-  scoreNumberBlock: {
+  scoreNumberWrap: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    gap: 8,
+    gap: 6,
   },
-  bigScoreNumber: {
-    color: '#FFFFFF',
-    fontSize: 52,
-    fontWeight: '900',
+  scoreNumber: {
+    fontSize: 44,
+    fontWeight: '800',
     letterSpacing: -1,
   },
-  outOfText: {
-    color: '#CBD5E1',
-    fontSize: 14,
-    fontWeight: '700',
+  scoreMax: {
+    fontSize: 15,
+    fontWeight: '500',
   },
-  gradeBadgeBox: {
-    width: 68,
-    height: 68,
-    borderRadius: 20,
-    justifyContent: 'center',
+  gradeBox: {
+    minWidth: 64,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
     alignItems: 'center',
   },
-  gradeCaption: {
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 9.5,
-    fontWeight: '800',
-    letterSpacing: 0.8,
-  },
-  gradeLetter: {
-    color: '#FFFFFF',
-    fontSize: 28,
-    fontWeight: '900',
-  },
-  scoreCourseFooter: {
-    color: '#E2E8F0',
-    fontSize: 12.5,
+  gradeSmall: {
+    fontSize: 10.5,
     fontWeight: '600',
   },
-  segmentedCard: {
-    flexDirection: 'row',
-    borderRadius: 999,
-    borderWidth: 1,
-    padding: 4,
-    marginBottom: 16,
-  },
-  tabSlot: {
-    flex: 1,
-  },
-  activeTabPill: {
-    paddingVertical: 9,
-    paddingHorizontal: 6,
-    borderRadius: 999,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  activeTabText: {
-    color: '#FFFFFF',
-    fontSize: 11.5,
+  gradeLetter: {
+    fontSize: 24,
     fontWeight: '800',
   },
-  inactiveTabPill: {
-    paddingVertical: 9,
-    paddingHorizontal: 6,
-    borderRadius: 999,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inactiveTabText: {
-    fontSize: 11.5,
-    fontWeight: '700',
-  },
-  glassSectionCard: {
-    borderRadius: 22,
-    borderWidth: 1,
-    padding: 18,
-    marginBottom: 18,
-  },
-  sectionTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 16,
-  },
-  sectionTitle: {
-    fontSize: 16.5,
-    fontWeight: '800',
-    flexShrink: 1,
-  },
-  subHeaderBlock: {
-    marginBottom: 10,
-  },
-  searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 9,
-    paddingHorizontal: 13,
-    paddingVertical: 9,
-    borderRadius: 13,
-    borderWidth: 1.5,
-    marginBottom: 12,
-  },
-  searchInput: {
-    flex: 1,
+  simDesc: {
     fontSize: 13.5,
-    paddingVertical: 2,
+    lineHeight: 22,
+    marginBottom: 14,
   },
-  courseCard: {
-    borderRadius: 18,
-    borderWidth: 1,
-    padding: 14,
-    paddingBottom: 2,
-    marginBottom: 10,
-  },
-  levelItemBox: {
-    borderRadius: 15,
-    borderWidth: 1,
-    padding: 12,
-    paddingBottom: 0,
-    marginBottom: 10,
-  },
-  simSubtitle: {
-    fontSize: 13,
-    lineHeight: 19,
-    marginTop: 4,
-    marginBottom: 16,
-  },
-  simInputRow: {
+  simInputsRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     gap: 10,
-    marginBottom: 16,
+    marginBottom: 14,
   },
   simField: {
     flex: 1,
-    minWidth: 88,
   },
   simLabel: {
-    fontSize: 11.5,
-    fontWeight: '700',
+    fontSize: 12,
+    fontWeight: '500',
     marginBottom: 6,
   },
   simInput: {
-    borderWidth: 1.5,
-    borderRadius: 12,
+    borderWidth: 1,
+    borderRadius: 10,
     paddingVertical: 10,
-    paddingHorizontal: 12,
-    fontSize: 16,
-    fontWeight: '800',
+    paddingHorizontal: 10,
+    fontSize: 15,
+    fontWeight: '600',
     textAlign: 'center',
   },
-  simResultBox: {
+  simResultRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: 18,
-    padding: 16,
+    padding: 14,
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: 'rgba(168, 85, 247, 0.35)',
-    gap: 12,
   },
-  simResultLeft: {
-    flex: 1,
-  },
-  simResultCaption: {
-    color: '#CBD5E1',
+  simResultLabel: {
     fontSize: 12,
-    fontWeight: '600',
     marginBottom: 2,
   },
-  simResultScore: {
-    color: '#FFFFFF',
+  simResultValue: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  simResultGrade: {
     fontSize: 22,
-    fontWeight: '900',
-    marginBottom: 2,
-  },
-  simResultPredicate: {
-    color: '#38BDF8',
-    fontSize: 12.5,
-    fontWeight: '700',
-  },
-  simGradeBadge: {
-    width: 54,
-    height: 54,
-    borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  simGradeText: {
-    color: '#FFFFFF',
-    fontSize: 24,
-    fontWeight: '900',
-  },
-  demoRow: {
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  demoBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 13,
-    paddingVertical: 8,
-    borderRadius: 999,
-    borderWidth: 1,
-  },
-  demoBtnText: {
-    fontSize: 11.5,
-    fontWeight: '600',
+    fontWeight: '800',
   },
 });

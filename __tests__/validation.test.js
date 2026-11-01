@@ -1,17 +1,16 @@
 import {
   isValidEmail,
   validateContactForm,
-  validateGuestbookForm,
   calculateCourseFinalScore,
   getGradeInfo,
   calculateAcademicMetrics,
 } from '../utils/validation';
 
-describe('Unit Testing Level 10 — Form Validation & Academic Score Calculation', () => {
+describe('Unit Testing — Form Validation & Academic Score Calculation', () => {
   describe('1. Validasi Format Email (isValidEmail)', () => {
     test('menerima alamat email yang valid', () => {
-      expect(isValidEmail('sayid.aziz@masoemuniversity.ac.id')).toBe(true);
-      expect(isValidEmail('  developer@alfari.my.id  ')).toBe(true);
+      expect(isValidEmail('sayidaziz35@gmail.com')).toBe(true);
+      expect(isValidEmail('  contact@alfari.my.id  ')).toBe(true);
     });
 
     test('menolak alamat email kosong atau format salah', () => {
@@ -23,12 +22,11 @@ describe('Unit Testing Level 10 — Form Validation & Academic Score Calculation
   });
 
   describe('2. Validasi Contact Form (validateContactForm)', () => {
-    test('lolos validasi ketika seluruh field memenuhi syarat', () => {
+    test('lolos validasi ketika Nama, Email, dan Pesan memenuhi syarat', () => {
       const result = validateContactForm({
         name: 'Sayid Abdul Aziz',
-        email: 'sayid@example.com',
-        subject: 'Tawaran Kolaborasi Proyek Mobile',
-        message: 'Halo, saya tertarik mendiskusikan pengembangan aplikasi Expo bersama Anda.',
+        email: 'sayidaziz35@gmail.com',
+        message: 'Halo, saya ingin berdiskusi mengenai proyek pengembangan web.',
       });
 
       expect(result.isValid).toBe(true);
@@ -39,48 +37,18 @@ describe('Unit Testing Level 10 — Form Validation & Academic Score Calculation
       const result = validateContactForm({
         name: 'A',
         email: 'email-salah',
-        subject: 'Hi',
-        message: 'Pendek',
+        message: 'Halo',
       });
 
       expect(result.isValid).toBe(false);
       expect(result.errors.name).toBeDefined();
       expect(result.errors.email).toBeDefined();
-      expect(result.errors.subject).toBeDefined();
       expect(result.errors.message).toBeDefined();
     });
   });
 
-  describe('3. Validasi Live Guestbook Form (validateGuestbookForm)', () => {
-    test('menerima entri guestbook yang valid', () => {
-      const result = validateGuestbookForm({
-        author: 'Dosen Penguji',
-        role: 'Dosen Pemrograman Mobile 2',
-        comment: 'Desain Dark Mode dan struktur arsitekturnya sangat rapi!',
-        rating: 5,
-      });
-
-      expect(result.isValid).toBe(true);
-      expect(result.errors).toEqual({});
-    });
-
-    test('menolak komentar kosong dan rating di luar rentang 1-5', () => {
-      const result = validateGuestbookForm({
-        author: '',
-        comment: 'Ok',
-        rating: 7,
-      });
-
-      expect(result.isValid).toBe(false);
-      expect(result.errors.author).toBeDefined();
-      expect(result.errors.comment).toBeDefined();
-      expect(result.errors.rating).toBeDefined();
-    });
-  });
-
-  describe('4. Kalkulasi Nilai Akademik & IPK (Level 8 & Level 10)', () => {
+  describe('3. Kalkulasi Nilai Akademik & IPK', () => {
     test('menghitung nilai akhir mata kuliah sesuai bobot 30% Tugas, 35% UTS, 35% UAS', () => {
-      // 90 * 0.3 (27) + 80 * 0.35 (28) + 100 * 0.35 (35) = 90.0
       const score = calculateCourseFinalScore({ tugas: 90, uts: 80, uas: 100 });
       expect(score).toBe(90);
     });
@@ -106,13 +74,12 @@ describe('Unit Testing Level 10 — Form Validation & Academic Score Calculation
 
     test('menghitung IPK kumulatif dan total SKS secara tepat', () => {
       const sampleCourses = [
-        { code: 'SI502', name: 'Pemrograman Mobile 2', sks: 3, tugas: 92, uts: 92, uas: 92 }, // A -> 4.0 * 3 = 12.0
-        { code: 'SI405', name: 'Manajemen Basis Data', sks: 3, tugas: 72, uts: 72, uas: 72 }, // B -> 3.0 * 3 = 9.0
+        { code: 'SI502', name: 'Pemrograman Mobile 2', sks: 3, tugas: 92, uts: 92, uas: 92 },
+        { code: 'SI405', name: 'Manajemen Basis Data', sks: 3, tugas: 72, uts: 72, uas: 72 },
       ];
 
       const metrics = calculateAcademicMetrics(sampleCourses);
       expect(metrics.totalSks).toBe(6);
-      // (12.0 + 9.0) / 6 = 3.50
       expect(metrics.gpa).toBe(3.5);
       expect(metrics.enrichedCourses).toHaveLength(2);
       expect(metrics.enrichedCourses[0].grade).toBe('A');

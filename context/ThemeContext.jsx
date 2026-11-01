@@ -1,104 +1,57 @@
 import React, { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const THEME_STORAGE_KEY = '@sayiddev_cyber_theme_v2';
+const THEME_STORAGE_KEY = '@sayiddev_clean_theme_v3';
 
 /**
- * Sistem Warna Cyber-Glassmorphism terinspirasi penuh dari https://www.alfari.my.id/
- * - Main Background: #030014 (Deep Space Indigo/Black)
- * - Glass Card: rgba(17, 25, 40, 0.78) dengan border tipis rgba(255, 255, 255, 0.12)
- * - Primary Gradient: #6366F1 (Indigo) -> #A855F7 (Purple) & aksen #38BDF8 (Sky Cyan)
- * - Glow Shadow: #8B5CF6 (opacity 0.25, radius 12, elevation 6)
+ * Sistem Warna "Clean Dark Minimalist" ala alfari.my.id
+ * Maksimal 3 warna utama yang konsisten, tenang, dan fokus pada keterbacaan:
+ * - Background Layar: #090A0F
+ * - Background Kartu (Surface): #12141D dengan border tipis #1E2230 (borderWidth: 1)
+ * - Aksen Utama: #8B5CF6 (Soft Violet) untuk tombol utama, tab aktif, dan teks highlight
+ * - Teks Utama: #F3F4F6 | Teks Deskripsi/Sub: #9CA3AF
  */
 export const THEME_PALETTES = {
   dark: {
     mode: 'dark',
-    background: '#030014',
-    surface: 'rgba(17, 25, 40, 0.78)',
-    surfaceSolid: '#0F172A',
-    surfaceElevated: 'rgba(30, 41, 59, 0.68)',
-    surfaceInput: 'rgba(15, 23, 42, 0.88)',
-    border: 'rgba(255, 255, 255, 0.12)',
-    borderStrong: 'rgba(139, 92, 246, 0.4)',
-    indigo: '#6366F1',
-    purple: '#A855F7',
-    pink: '#EC4899',
-    cyan: '#38BDF8',
-    primary: '#6366F1',
-    secondary: '#A855F7',
-    accentCyan: '#38BDF8',
-    text: '#F8FAFC',
-    textSecondary: '#94A3B8',
-    textMuted: '#64748B',
-    success: '#22C55E',
-    warning: '#F59E0B',
-    danger: '#EF4444',
-    pillBg: 'rgba(139, 92, 246, 0.15)',
-    pillBorder: 'rgba(139, 92, 246, 0.4)',
-    primarySoft: 'rgba(99, 102, 241, 0.16)',
-    secondarySoft: 'rgba(168, 85, 247, 0.16)',
-    cyanSoft: 'rgba(56, 189, 248, 0.15)',
-    successSoft: 'rgba(34, 197, 94, 0.15)',
-    warningSoft: 'rgba(245, 158, 11, 0.15)',
-    dangerSoft: 'rgba(239, 68, 68, 0.16)',
-    gradientPrimary: ['#6366F1', '#A855F7'],
-    gradientAvatar: ['#6366F1', '#EC4899'],
-    gradientScore: ['#1E1B4B', '#311042'],
-    gradientHeroGlow: ['rgba(99, 102, 241, 0.22)', 'rgba(168, 85, 247, 0.08)', 'transparent'],
-    shadowGlow: {
-      shadowColor: '#8B5CF6',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.25,
-      shadowRadius: 12,
-      elevation: 6,
-    },
-    tabBar: '#07051A',
-    overlay: 'rgba(3, 0, 20, 0.84)',
+    background: '#090A0F',
+    surface: '#12141D',
+    surfaceElevated: '#181B26',
+    surfaceInput: '#0E1017',
+    border: '#1E2230',
+    primary: '#8B5CF6',
+    accentSoft: 'rgba(139, 92, 246, 0.12)',
+    accentBorder: 'rgba(139, 92, 246, 0.28)',
+    tagBg: '#191C28',
+    tagText: '#C4B5FD',
+    text: '#F3F4F6',
+    textSecondary: '#9CA3AF',
+    textMuted: '#6B7280',
+    danger: '#F87171',
+    dangerSoft: 'rgba(248, 113, 113, 0.10)',
+    tabBar: '#090A0F',
+    overlay: 'rgba(9, 10, 15, 0.80)',
     statusBarStyle: 'light',
   },
   light: {
     mode: 'light',
-    background: '#F5F3FF',
-    surface: 'rgba(255, 255, 255, 0.92)',
-    surfaceSolid: '#FFFFFF',
-    surfaceElevated: '#EEF2FF',
-    surfaceInput: '#FFFFFF',
-    border: 'rgba(99, 102, 241, 0.18)',
-    borderStrong: 'rgba(139, 92, 246, 0.45)',
-    indigo: '#4F46E5',
-    purple: '#9333EA',
-    pink: '#DB2777',
-    cyan: '#0284C7',
-    primary: '#4F46E5',
-    secondary: '#9333EA',
-    accentCyan: '#0284C7',
-    text: '#0F172A',
-    textSecondary: '#475569',
-    textMuted: '#64748B',
-    success: '#16A34A',
-    warning: '#D97706',
+    background: '#F9FAFB',
+    surface: '#FFFFFF',
+    surfaceElevated: '#F3F4F6',
+    surfaceInput: '#F9FAFB',
+    border: '#E5E7EB',
+    primary: '#8B5CF6',
+    accentSoft: 'rgba(139, 92, 246, 0.10)',
+    accentBorder: 'rgba(139, 92, 246, 0.26)',
+    tagBg: '#F3F4F6',
+    tagText: '#7C3AED',
+    text: '#111827',
+    textSecondary: '#4B5563',
+    textMuted: '#9CA3AF',
     danger: '#DC2626',
-    pillBg: 'rgba(139, 92, 246, 0.12)',
-    pillBorder: 'rgba(139, 92, 246, 0.38)',
-    primarySoft: 'rgba(79, 70, 229, 0.12)',
-    secondarySoft: 'rgba(147, 51, 234, 0.12)',
-    cyanSoft: 'rgba(2, 132, 199, 0.12)',
-    successSoft: 'rgba(22, 163, 74, 0.12)',
-    warningSoft: 'rgba(217, 119, 6, 0.12)',
-    dangerSoft: 'rgba(220, 38, 38, 0.12)',
-    gradientPrimary: ['#6366F1', '#A855F7'],
-    gradientAvatar: ['#6366F1', '#EC4899'],
-    gradientScore: ['#312E81', '#581C87'],
-    gradientHeroGlow: ['rgba(99, 102, 241, 0.14)', 'rgba(168, 85, 247, 0.05)', 'transparent'],
-    shadowGlow: {
-      shadowColor: '#8B5CF6',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.18,
-      shadowRadius: 10,
-      elevation: 4,
-    },
+    dangerSoft: 'rgba(220, 38, 38, 0.08)',
     tabBar: '#FFFFFF',
-    overlay: 'rgba(15, 23, 42, 0.55)',
+    overlay: 'rgba(17, 24, 39, 0.45)',
     statusBarStyle: 'dark',
   },
 };
@@ -126,7 +79,7 @@ export function ThemeProvider({ children }) {
           setThemeModeState(storedTheme);
         }
       } catch {
-        // Pertahankan default Cyber-Glass Dark Mode (#030014)
+        // Pertahankan default Clean Dark Minimalist (#090A0F)
       } finally {
         if (isMounted) {
           setIsThemeLoaded(true);

@@ -4,57 +4,34 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
 
 /**
- * StatCard — Kartu Bento Row 3 kolom sejajar (4+ Projects, 10+ Tech Stack, 3+ Roles)
- * dengan ikon di pojok atas, angka tebal, dan sub-teks tanpa teks terpotong.
+ * StatCard — Kartu statistik ringkas & bersih (3 kolom sejajar).
  */
 export default function StatCard({
   icon = 'code-slash-outline',
   value,
   label,
   subtext,
-  accent = 'indigo',
 }) {
   const { colors } = useTheme();
-
-  const accentColor =
-    accent === 'purple'
-      ? colors.purple
-      : accent === 'cyan'
-      ? colors.accentCyan
-      : colors.indigo;
-
-  const accentBg =
-    accent === 'purple'
-      ? colors.secondarySoft
-      : accent === 'cyan'
-      ? colors.cyanSoft
-      : colors.primarySoft;
 
   return (
     <View
       style={[
-        styles.bentoCard,
+        styles.card,
         {
           backgroundColor: colors.surface,
           borderColor: colors.border,
         },
-        colors.shadowGlow,
       ]}
     >
-      <View style={styles.topCornerRow}>
-        <View style={[styles.iconBadge, { backgroundColor: accentBg }]}>
-          <Ionicons name={icon} size={16} color={accentColor} />
-        </View>
-        <Ionicons
-          name="arrow-up-outline"
-          size={13}
-          color={colors.textMuted}
-          style={styles.diagonalArrow}
-        />
-      </View>
-
-      <Text style={[styles.numberText, { color: colors.text }]}>{value}</Text>
-      <Text style={[styles.labelText, { color: accentColor }]}>{label}</Text>
+      <Ionicons
+        name={icon}
+        size={16}
+        color={colors.primary}
+        style={styles.icon}
+      />
+      <Text style={[styles.valueText, { color: colors.text }]}>{value}</Text>
+      <Text style={[styles.labelText, { color: colors.text }]}>{label}</Text>
       {subtext ? (
         <Text style={[styles.subText, { color: colors.textSecondary }]}>
           {subtext}
@@ -65,45 +42,29 @@ export default function StatCard({
 }
 
 const styles = StyleSheet.create({
-  bentoCard: {
+  card: {
     flex: 1,
     minWidth: 96,
-    borderRadius: 18,
+    borderRadius: 16,
     borderWidth: 1,
-    paddingVertical: 13,
-    paddingHorizontal: 11,
-    justifyContent: 'space-between',
+    padding: 14,
   },
-  topCornerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
+  icon: {
+    marginBottom: 8,
   },
-  iconBadge: {
-    width: 30,
-    height: 30,
-    borderRadius: 9,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  diagonalArrow: {
-    transform: [{ rotate: '45deg' }],
-  },
-  numberText: {
-    fontSize: 21,
-    fontWeight: '800',
-    letterSpacing: -0.4,
+  valueText: {
+    fontSize: 19,
+    fontWeight: '700',
+    letterSpacing: -0.3,
     marginBottom: 2,
   },
   labelText: {
     fontSize: 12,
-    fontWeight: '800',
+    fontWeight: '600',
     marginBottom: 2,
   },
   subText: {
-    fontSize: 10.5,
-    lineHeight: 14,
-    fontWeight: '500',
+    fontSize: 11,
+    lineHeight: 15,
   },
 });
