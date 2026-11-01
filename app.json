@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Personal CV & Academic Score App",
+    "slug": "personal-cv-academic-score-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "personalcv",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#030014"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sayidaziz.personalcv"
+    },
+    "android": {
+      "package": "com.sayidaziz.personalcv",
+      "adaptiveIcon": {
+        "backgroundColor": "#030014"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}

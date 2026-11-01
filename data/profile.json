@@ -1,0 +1,189 @@
+{
+  "identity": {
+    "brandPrefix": "Sayid",
+    "brandSuffix": "Dev.",
+    "welcomeBadge": "✨ Welcome to My Portfolio",
+    "greetingPrefix": "Hi, I'm",
+    "name": "Sayid Abdul Aziz",
+    "nim": "2425050522",
+    "semester": 5,
+    "nimBadge": "NIM: 2425050522 • Semester 5",
+    "programStudi": "S1 Sistem Informasi",
+    "university": "Universitas Ma'soem",
+    "programCampus": "S1 Sistem Informasi - Semester 5 | Universitas Ma'soem",
+    "campusShort": "S1 Sistem Informasi - Universitas Ma'soem",
+    "role": "Information Systems Student & Full-Stack Developer",
+    "email": "sayid.aziz@masoemuniversity.ac.id",
+    "website": "https://www.alfari.my.id/",
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+    "avatarInitials": "SA",
+    "tagline": "Mahasiswa S1 Sistem Informasi yang fokus membangun aplikasi web & mobile full-stack modern dengan desain Cyber-Glassmorphism yang intuitif, responsif, dan terstruktur."
+  },
+  "quickStats": [
+    {
+      "id": "stat-projects",
+      "value": "4+",
+      "label": "Projects",
+      "subtext": "Karya dibuat",
+      "icon": "code-slash-outline",
+      "accent": "indigo"
+    },
+    {
+      "id": "stat-tech",
+      "value": "10+",
+      "label": "Tech Stack",
+      "subtext": "Skill divalidasi",
+      "icon": "layers-outline",
+      "accent": "purple"
+    },
+    {
+      "id": "stat-roles",
+      "value": "3+",
+      "label": "Roles",
+      "subtext": "Kepanitiaan & Media",
+      "icon": "people-outline",
+      "accent": "cyan"
+    }
+  ],
+  "about": {
+    "title": "About Me",
+    "description": "Saya Sayid Abdul Aziz, mahasiswa Semester 5 Program Studi S1 Sistem Informasi di Universitas Ma'soem. Selain mendalami rekayasa perangkat lunak full-stack dan pengembangan mobile berbasis React Native (Expo), saya juga aktif memimpin dokumentasi kreatif media kampus serta kegiatan organisasi KSI.",
+    "highlights": [
+      "Full-Stack Web & Mobile (Expo)",
+      "System Analysis & UI/UX",
+      "Media & Creative Documentation",
+      "Clean Code Architecture"
+    ]
+  },
+  "education": [
+    {
+      "id": "edu-masoem",
+      "title": "S1 Sistem Informasi",
+      "organization": "Universitas Ma'soem",
+      "period": "Semester 5 • Aktif",
+      "location": "NIM: 2425050522 • Fakultas Komputer",
+      "type": "education",
+      "badge": "Mahasiswa Aktif",
+      "description": "Mempelajari Analisis & Perancangan Sistem Informasi, Pemrograman Mobile 2 (bersama Ibu Iin, M.Kom), Pengembangan Web Full-Stack, serta Manajemen Proyek TI.",
+      "highlights": ["Sistem Informasi", "Pemrograman Mobile 2", "Full-Stack Dev"]
+    }
+  ],
+  "experience": [
+    {
+      "id": "exp-media",
+      "title": "Koordinator Media & Dokumentasi",
+      "organization": "Kepanitiaan Kampus Universitas Ma'soem",
+      "period": "2025 – Sekarang",
+      "location": "Universitas Ma'soem",
+      "type": "experience",
+      "badge": "Coordinator",
+      "description": "Mengelola strategi visual, produksi konten kreatif, liputan dokumentasi kegiatan besar mahasiswa, serta koordinasi alur publikasi digital.",
+      "highlights": ["Visual Branding", "Team Leadership", "Media Production"]
+    },
+    {
+      "id": "exp-ksi",
+      "title": "Anggota KSI & Volunteer Kepanitiaan Kampus",
+      "organization": "Komunitas Sistem Informasi (KSI) Universitas Ma'soem",
+      "period": "2024 – Sekarang",
+      "location": "Universitas Ma'soem",
+      "type": "experience",
+      "badge": "Active Member",
+      "description": "Berpartisipasi aktif dalam diskusi teknologi informasi, kolaborasi pengembangan proyek mahasiswa Sistem Informasi, dan menyukseskan berbagai agenda akademik kampus.",
+      "highlights": ["KSI Ma'soem", "Event Volunteer", "Tech Collaboration"]
+    },
+    {
+      "id": "exp-fullstack",
+      "title": "Full-Stack & Mobile Portfolio Builder",
+      "organization": "Self-Initiated Projects",
+      "period": "2024 – Sekarang",
+      "location": "Remote / Independent",
+      "type": "experience",
+      "badge": "Developer",
+      "description": "Merancang dan mengembangkan aplikasi lintas platform menggunakan React Native (Expo Router), React.js, Node.js, serta arsitektur komponen modular.",
+      "highlights": ["React Native", "Expo Router", "Modern Web"]
+    }
+  ],
+  "spotifyRotation": {
+    "headerTitle": "🎵 A little music. A lot of ideas.",
+    "playlistName": "Daily Rotation - NgodingTime",
+    "tracks": [
+      {
+        "id": "tr-1",
+        "title": "Resonance",
+        "artist": "HOME",
+        "duration": "3:32",
+        "vibe": "Synthwave • Late Night Focus",
+        "spotifyUrl": "https://open.spotify.com/search/HOME%20Resonance"
+      },
+      {
+        "id": "tr-2",
+        "title": "Midnight City",
+        "artist": "M83",
+        "duration": "4:03",
+        "vibe": "Electronic • Flow State",
+        "spotifyUrl": "https://open.spotify.com/search/M83%20Midnight%20City"
+      },
+      {
+        "id": "tr-3",
+        "title": "After Dark",
+        "artist": "Mr.Kitty",
+        "duration": "4:17",
+        "vibe": "Cyber-Synth • UI Designing",
+        "spotifyUrl": "https://open.spotify.com/search/Mr%20Kitty%20After%20Dark"
+      },
+      {
+        "id": "tr-4",
+        "title": "Snowfall",
+        "artist": "Øneheart & reidenshi",
+        "duration": "2:04",
+        "vibe": "Ambient • Debugging Calm",
+        "spotifyUrl": "https://open.spotify.com/search/Oneheart%20Snowfall"
+      }
+    ]
+  },
+  "hobbies": [
+    {
+      "id": "hob-badminton",
+      "name": "Badminton",
+      "gear": "Yonex Astrox 01 Power",
+      "icon": "tennisball-outline",
+      "description": "Olahraga favorit dengan raket andalan Yonex Astrox 01 Power untuk melatih ketangkasan, power smash, dan kebugaran fisik."
+    },
+    {
+      "id": "hob-run",
+      "name": "Evening Run",
+      "gear": "Afternoon Pace • 5K",
+      "icon": "walk-outline",
+      "description": "Rutinitas lari sore untuk menyegarkan pikiran dan mencari ide segar setelah perkuliahan serta sesi ngoding."
+    }
+  ],
+  "socials": [
+    {
+      "id": "instagram",
+      "label": "Instagram",
+      "handle": "@sayidabdulaziz",
+      "subtitle": "Daily life, media & reels",
+      "url": "https://www.instagram.com/",
+      "icon": "logo-instagram",
+      "accent": "#EC4899"
+    },
+    {
+      "id": "tiktok",
+      "label": "TikTok",
+      "handle": "@sayidaziz.dev",
+      "subtitle": "Short tech & campus clips",
+      "url": "https://www.tiktok.com/",
+      "icon": "logo-tiktok",
+      "accent": "#38BDF8"
+    },
+    {
+      "id": "github",
+      "label": "GitHub",
+      "handle": "github.com/sayidabdulaziz",
+      "subtitle": "Source code & repositories",
+      "url": "https://github.com/",
+      "icon": "logo-github",
+      "accent": "#A855F7"
+    }
+  ]
+}
