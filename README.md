@@ -87,37 +87,3 @@ personal-cv-app/
    ```bash
    npm test
    ```
-
----
-
-## 5. Template Deskripsi Video YouTube (Sesuai Bagian F Soal UTS)
-
-> Salin teks di bawah ini ke kolom **Deskripsi Video YouTube** saat mengumpulkan tugas UTS:
-
-```text
-Link Source Code GitHub: https://github.com/Mienztt/UTS-PM2-SAYID
-
-=== IDENTITAS MAHASISWA ===
-Nama Lengkap : Sayid Abdul Aziz
-NIM          : 242505022
-Program Studi: S1 Sistem Informasi (Fakultas Komputer, Universitas Ma'soem)
-Mata Kuliah  : Pemrograman Mobile 2
-Dosen        : Iin, M.Kom
-Level Diklaim: Level 10 — Industry (Memenuhi kumulatif Level 1 s/d Level 10)
-
-=== PETUNJUK MENJALANKAN APLIKASI ===
-1. Clone repository: git clone https://github.com/Mienztt/UTS-PM2-SAYID.git
-2. Masuk ke direktori proyek: cd UTS-PM2-SAYID
-3. Install dependencies: npm install
-4. Jalankan aplikasi: npx expo start (tekan 'w' untuk Web atau scan QR via Expo Go)
-5. Jalankan unit testing: npm test
-
-=== DAFTAR FITUR (LEVEL 1 - LEVEL 10) ===
-- Level 1–3: Hero Profil Mahasiswa (Foto Asli, Nama, NIM 242505022, Bio) dengan desain Clean Dark Minimalist.
-- Level 4: Formulir Kontak Interaktif (Nama, Email, Pesan) dengan validasi input kosong & format email.
-- Level 5–6: Arsitektur 8 Komponen Reusable berbasis Props & pemisahan data JSON lokal (profile.json, portfolio.json, academicScore.json).
-- Level 7: Dynamic Skills, Portfolio Gallery dengan Modal Studi Kasus (SIMTS, Quran ku, SIPEDA), Hobby Section (Badminton & Lari), Education & Experience Timeline, Dark/Light Theme Switcher, serta Live Search & Category Filter.
-- Level 8: Dashboard My Score (Pemrograman Mobile 2 - Dosen: Iin, M.Kom, Nilai 92 / Grade A, 12375 LP, Learning Progress Attendance 100%, Practice 87%, Quest 95%, Challenge 100%, & Grade Simulator).
-- Level 9: Multi-Screen Navigation menggunakan Expo Router Bottom Tabs (Home, Portfolio, My Score, Contact).
-- Level 10: Custom Hook useSimulatedFetch, penanganan Loading Skeleton, Error State (dengan tombol Retry), Empty State, penyimpanan lokal AsyncStorage, inovasi Dynamic CV PDF Generator (Format A4 2-Kolom), serta 12 Unit Test Jest.
-```
