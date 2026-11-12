@@ -19,6 +19,8 @@ import SkillBadge from '../components/SkillBadge';
 import EmptyState from '../components/EmptyState';
 import LoadingState from '../components/LoadingState';
 
+const CATEGORY_FILTERS = ['Semua', 'Web', 'Desktop', 'Mobile'];
+
 export default function PortfolioScreen() {
   const { colors } = useTheme();
 
@@ -29,9 +31,11 @@ export default function PortfolioScreen() {
     error,
     retry,
     refresh,
+    simulateError,
   } = useSimulatedFetch(() => portfolioJson, { delay: 260 });
 
   const [activeTab, setActiveTab] = useState('projects'); // 'projects' | 'skills'
+  const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
 
@@ -39,9 +43,17 @@ export default function PortfolioScreen() {
 
   const filteredProjects = useMemo(() => {
     const list = portfolio?.projects || [];
-    if (!normalizedQuery) return list;
 
     return list.filter((item) => {
+      const matchesCategory =
+        selectedCategory === 'Semua' ||
+        (item.category || '')
+          .toLowerCase()
+          .includes(selectedCategory.toLowerCase());
+
+      if (!matchesCategory) return false;
+      if (!normalizedQuery) return true;
+
       const dbTexts = (item.caseStudy?.databaseTables || []).map((t) =>
         typeof t === 'string' ? t : `${t.name} ${t.detail}`
       );
@@ -77,7 +89,7 @@ export default function PortfolioScreen() {
 
       return haystack.includes(normalizedQuery);
     });
-  }, [portfolio, normalizedQuery]);
+  }, [portfolio, normalizedQuery, selectedCategory]);
 
   const filteredSkillGroups = useMemo(() => {
     const groups = portfolio?.skillGroups || [];
@@ -135,7 +147,7 @@ export default function PortfolioScreen() {
         />
       }
     >
-      {/* 1. Search Bar Minimalis di Atas */}
+      {/* 1. Search Bar Minimalis di Atas (Level 7 — Search) */}
       <View
         style={[
           styles.searchBox,
@@ -155,6 +167,7 @@ export default function PortfolioScreen() {
           onChangeText={setSearchQuery}
           onFocus={() => setSearchFocused(true)}
           onBlur={() => setSearchFocused(false)}
+          accessibilityLabel="Cari proyek atau keahlian"
           placeholder={
             activeTab === 'projects'
               ? 'Cari proyek atau teknologi (SIMTS, Oracle, VB.NET, Laravel)...'
@@ -215,16 +228,59 @@ export default function PortfolioScreen() {
         })}
       </View>
 
-      {/* 3. Konten Berdasarkan Tab Aktif */}
+      {/* 3. Filter Kategori Proyek (Level 7 — Filter Portofolio) */}
+      {activeTab === 'projects' && (
+        <View style={styles.filterRow}>
+          {CATEGORY_FILTERS.map((cat) => {
+            const isSelected = selectedCategory === cat;
+            return (
+              <TouchableOpacity
+                key={cat}
+                activeOpacity={0.8}
+                onPress={() => setSelectedCategory(cat)}
+                style={[
+                  styles.filterChip,
+                  {
+                    backgroundColor: isSelected
+                      ? colors.accentSoft
+                      : colors.surface,
+                    borderColor: isSelected
+                      ? colors.primary
+                      : colors.border,
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.filterChipText,
+                    {
+                      color: isSelected
+                        ? colors.primary
+                        : colors.textSecondary,
+                    },
+                  ]}
+                >
+                  {cat}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      )}
+
+      {/* 4. Konten Berdasarkan Tab Aktif */}
       {activeTab === 'projects' ? (
         <View style={styles.listSection}>
           {filteredProjects.length === 0 ? (
             <EmptyState
               icon="folder-open-outline"
               title="Proyek Tidak Ditemukan"
-              description={`Tidak ada proyek yang cocok dengan pencarian "${searchQuery}".`}
-              actionLabel="Reset Pencarian"
-              onAction={() => setSearchQuery('')}
+              description={`Tidak ada proyek pada kategori "${selectedCategory}" yang cocok dengan pencarian "${searchQuery}".`}
+              actionLabel="Reset Filter & Pencarian"
+              onAction={() => {
+                setSearchQuery('');
+                setSelectedCategory('Semua');
+              }}
             />
           ) : (
             filteredProjects.map((project) => (
@@ -271,6 +327,51 @@ export default function PortfolioScreen() {
           )}
         </View>
       )}
+
+      {/* 5. Panel Demo State Asinkron (Level 10) */}
+      <View style={styles.demoRow}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={retry}
+          style={[
+            styles.demoChip,
+            {
+              backgroundColor: colors.surface,
+              borderColor: colors.border,
+            },
+          ]}
+        >
+          <Ionicons
+            name="refresh-outline"
+            size={13}
+            color={colors.textSecondary}
+          />
+          <Text style={[styles.demoChipText, { color: colors.textSecondary }]}>
+            Simulasi Loading
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={simulateError}
+          style={[
+            styles.demoChip,
+            {
+              backgroundColor: colors.surface,
+              borderColor: colors.border,
+            },
+          ]}
+        >
+          <Ionicons
+            name="warning-outline"
+            size={13}
+            color={colors.textSecondary}
+          />
+          <Text style={[styles.demoChipText, { color: colors.textSecondary }]}>
+            Simulasi Error (Lv.10)
+          </Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -303,7 +404,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     padding: 4,
-    marginBottom: 24,
+    marginBottom: 14,
   },
   tabBtn: {
     flex: 1,
@@ -316,8 +417,24 @@ const styles = StyleSheet.create({
     fontSize: 13.5,
     fontWeight: '600',
   },
+  filterRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 18,
+  },
+  filterChip: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 999,
+    borderWidth: 1,
+  },
+  filterChipText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
   listSection: {
-    marginBottom: 8,
+    marginBottom: 18,
   },
   skillGroupCard: {
     borderRadius: 16,
@@ -334,5 +451,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
+  },
+  demoRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginTop: 4,
+  },
+  demoChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 999,
+    borderWidth: 1,
+  },
+  demoChipText: {
+    fontSize: 11.5,
+    fontWeight: '600',
   },
 });

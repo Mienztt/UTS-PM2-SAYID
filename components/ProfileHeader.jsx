@@ -14,12 +14,14 @@ const profilePhoto = require('../assets/profile.jpg');
 /**
  * ProfileHeader — Hero minimalis bersih (Clean Dark Minimalist).
  * Menampilkan foto formal 96x96 bulat rapi berborder tipis #8B5CF6,
- * identitas asli CV, bio singkat dengan lineHeight nyaman (22), dan 2 tombol bersih.
+ * identitas asli CV, bio singkat dengan lineHeight nyaman (22),
+ * 2 tombol navigasi bersih, serta tombol inovasi Preview & Export CV (PDF).
  */
 export default function ProfileHeader({
   identity,
   onExplorePortfolio,
   onContactMe,
+  onExportCvPdf,
 }) {
   const { colors } = useTheme();
   const [imageError, setImageError] = useState(false);
@@ -146,6 +148,37 @@ export default function ProfileHeader({
           </Text>
         </TouchableOpacity>
       </View>
+
+      {/* Tombol Inovasi: Preview & Generate CV ke PDF (Sesuai Template CV A4) */}
+      {onExportCvPdf ? (
+        <TouchableOpacity
+          activeOpacity={0.85}
+          onPress={onExportCvPdf}
+          accessibilityRole="button"
+          accessibilityLabel="Preview dan Generate CV ke PDF"
+          style={[
+            styles.pdfExportBtn,
+            {
+              backgroundColor: colors.accentSoft,
+              borderColor: colors.accentBorder,
+            },
+          ]}
+        >
+          <Ionicons
+            name="document-text-outline"
+            size={15}
+            color={colors.primary}
+          />
+          <Text style={[styles.pdfExportBtnText, { color: colors.primary }]}>
+            Preview & Export CV (PDF)
+          </Text>
+          <Ionicons
+            name="download-outline"
+            size={15}
+            color={colors.primary}
+          />
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 }
@@ -259,5 +292,20 @@ const styles = StyleSheet.create({
   secondaryBtnText: {
     fontSize: 13.5,
     fontWeight: '600',
+  },
+  pdfExportBtn: {
+    marginTop: 10,
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  pdfExportBtnText: {
+    fontSize: 13,
+    fontWeight: '700',
   },
 });

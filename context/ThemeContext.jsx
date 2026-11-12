@@ -1,7 +1,14 @@
-import React, { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const THEME_STORAGE_KEY = '@sayiddev_clean_theme_v3';
+const THEME_STORAGE_KEY = "@sayiddev_clean_theme_v3";
 
 /**
  * Sistem Warna "Clean Dark Minimalist" ala alfari.my.id
@@ -13,51 +20,51 @@ const THEME_STORAGE_KEY = '@sayiddev_clean_theme_v3';
  */
 export const THEME_PALETTES = {
   dark: {
-    mode: 'dark',
-    background: '#090A0F',
-    surface: '#12141D',
-    surfaceElevated: '#181B26',
-    surfaceInput: '#0E1017',
-    border: '#1E2230',
-    primary: '#8B5CF6',
-    accentSoft: 'rgba(139, 92, 246, 0.12)',
-    accentBorder: 'rgba(139, 92, 246, 0.28)',
-    tagBg: '#191C28',
-    tagText: '#C4B5FD',
-    text: '#F3F4F6',
-    textSecondary: '#9CA3AF',
-    textMuted: '#6B7280',
-    danger: '#F87171',
-    dangerSoft: 'rgba(248, 113, 113, 0.10)',
-    tabBar: '#090A0F',
-    overlay: 'rgba(9, 10, 15, 0.80)',
-    statusBarStyle: 'light',
+    mode: "dark",
+    background: "#090A0F",
+    surface: "#12141D",
+    surfaceElevated: "#181B26",
+    surfaceInput: "#0E1017",
+    border: "#1E2230",
+    primary: "#8B5CF6",
+    accentSoft: "rgba(139, 92, 246, 0.12)",
+    accentBorder: "rgba(139, 92, 246, 0.28)",
+    tagBg: "#191C28",
+    tagText: "#C4B5FD",
+    text: "#F3F4F6",
+    textSecondary: "#9CA3AF",
+    textMuted: "#6B7280",
+    danger: "#F87171",
+    dangerSoft: "rgba(248, 113, 113, 0.10)",
+    tabBar: "#090A0F",
+    overlay: "rgba(9, 10, 15, 0.80)",
+    statusBarStyle: "light",
   },
   light: {
-    mode: 'light',
-    background: '#F9FAFB',
-    surface: '#FFFFFF',
-    surfaceElevated: '#F3F4F6',
-    surfaceInput: '#F9FAFB',
-    border: '#E5E7EB',
-    primary: '#8B5CF6',
-    accentSoft: 'rgba(139, 92, 246, 0.10)',
-    accentBorder: 'rgba(139, 92, 246, 0.26)',
-    tagBg: '#F3F4F6',
-    tagText: '#7C3AED',
-    text: '#111827',
-    textSecondary: '#4B5563',
-    textMuted: '#9CA3AF',
-    danger: '#DC2626',
-    dangerSoft: 'rgba(220, 38, 38, 0.08)',
-    tabBar: '#FFFFFF',
-    overlay: 'rgba(17, 24, 39, 0.45)',
-    statusBarStyle: 'dark',
+    mode: "light",
+    background: "#F9FAFB",
+    surface: "#FFFFFF",
+    surfaceElevated: "#F3F4F6",
+    surfaceInput: "#F9FAFB",
+    border: "#E5E7EB",
+    primary: "#8B5CF6",
+    accentSoft: "rgba(139, 92, 246, 0.10)",
+    accentBorder: "rgba(139, 92, 246, 0.26)",
+    tagBg: "#F3F4F6",
+    tagText: "#7C3AED",
+    text: "#111827",
+    textSecondary: "#4B5563",
+    textMuted: "#9CA3AF",
+    danger: "#DC2626",
+    dangerSoft: "rgba(220, 38, 38, 0.08)",
+    tabBar: "#FFFFFF",
+    overlay: "rgba(17, 24, 39, 0.45)",
+    statusBarStyle: "dark",
   },
 };
 
 const ThemeContext = createContext({
-  themeMode: 'dark',
+  themeMode: "dark",
   isDark: true,
   colors: THEME_PALETTES.dark,
   isThemeLoaded: false,
@@ -66,7 +73,7 @@ const ThemeContext = createContext({
 });
 
 export function ThemeProvider({ children }) {
-  const [themeMode, setThemeModeState] = useState('dark');
+  const [themeMode, setThemeModeState] = useState("dark");
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
 
   useEffect(() => {
@@ -75,7 +82,7 @@ export function ThemeProvider({ children }) {
     async function loadSavedTheme() {
       try {
         const storedTheme = await AsyncStorage.getItem(THEME_STORAGE_KEY);
-        if (isMounted && (storedTheme === 'dark' || storedTheme === 'light')) {
+        if (isMounted && (storedTheme === "dark" || storedTheme === "light")) {
           setThemeModeState(storedTheme);
         }
       } catch {
@@ -94,7 +101,7 @@ export function ThemeProvider({ children }) {
   }, []);
 
   const persistTheme = useCallback(async (nextMode) => {
-    const validMode = nextMode === 'light' ? 'light' : 'dark';
+    const validMode = nextMode === "light" ? "light" : "dark";
     setThemeModeState(validMode);
     try {
       await AsyncStorage.setItem(THEME_STORAGE_KEY, validMode);
@@ -104,23 +111,25 @@ export function ThemeProvider({ children }) {
   }, []);
 
   const toggleTheme = useCallback(() => {
-    const nextMode = themeMode === 'dark' ? 'light' : 'dark';
+    const nextMode = themeMode === "dark" ? "light" : "dark";
     persistTheme(nextMode);
   }, [themeMode, persistTheme]);
 
   const value = useMemo(
     () => ({
       themeMode,
-      isDark: themeMode === 'dark',
+      isDark: themeMode === "dark",
       colors: THEME_PALETTES[themeMode] || THEME_PALETTES.dark,
       isThemeLoaded,
       toggleTheme,
       setThemeMode: persistTheme,
     }),
-    [themeMode, isThemeLoaded, toggleTheme, persistTheme]
+    [themeMode, isThemeLoaded, toggleTheme, persistTheme],
   );
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
 }
 
 export function useTheme() {

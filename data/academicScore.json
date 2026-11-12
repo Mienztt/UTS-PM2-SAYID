@@ -13,7 +13,8 @@
     "currentScore": 92,
     "grade": "A",
     "learningPoints": 12375,
-    "learningPointsLabel": "12375 LP"
+    "learningPointsLabel": "12375 LP",
+    "targetLevel": "Level 10 — Industry (Production-Oriented Mobile Application)"
   },
   "learningProgress": [
     {
@@ -37,8 +38,60 @@
     {
       "id": "prog-challenge",
       "label": "Challenge",
-      "subtitle": "Proyek aplikasi Personal CV & Academic Score",
+      "subtitle": "Proyek aplikasi Personal CV & Academic Score (Level 1–10)",
       "percentage": 100
+    }
+  ],
+  "challengeLevels": [
+    {
+      "level": 1,
+      "name": "Novice",
+      "focus": "Menampilkan Identitas Mahasiswa (NIM, Nama Lengkap, Foto Profil)"
+    },
+    {
+      "level": 2,
+      "name": "Beginner",
+      "focus": "Personal Introduction (Profesi, Deskripsi Diri, Heading JSX)"
+    },
+    {
+      "level": 3,
+      "name": "Elementary",
+      "focus": "Layout dan Styling (Flexbox, StyleSheet, Hierarki Visual Mobile)"
+    },
+    {
+      "level": 4,
+      "name": "Intermediate",
+      "focus": "Interactive CV (Props, State, Form Kontak & Validasi Input)"
+    },
+    {
+      "level": 5,
+      "name": "Competent",
+      "focus": "Separation of UI and Data (Komponen Modular & Props)"
+    },
+    {
+      "level": 6,
+      "name": "Proficient",
+      "focus": "Local JSON Data (profile.json, portfolio.json, academicScore.json)"
+    },
+    {
+      "level": 7,
+      "name": "Advanced",
+      "focus": "Dynamic Skills, Portfolio Gallery, Hobby, Timeline, Theme Switcher, Search & Filter"
+    },
+    {
+      "level": 8,
+      "name": "Expert",
+      "focus": "My Score & Academic Dashboard (Score 92/A, 12375 LP, 4 Learning Progress)"
+    },
+    {
+      "level": 9,
+      "name": "Professional",
+      "focus": "Multi-Screen CV Application dengan Navigasi Expo Router"
+    },
+    {
+      "level": 10,
+      "name": "Industry",
+      "focus": "Simulated Fetch Hook, Loading/Error/Empty States, AsyncStorage, Jest Unit Tests & Dokumentasi"
     }
   ]
 }

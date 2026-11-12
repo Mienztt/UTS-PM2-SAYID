@@ -16,11 +16,13 @@ import { useTheme } from '../context/ThemeContext';
 import { useSimulatedFetch } from '../hooks/useSimulatedFetch';
 import profileJson from '../data/profile.json';
 import portfolioJson from '../data/portfolio.json';
+import academicScoreJson from '../data/academicScore.json';
 
 import ProfileHeader from '../components/ProfileHeader';
 import StatCard from '../components/StatCard';
 import TimelineItem from '../components/TimelineItem';
 import LoadingState from '../components/LoadingState';
+import CvPdfModal from '../components/CvPdfModal';
 import {
   ProjectStatusBadge,
   CaseStudyModal,
@@ -31,6 +33,7 @@ export default function HomeScreen() {
   const { colors } = useTheme();
   const [selectedPub, setSelectedPub] = useState(null);
   const [simtsModalVisible, setSimtsModalVisible] = useState(false);
+  const [cvPdfModalVisible, setCvPdfModalVisible] = useState(false);
 
   const {
     data: profile,
@@ -39,6 +42,7 @@ export default function HomeScreen() {
     error,
     retry,
     refresh,
+    simulateError,
   } = useSimulatedFetch(() => profileJson, { delay: 260 });
 
   if (loading || error || !profile) {
@@ -65,6 +69,7 @@ export default function HomeScreen() {
   const publications = profile.publications || [];
   const educationList = profile.education || [];
   const experienceList = profile.experience || [];
+  const hobbiesList = profile.hobbies || [];
 
   return (
     <>
@@ -81,12 +86,13 @@ export default function HomeScreen() {
           />
         }
       >
-        {/* 1. Hero Profile */}
+        {/* 1. Hero Profile (Level 1, 2, 3 + Inovasi Export CV PDF) */}
         <View style={styles.section}>
           <ProfileHeader
             identity={profile.identity}
             onExplorePortfolio={() => router.push('/portfolio')}
             onContactMe={() => router.push('/contact')}
+            onExportCvPdf={() => setCvPdfModalVisible(true)}
           />
         </View>
 
@@ -177,6 +183,8 @@ export default function HomeScreen() {
           <View style={styles.section}>
             <TouchableOpacity
               activeOpacity={0.85}
+              accessibilityRole="button"
+              accessibilityLabel={`Buka studi kasus ${currentWork.title}`}
               onPress={() => {
                 if (simtsProject) {
                   setSimtsModalVisible(true);
@@ -319,6 +327,8 @@ export default function HomeScreen() {
                 <TouchableOpacity
                   key={pub.id}
                   activeOpacity={0.85}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Buka detail ${pub.title}`}
                   onPress={() => setSelectedPub(pub)}
                   style={[
                     styles.pubCard,
@@ -440,7 +450,7 @@ export default function HomeScreen() {
           </View>
         )}
 
-        {/* 6. Timeline Education */}
+        {/* 6. Timeline Education (Level 7 — Experience Timeline) */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>
             Education
@@ -456,8 +466,8 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* 7. Timeline Work & Organization Experience */}
-        <View style={styles.bottomSection}>
+        {/* 7. Timeline Work & Organization Experience (Level 7 — Experience Timeline) */}
+        <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>
             Work & Organization Experience
           </Text>
@@ -471,7 +481,138 @@ export default function HomeScreen() {
             ))}
           </View>
         </View>
+
+        {/* 8. Hobby Section (Level 7 Poin 3 — Menampilkan Hobi dengan Ikon dan Deskripsi) */}
+        {hobbiesList.length > 0 && (
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>
+              Hobbies & Interests
+            </Text>
+
+            <View
+              style={[
+                styles.competencyCard,
+                {
+                  backgroundColor: colors.surface,
+                  borderColor: colors.border,
+                },
+              ]}
+            >
+              {hobbiesList.map((hobby, idx) => {
+                const isLast = idx === hobbiesList.length - 1;
+                return (
+                  <View key={hobby.id}>
+                    <View style={styles.compRow}>
+                      <View
+                        style={[
+                          styles.compIconBox,
+                          {
+                            backgroundColor: colors.accentSoft,
+                            borderColor: colors.accentBorder,
+                          },
+                        ]}
+                      >
+                        <Ionicons
+                          name={hobby.icon || 'bicycle-outline'}
+                          size={16}
+                          color={colors.primary}
+                        />
+                      </View>
+
+                      <View style={styles.compBody}>
+                        <Text style={[styles.compTitle, { color: colors.text }]}>
+                          {hobby.name}
+                        </Text>
+                        <Text
+                          style={[
+                            styles.compDesc,
+                            { color: colors.textSecondary },
+                          ]}
+                        >
+                          {hobby.detail || hobby.description}
+                        </Text>
+                      </View>
+                    </View>
+
+                    {!isLast && (
+                      <View
+                        style={[
+                          styles.compDivider,
+                          { backgroundColor: colors.border },
+                        ]}
+                      />
+                    )}
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        )}
+
+        {/* 9. Panel Demo State Asinkron (Level 10 — Loading & Error State Verification) */}
+        <View style={styles.bottomSection}>
+          <View style={styles.demoRow}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={retry}
+              accessibilityRole="button"
+              accessibilityLabel="Simulasi Loading State"
+              style={[
+                styles.demoChip,
+                {
+                  backgroundColor: colors.surface,
+                  borderColor: colors.border,
+                },
+              ]}
+            >
+              <Ionicons
+                name="refresh-outline"
+                size={13}
+                color={colors.textSecondary}
+              />
+              <Text
+                style={[styles.demoChipText, { color: colors.textSecondary }]}
+              >
+                Simulasi Loading
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={simulateError}
+              accessibilityRole="button"
+              accessibilityLabel="Simulasi Error State Level 10"
+              style={[
+                styles.demoChip,
+                {
+                  backgroundColor: colors.surface,
+                  borderColor: colors.border,
+                },
+              ]}
+            >
+              <Ionicons
+                name="warning-outline"
+                size={13}
+                color={colors.textSecondary}
+              />
+              <Text
+                style={[styles.demoChipText, { color: colors.textSecondary }]}
+              >
+                Simulasi Error (Lv.10)
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </ScrollView>
+
+      {/* Modal Inovasi: Live A4 CV Preview & Export PDF */}
+      <CvPdfModal
+        visible={cvPdfModalVisible}
+        onClose={() => setCvPdfModalVisible(false)}
+        profile={profile}
+        portfolio={portfolioJson}
+        academicScore={academicScoreJson}
+      />
 
       {/* Modal Studi Kasus Lengkap untuk Proyek On-Progress SIMTS */}
       <CaseStudyModal
@@ -904,6 +1045,25 @@ const styles = StyleSheet.create({
   pubTechChipText: {
     fontSize: 12,
     fontWeight: '500',
+  },
+  demoRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  demoChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 999,
+    borderWidth: 1,
+  },
+  demoChipText: {
+    fontSize: 11.5,
+    fontWeight: '600',
   },
   backdrop: {
     flex: 1,

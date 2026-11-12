@@ -1,4 +1,8 @@
 {
+  "nama": "Sayid Abdul Aziz",
+  "nim": "242505022",
+  "profesi": "Information Systems Student",
+  "deskripsi": "Mahasiswa Sistem Informasi Universitas Ma'soem dengan latar belakang Rekayasa Perangkat Lunak (RPL). Memiliki pengalaman kerja, pembinaan di Rumah Qur'an Qurthuba dengan hafalan 7 juz Al-Qur'an, serta pengalaman sebagai pengajar privat dan digital support. Aktif sebagai volunteer kegiatan kampus dan memiliki minat pada bidang teknologi, pendidikan, dan pengembangan web.",
   "identity": {
     "nama": "Sayid Abdul Aziz",
     "nim": "242505022",
@@ -110,26 +114,34 @@
   "education": [
     {
       "id": "edu-1",
-      "title": "Rumah Qur'an Qurthuba",
-      "subtitle": "Program Tahfidz Al-Qur'an",
+      "title": "Program Tahfidz Al-Qur'an",
+      "subtitle": "Rumah Qur'an Qurthuba",
+      "institution": "Rumah Qur'an Qurthuba",
+      "program": "Program Tahfidz Al-Qur'an",
       "period": "2024 – Sekarang"
     },
     {
       "id": "edu-2",
-      "title": "Universitas Ma'soem",
-      "subtitle": "S1 Sistem Informasi — Fakultas Komputer",
+      "title": "Sistem Informasi",
+      "subtitle": "Universitas Ma'soem (S1 — Fakultas Komputer)",
+      "institution": "Universitas Ma'soem",
+      "program": "Sistem Informasi",
       "period": "2023 – Sekarang"
     },
     {
       "id": "edu-3",
-      "title": "SMK Bhakti Nusantara 666",
-      "subtitle": "Rekayasa Perangkat Lunak / RPL",
+      "title": "Rekayasa Perangkat Lunak",
+      "subtitle": "SMK Bhakti Nusantara 666",
+      "institution": "SMK Bhakti Nusantara 666",
+      "program": "Rekayasa Perangkat Lunak",
       "period": "2020 – 2023"
     },
     {
       "id": "edu-4",
       "title": "MTs Persatuan Islam 24",
       "subtitle": "Madrasah Tsanawiyah",
+      "institution": "MTs Persatuan Islam 24",
+      "program": "MTs Persatuan Islam 24",
       "period": "2017 – 2020"
     }
   ],
@@ -139,28 +151,50 @@
       "title": "Volunteer Kegiatan Kampus",
       "subtitle": "Universitas Ma'soem",
       "period": "2024 – Sekarang",
-      "description": "Berpartisipasi dalam berbagai kegiatan kampus pada divisi logistik, konsumsi, dan media operator serta terbiasa bekerja sama dalam tim."
+      "description": "Berpartisipasi dalam berbagai kegiatan kampus pada divisi logistik, konsumsi, dan media operator serta terbiasa bekerja sama dalam tim.",
+      "bullets": [
+        "Berpartisipasi dalam berbagai kegiatan kampus sebagai volunteer.",
+        "Membantu kebutuhan acara pada divisi logistik, konsumsi, dan media operator.",
+        "Terbiasa bekerja dalam tim dan mengikuti arahan sesuai kebutuhan kegiatan."
+      ]
     },
     {
       "id": "exp-2",
       "title": "Digital Support",
       "subtitle": "Rumah Qur'an Qurthuba",
       "period": "2023 – 2024",
-      "description": "Membantu kebutuhan digital pesantren, pembuatan desain publikasi, pengelolaan dokumen, dan operasional perangkat media kegiatan."
+      "description": "Membantu kebutuhan digital pesantren, pembuatan desain publikasi, pengelolaan dokumen, dan operasional perangkat media kegiatan.",
+      "bullets": [
+        "Membantu kebutuhan digital di lingkungan pesantren.",
+        "Membantu pembuatan desain sederhana, dokumen, atau kebutuhan media kegiatan.",
+        "Mendukung kegiatan pesantren yang berkaitan dengan penggunaan perangkat digital."
+      ]
     },
     {
       "id": "exp-3",
-      "title": "Pekerja Lepas (Freelance)",
+      "title": "Pekerja Lepas",
       "subtitle": "CV Berkah Bandung / Hanaang",
       "period": "2022 – 2023",
-      "description": "Membantu proses produksi dan pengemasan produk secara disiplin, teliti, serta menjaga kerapian dan kebersihan area kerja."
+      "description": "Membantu proses produksi dan pengemasan produk secara disiplin, teliti, serta menjaga kerapian dan kebersihan area kerja.",
+      "bullets": [
+        "Membantu proses produksi dan pengemasan produk.",
+        "Menjaga kerapian dan kebersihan area kerja.",
+        "Melaksanakan pekerjaan sesuai arahan pembimbing atau penanggung jawab.",
+        "Terbiasa bekerja secara disiplin, teliti, dan bertanggung jawab."
+      ]
     },
     {
       "id": "exp-4",
-      "title": "Karyawan Magang (Internship)",
+      "title": "Karyawan Magang",
       "subtitle": "CV Berkah Bandung / Hanaang",
       "period": "2021 – 2022",
-      "description": "Melaksanakan kegiatan operasional harian dan proses pengemasan produk bekerja sama dengan tim sesuai arahan pembimbing lapangan."
+      "description": "Melaksanakan kegiatan operasional harian dan proses pengemasan produk bekerja sama dengan tim sesuai arahan pembimbing lapangan.",
+      "bullets": [
+        "Membantu proses produksi dan pengemasan produk.",
+        "Melaksanakan pekerjaan sesuai arahan pembimbing lapangan.",
+        "Bekerja sama dengan tim dalam kegiatan operasional harian.",
+        "Menjaga kerapian dan kebersihan area kerja."
+      ]
     }
   ],
   "hobbies": [
@@ -168,13 +202,13 @@
       "id": "hob-badminton",
       "name": "Badminton",
       "icon": "tennisball-outline",
-      "detail": "Olahraga rutin untuk menjaga kebugaran dan fokus"
+      "detail": "Olahraga rutin untuk menjaga kebugaran fisik, ketangkasan, dan fokus belajar."
     },
     {
       "id": "hob-lari",
       "name": "Lari",
       "icon": "walk-outline",
-      "detail": "Latihan fisik ringan untuk menjaga stamina harian"
+      "detail": "Latihan fisik ringan sore hari untuk menjaga stamina dan menyegarkan pikiran."
     }
   ]
 }

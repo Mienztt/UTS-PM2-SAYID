@@ -5,8 +5,12 @@ import {
   getGradeInfo,
   calculateAcademicMetrics,
 } from '../utils/validation';
+import { buildCvHtmlDocument } from '../utils/cvPdfGenerator';
+import profileJson from '../data/profile.json';
+import portfolioJson from '../data/portfolio.json';
+import academicScoreJson from '../data/academicScore.json';
 
-describe('Unit Testing — Form Validation & Academic Score Calculation', () => {
+describe('Unit Testing — Form Validation, Academic Score & UTS JSON Schema', () => {
   describe('1. Validasi Format Email (isValidEmail)', () => {
     test('menerima alamat email yang valid', () => {
       expect(isValidEmail('sayidaziz35@gmail.com')).toBe(true);
@@ -91,6 +95,55 @@ describe('Unit Testing — Form Validation & Academic Score Calculation', () => 
       expect(metrics.gpa).toBe(0);
       expect(metrics.totalSks).toBe(0);
       expect(metrics.averageScore).toBe(0);
+    });
+  });
+
+  describe('4. Verifikasi Struktur Data JSON Lokal (Syarat Level 6, 7, 8 & 10)', () => {
+    test('profile.json memuat identitas mahasiswa, timeline, dan hobi yang valid', () => {
+      expect(profileJson.identity.nama).toBe('Sayid Abdul Aziz');
+      expect(profileJson.identity.nim).toBe('242505022');
+      expect(profileJson.education.length).toBeGreaterThanOrEqual(4);
+      expect(profileJson.experience.length).toBeGreaterThanOrEqual(4);
+      expect(profileJson.hobbies.length).toBeGreaterThanOrEqual(2);
+    });
+
+    test('portfolio.json memuat daftar proyek dengan status dan grup keahlian', () => {
+      expect(portfolioJson.projects.length).toBeGreaterThanOrEqual(6);
+      expect(portfolioJson.projects[0].id).toBe('proj-simts');
+      expect(portfolioJson.projects[0].status).toBe('On-Progress');
+      expect(portfolioJson.skillGroups.length).toBeGreaterThanOrEqual(3);
+    });
+
+    test('academicScore.json memuat seluruh field wajib Level 8 & 10 Level Challenge', () => {
+      const { academicSummary, learningProgress, challengeLevels } = academicScoreJson;
+      expect(academicSummary.studentName).toBe('Sayid Abdul Aziz');
+      expect(academicSummary.nim).toBe('242505022');
+      expect(academicSummary.courseName).toBe('Pemrograman Mobile 2');
+      expect(academicSummary.lecturer).toBe('Iin, M.Kom');
+      expect(academicSummary.grade).toBe('A');
+      expect(academicSummary.learningPoints).toBe(12375);
+      expect(learningProgress).toHaveLength(4);
+      expect(challengeLevels).toHaveLength(10);
+    });
+
+    test('buildCvHtmlDocument menghasilkan dokumen HTML CV A4 sesuai data mahasiswa', () => {
+      const html = buildCvHtmlDocument({
+        profile: profileJson,
+        portfolio: portfolioJson,
+        academicScore: academicScoreJson,
+        options: {
+          includeProjects: true,
+          includeAcademicScore: true,
+          includeDetailedBullets: true,
+        },
+      });
+
+      expect(html).toContain('SAYID ABDUL AZIZ');
+      expect(html).toContain('242505022');
+      expect(html).toContain('PROFILE SUMMARY');
+      expect(html).toContain('WORK EXPERIENCE');
+      expect(html).toContain('FEATURED PROJECTS & RESEARCH');
+      expect(html).toContain('SIMTS');
     });
   });
 });

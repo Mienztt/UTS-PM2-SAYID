@@ -7,6 +7,7 @@ import {
   TextInput,
   RefreshControl,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 import { useTheme } from '../context/ThemeContext';
 import { useSimulatedFetch } from '../hooks/useSimulatedFetch';
@@ -62,6 +63,7 @@ export default function ScoreScreen() {
 
   const summary = academicData.academicSummary || {};
   const learningProgress = academicData.learningProgress || [];
+  const challengeLevels = academicData.challengeLevels || [];
 
   return (
     <ScrollView
@@ -89,6 +91,27 @@ export default function ScoreScreen() {
             },
           ]}
         >
+          {summary.targetLevel ? (
+            <View
+              style={[
+                styles.targetBadge,
+                {
+                  backgroundColor: colors.accentSoft,
+                  borderColor: colors.accentBorder,
+                },
+              ]}
+            >
+              <Ionicons
+                name="ribbon-outline"
+                size={13}
+                color={colors.primary}
+              />
+              <Text style={[styles.targetBadgeText, { color: colors.primary }]}>
+                {summary.targetLevel}
+              </Text>
+            </View>
+          ) : null}
+
           <Text style={[styles.studentName, { color: colors.text }]}>
             {summary.studentName}
           </Text>
@@ -123,7 +146,7 @@ export default function ScoreScreen() {
         </View>
       </View>
 
-      {/* 2. Kartu Nilai Akhir & Learning Points Minimalis */}
+      {/* 2. Kartu Nilai Akhir & Learning Points Minimalis (Level 8) */}
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: colors.text }]}>
           Academic Score
@@ -187,7 +210,7 @@ export default function ScoreScreen() {
         </View>
       </View>
 
-      {/* 3. Learning Progress (Attendance, Practice, Quest, Challenge) */}
+      {/* 3. Learning Progress (Attendance, Practice, Quest, Challenge — Level 8) */}
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: colors.text }]}>
           Learning Progress
@@ -216,7 +239,7 @@ export default function ScoreScreen() {
       </View>
 
       {/* 4. Kalkulator Simulasi Nilai Ringkas */}
-      <View style={styles.bottomSection}>
+      <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: colors.text }]}>
           Grade Simulator
         </Text>
@@ -291,6 +314,76 @@ export default function ScoreScreen() {
           </View>
         </View>
       </View>
+
+      {/* 5. Pencapaian Progressive Challenge (Level 1 – Level 10 Kumulatif) */}
+      {challengeLevels.length > 0 && (
+        <View style={styles.bottomSection}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>
+            Progressive Challenge (Level 1 – 10)
+          </Text>
+
+          <View
+            style={[
+              styles.card,
+              {
+                backgroundColor: colors.surface,
+                borderColor: colors.border,
+              },
+            ]}
+          >
+            {challengeLevels.map((item, idx) => {
+              const isLast = idx === challengeLevels.length - 1;
+              return (
+                <View key={`lvl-${item.level}`}>
+                  <View style={styles.levelRow}>
+                    <View
+                      style={[
+                        styles.levelNumBox,
+                        {
+                          backgroundColor: colors.accentSoft,
+                          borderColor: colors.accentBorder,
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[styles.levelNumText, { color: colors.primary }]}
+                      >
+                        L{item.level}
+                      </Text>
+                    </View>
+
+                    <View style={styles.levelTextCol}>
+                      <View style={styles.levelHeaderLine}>
+                        <Text style={[styles.levelName, { color: colors.text }]}>
+                          Level {item.level} — {item.name}
+                        </Text>
+                        <Text style={styles.levelDoneText}>✓ Done</Text>
+                      </View>
+                      <Text
+                        style={[
+                          styles.levelFocus,
+                          { color: colors.textSecondary },
+                        ]}
+                      >
+                        {item.focus}
+                      </Text>
+                    </View>
+                  </View>
+
+                  {!isLast && (
+                    <View
+                      style={[
+                        styles.levelDivider,
+                        { backgroundColor: colors.border },
+                      ]}
+                    />
+                  )}
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 }
@@ -319,6 +412,21 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     padding: 18,
+  },
+  targetBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginBottom: 10,
+  },
+  targetBadgeText: {
+    fontSize: 11.5,
+    fontWeight: '600',
   },
   studentName: {
     fontSize: 20,
@@ -456,5 +564,51 @@ const styles = StyleSheet.create({
   simResultGrade: {
     fontSize: 22,
     fontWeight: '800',
+  },
+  levelRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+  },
+  levelNumBox: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  levelNumText: {
+    fontSize: 11.5,
+    fontWeight: '700',
+  },
+  levelTextCol: {
+    flex: 1,
+  },
+  levelHeaderLine: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+    marginBottom: 2,
+  },
+  levelName: {
+    fontSize: 13.5,
+    fontWeight: '700',
+    flex: 1,
+  },
+  levelDoneText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#34D399',
+  },
+  levelFocus: {
+    fontSize: 12.5,
+    lineHeight: 19,
+  },
+  levelDivider: {
+    height: 1,
+    marginVertical: 12,
   },
 });
